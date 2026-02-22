@@ -1,0 +1,55 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS & Editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+.suo
+*.sln
+*.njsproj
+*.sw?
+
+# Python virtual env
+backend/venv/
+backend/.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Local databases / runtime data
+backend/chroma_db/
+backend/data/
+
+# Error & temp
+backend/Error.md
+
+# Data
+backend\data\pdf
+
+
+# Dependencies
+frontend/node_modules/
+
+# Build output
+frontend/dist/
+frontend/dist-ssr/
+
+# Local env
+frontend/.local
+frontend/.env
+frontend/.env.local
+
+# Cache & tooling
+frontend/.eslintcache
+frontend/coverage/
+frontend/__screenshots__/
