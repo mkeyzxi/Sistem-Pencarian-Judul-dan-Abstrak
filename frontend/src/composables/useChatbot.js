@@ -18,6 +18,12 @@ export const useChatbot = () => {
 			content: message
 		})
 
+		// 2. Bangun chat_history dari pesan-pesan sebelumnya (max 10 terakhir, tanpa pesan yang baru di-push)
+		const history = messages.value.slice(0, -1).slice(-10).map(msg => ({
+			role: msg.role === 'user' ? 'user' : 'bot',
+			content: msg.content
+		}))
+
 		try {
 			const response = await fetch(baseURL + '/api/chat', {
 				method: 'POST',
@@ -26,7 +32,8 @@ export const useChatbot = () => {
 				},
 				body: JSON.stringify({
 					"message": message,
-					"mode": mode
+					"mode": mode,
+					"chat_history": history
 				}),
 			})
 
@@ -36,7 +43,7 @@ export const useChatbot = () => {
 
 			const data = await response.json()
 
-			// 2. Ambil teks response dari API (bisa di field response, message, atau langsung string)
+			// 3. Ambil teks response dari API (bisa di field response, message, atau langsung string)
 			const botText = data.response || data.message || data.answer || (typeof data === 'string' ? data : JSON.stringify(data))
 
 			messages.value.push({

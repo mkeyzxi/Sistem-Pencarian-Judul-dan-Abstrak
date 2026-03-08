@@ -17,6 +17,7 @@ class ChatRequest(BaseModel):
     """Model untuk request chat."""
     message: str
     mode: Optional[str] = "rag"  # "rag" atau "hyde"
+    chat_history: list = []  # Riwayat percakapan untuk konteks follow-up
 
 
 class ChatResponse(BaseModel):
@@ -74,7 +75,8 @@ async def chat(request: ChatRequest):
         chat_message = suggestion_service.generate_chat_response(
             request.message,
             result["documents"],
-            request.mode
+            request.mode,
+            request.chat_history
         )
         
         # Check if this is a full title (generate suggestion if yes)

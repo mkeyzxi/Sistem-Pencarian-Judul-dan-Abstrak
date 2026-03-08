@@ -77,9 +77,11 @@ backend/
 
 ### 1️⃣ Buat Virtual Environment
 
-```bash
+```bash 
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
+anaconda : venv/bin/activate  # Windows: venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 ### 2️⃣ Install Dependency

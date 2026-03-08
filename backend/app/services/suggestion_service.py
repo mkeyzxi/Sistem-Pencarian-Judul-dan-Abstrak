@@ -64,7 +64,7 @@ Format respon: Berikan saran point-by-point dengan penjelasan singkat."""
         except Exception as e:
             return f"Maaf, tidak bisa generate saran saat ini: {str(e)}"
     
-    def generate_chat_response(self, query: str, retrieved_docs: list, mode: str = "rag") -> str:
+    def generate_chat_response(self, query: str, retrieved_docs: list, mode: str = "rag", chat_history: list = None) -> str:
         """
         Generate natural chat response sebagai chatbot.
         
@@ -72,6 +72,7 @@ Format respon: Berikan saran point-by-point dengan penjelasan singkat."""
             query: Query dari user
             retrieved_docs: Dokumen yang diambil dari RAG/HyDE
             mode: Mode retrieval yang digunakan (rag atau hyde)
+            chat_history: Riwayat percakapan sebelumnya
             
         Returns:
             String berisi respon chatbot yang natural
@@ -84,9 +85,18 @@ Format respon: Berikan saran point-by-point dengan penjelasan singkat."""
             docs_text += f"Sumber: {doc.get('source', 'Unknown')}\n"
             docs_text += f"Abstrak: {doc.get('content', '')[:800]}...\n\n"
         
+        # Format riwayat percakapan
+        history_text = ""
+        if chat_history:
+            history_text = "\n--- RIWAYAT PERCAKAPAN SEBELUMNYA ---\n"
+            for msg in chat_history[-10:]:  # Max 10 pesan terakhir
+                role = "User" if msg.get("role") == "user" else "Asisten"
+                history_text += f"{role}: {msg.get('content', '')[:500]}\n"
+            history_text += "--- AKHIR RIWAYAT ---\n\n"
+        
         prompt = f"""Anda adalah chatbot asisten akademik yang ramah dan membantu mahasiswa mencari skripsi relevan.
 
-User menanyakan: "{query}"
+{history_text}User menanyakan: "{query}"
 
 Dokumen relevan yang ditemukan:
 {docs_text}
@@ -94,13 +104,18 @@ Dokumen relevan yang ditemukan:
 Buatlah respon chatbot yang:
 1. Menyapa user dengan ramah
 2. Menginformasikan hasil pencarian
-3. Memberikan penjelasan singkat tentang setiap dokumen yang relevan
+3. Jika ada riwayat percakapan, PAHAMI KONTEKS-nya. Jika user bertanya lanjutan tentang hasil sebelumnya (misalnya "jelaskan lebih detail nomor 2", "apa kelebihan skripsi pertama"), jawab berdasarkan konteks percakapan sebelumnya.
 4. Menawarkan bantuan lebih lanjut
 
 Format respon:
 - Mulai dengan sapaan ramah
-- Tampilkan hasil pencarian dengan format yang jelas
-- Berikan penjelasan ringkas tentang relevansi
+- Tampilkan hasil pencarian dalam TABEL MARKDOWN dengan kolom:
+  | No | Judul | Sumber | Ringkasan |
+  Kolom "Ringkasan" WAJIB berisi penjelasan singkat (1-2 kalimat) tentang:
+  • Apa masalah/topik yang diangkat
+  • Siapa subjek/objek penelitian (jika ada)
+  • Metode atau temuan penting
+- Setelah tabel, berikan penjelasan ringkas tentang relevansi
 - Akhiri dengan penawaran bantuan
 - Gunakan bahasa Indonesia yang baik dan natural
 
