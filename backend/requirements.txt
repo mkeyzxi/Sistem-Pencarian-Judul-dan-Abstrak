@@ -12,3 +12,388 @@ chromadb
 sentence-transformers>=2.6.0
 pypdf
 torch
+
+
+
+
+
+
+
+
+
+
+
+query mencari saldo awal
+-- Lihat saldo awal aktif
+SELECT * FROM opening_balances WHERE CURDATE() BETWEEN period_start AND period_end;
+-- Lihat project yang masuk periode saldo awal (ganti tanggalnya sesuai data Anda)
+SELECT project_name, contract_value, contract_start_date 
+FROM projects 
+WHERE contract_start_date BETWEEN '2026-01-01' AND '2026-12-31';
+
+
+
+
+
+saldo awal perbulan
+
+
+
+
+Undangan Zandi & Suci : https://suci-dan-zandi.netlify.app/
+
+Landing Page GDGOC : https://gdgoc-uinam.web.app/
+
+Polaroweb : https://arena-b32ac.web.app/
+
+Materi Flux Cafe mengenai website : https://flux-b.netlify.app/
+
+Mapp-Fit (Aplikasi Kebugaran) : https://mapp-fit.netlify.app/
+
+Ucapan Tahun Baru : https://tahun2026.vercel.app/
+
+
+isi dari infinix note 50 pro
+hp
+halangan untuk hp 1
+tempered glass warna putih bening
+kartu smafren
+s-vip card
+petunju pengguna
+casing
+kabel dan batok cas 90 wat
+link referensi : https://www.youtube.com/watch?v=wAp2nMJ9ov4
+
+
+
+kknkkn11
+
+
+buatlah ketiga orang ini menjadi ada di dalam foto ruangan yang saya kirimkan. tanpa mengubah wajah sedikitpun, pertahankan setiap detail wajah asli yang ada. dyang perlu kamu lakukan hanya membuat 6 orang perempuan duduk di sofa, kemudian yang laki laki menggunakan jas berdiri  di tengah-tengah dan laki laki lebihnya berdiri dibelakang sofa. buatlah pandangan ketiga orangnya ke arah kamera. pastikan wajah aslinya dipertahankan tidak mengalami perubahan sedikitpun. saya tidak menerima kecacatan sedikitpun, seperti wajah di hasil akhir yang berubah. buat hasilnya serealistis mungkin seperti bukan buatan artificial. ukuran hasil akhirnya sama seperti ukuran gambar ruangan.
+
+
+
+
+
+
+bagus
+
+Add cinematic movie credits at the bottom of the poster in a realistic film poster style.
+
+
+
+Place the main name “MUHAMMAD NASRUL MUNIR” in bold, uppercase, yellow color, slightly larger and prominent, styled like a producer or creator credit.
+
+Below it, add cast names in smaller, thin white font, reduced size compared to the main name, with tight spacing and centered alignment, like authentic movie credits:
+
+
+
+“Hidayat Nur Wahid, Indra Purnamasari, Indah Sari Rajab, Rian Aprisal, Ifsya Azisah, Muhammad Makbul N, Ramdayani Saputri, A. Wahyuni Nursakinah, Muhammad Yusuf, Miftahul Khaerat, Farhan Muhammad Firman”
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2 pertemuan 
+perkenalan sama materi untuk evaluasi
+
+
+1. word, 
+
+perkenalan word tentang membahas berkaitan dengan word dan menu yang ada pada word, 
+
+materi 
+shourcut untuk word
+
+mengenai daftar isi
+save word ke jenis document lain
+
+
+edit seminar
+edit congratulation inayah
+edit day 8
+tambah day 9
+
+
+Cover.tsx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Make the cast text subtle, elegant, and less dominant, similar to supporting credits in film posters.
+
+Add release information at the bottom center:
+
+
+
+“APRIL 2026” in uppercase cinematic font
+
+
+
+and below it “1 Pitue” in smaller size.
+
+Ensure proper hierarchy: main name clearly visible, cast names smaller and secondary, all text blended naturally with the poster lighting without covering important subjects.
+
+
+
+
+
+
+
+
+
+
+
+
+Cover.tsx
+import { useState, useEffect } from 'react';
+import coverBg from '@/assets/cover-bg.png';
+
+interface CoverProps {
+  onOpen: () => void;
+}
+
+export default function Cover({ onOpen }: CoverProps) {
+  const [guestName, setGuestName] = useState('');
+  const [isOpening, setIsOpening] = useState(false);
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('to');
+    if (name) setGuestName(name.replace(/\+/g, ' '));
+    // stagger elements
+    const t1 = setTimeout(() => setStep(1), 400);
+    const t2 = setTimeout(() => setStep(2), 800);
+    const t3 = setTimeout(() => setStep(3), 1200);
+    const t4 = setTimeout(() => setStep(4), 1600);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
+  }, []);
+
+  const handleOpen = () => {
+    setIsOpening(true);
+    setTimeout(() => onOpen(), 1000);
+  };
+
+  return (
+    <div className={`fixed inset-0 z-50 flex items-center justify-center transition-all duration-1000 ${isOpening ? 'opacity-0 scale-110 pointer-events-none' : 'opacity-100'
+      }`}>
+      {/* Background Photo */}
+      <div className="absolute inset-0 bg-parallax" style={{
+        backgroundImage: `url(${coverBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }} />
+      {/* Overlay */}
+      <div className="absolute inset-0" style={{
+        background: 'linear-gradient(180deg, rgba(249,246,241,0.82) 0%, rgba(240,235,227,0.75) 40%, rgba(245,230,224,0.85) 100%)',
+      }} />
+
+      {/* Animated falling leaves */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="leaf" style={{
+            left: `${15 + i * 14}%`,
+            animationDuration: `${10 + i * 3}s`,
+            animationDelay: `${i * 2}s`,
+            top: '-20px',
+          }}>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{
+              opacity: 0.25,
+              transform: `rotate(${i * 45}deg)`,
+            }}>
+              <path d="M8 0C8 0 2 6 2 10C2 13 5 16 8 16C11 16 14 13 14 10C14 6 8 0 8 0Z"
+                fill="var(--wedding-gold)" />
+            </svg>
+          </div>
+        ))}
+      </div>
+
+      {/* Glowing orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[15%] left-[20%] w-32 h-32 rounded-full opacity-[0.12]" style={{
+          background: 'radial-gradient(circle, var(--wedding-gold) 0%, transparent 70%)',
+          animation: 'gentlePulse 5s ease-in-out infinite',
+        }} />
+        <div className="absolute bottom-[20%] right-[15%] w-40 h-40 rounded-full opacity-[0.10]" style={{
+          background: 'radial-gradient(circle, var(--wedding-sage) 0%, transparent 70%)',
+          animation: 'gentlePulse 6s ease-in-out infinite 1s',
+        }} />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 text-center px-8 max-w-md w-full">
+        {/* Animated ornament */}
+        <div className={`mb-5 transition-all duration-1000 ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-6'}`}>
+          <svg className="mx-auto" width="100" height="40" viewBox="0 0 100 40" fill="none" style={{
+            animation: step >= 1 ? 'sway 6s ease-in-out infinite' : 'none',
+          }}>
+            <path d="M50 35C38 26 15 24 3 27" stroke="var(--wedding-gold)" strokeWidth="0.8" fill="none" opacity="0.5" />
+            <path d="M50 35C62 26 85 24 97 27" stroke="var(--wedding-gold)" strokeWidth="0.8" fill="none" opacity="0.5" />
+            <path d="M50 35C40 28 22 28 10 31" stroke="var(--wedding-gold)" strokeWidth="0.8" fill="none" opacity="0.3" />
+            <path d="M50 35C60 28 78 28 90 31" stroke="var(--wedding-gold)" strokeWidth="0.8" fill="none" opacity="0.3" />
+            <path d="M50 35C44 30 30 31 18 33" stroke="var(--wedding-gold)" strokeWidth="0.6" fill="none" opacity="0.2" />
+            <path d="M50 35C56 30 70 31 82 33" stroke="var(--wedding-gold)" strokeWidth="0.6" fill="none" opacity="0.2" />
+            <circle cx="50" cy="35" r="2.5" fill="var(--wedding-gold)" opacity="0.4" />
+          </svg>
+        </div>
+
+        {/* "The Wedding Of" */}
+        <p className={`font-ui text-[13px] md:text-[15px] tracking-[0.45em] uppercase mb-5 transition-all duration-900 ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`} style={{ color: 'var(--wedding-gold)' }}>
+          The Wedding Of
+        </p>
+
+        {/* Names with shimmer */}
+        <h1 className={`font-script text-[70px] md:text-[76px] lg:text-[80px] leading-[1.05] mb-1 transition-all duration-900 ${step >= 2 ? 'opacity-100 translate-y-0 shimmer-text' : 'opacity-0 translate-y-4'
+          }`}>
+          Yuven
+        </h1>
+        <p className={`font-script text-[40px] md:text-[34px] my-1 transition-all duration-900 ${step >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`} style={{ color: 'var(--wedding-gold)', animation: step >= 2 ? 'float 4s ease-in-out infinite' : 'none' }}>
+          &amp;
+        </p>
+        <h1 className={`font-script text-[70px] md:text-[76px] lg:text-[80px] leading-[1.05] mb-6 transition-all duration-900 ${step >= 2 ? 'opacity-100 translate-y-0 shimmer-text' : 'opacity-0 translate-y-4'
+          }`} style={{ animationDelay: '0.3s' }}>
+          Riani
+        </h1>
+
+        {/* Animated divider */}
+        <div className={`ornament-divider ornament-divider-animated mb-5 transition-all duration-700 ${step >= 2 ? 'opacity-100' : 'opacity-0'
+          }`}>
+          <span className={step >= 2 ? '' : ''} style={{
+            color: 'var(--wedding-gold)', fontSize: '8px',
+            animation: step >= 2 ? 'float 3s ease-in-out infinite' : 'none',
+          }}>◆</span>
+        </div>
+
+        {/* Guest name */}
+        {guestName && (
+          <div className={`mb-5 transition-all duration-900 ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}>
+            <p className="font-ui text-[12px] md:text-[10px] tracking-[0.25em] uppercase mb-1.5" style={{ color: 'var(--wedding-text-light)' }}>
+              Kepada Yth.
+            </p>
+            <p className="font-body text-lg md:text-xl font-semibold" style={{ color: 'var(--wedding-charcoal)' }}>
+              {guestName}
+            </p>
+          </div>
+        )}
+
+        {/* Date */}
+        <p className={`font-ui text-[11px] md:text-[11px] tracking-[0.3em] mb-7 transition-all duration-900 ${step >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`} style={{ color: 'var(--wedding-text-light)' }}>
+          24 · 04 · 2026
+        </p>
+
+        {/* Button */}
+        <button onClick={handleOpen}
+          className={`font-ui text-[12px] !mt-[1rem] !px-[4px] !py-[2px] md:text-[12px] tracking-[0.2em] uppercase px-10 py-3.5 rounded-full border-2 cursor-pointer transition-all duration-900 hover:bg-[var(--wedding-gold)] hover:text-white hover:border-[var(--wedding-gold)] ${step >= 4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          style={{
+            borderColor: 'var(--wedding-gold)',
+            color: 'var(--wedding-gold-dark)',
+            background: 'rgba(255,255,255,0.3)',
+            backdropFilter: 'blur(6px)',
+            animation: step >= 4 ? 'pulse 2.5s infinite' : 'none',
+            
+          }}>
+          Buka Undangan
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
+
+Selamat datang di Komunitas Bantuan Akun Google. 😊
+ 
+Anda bisa coba memulihkan akun Anda melalui Dukungan Akun dan mohon perhatikan beberapa hal di bawah ini:
+Baca lebih lanjut terkait Mengamankan Akun Google yang diretas.
+Pastikan kamu menggunakan koneksi internet, perangkat (tablet, ponsel, atau komputer), dan lokasi yang sering atau pernah kamu gunakan mengakses akun tersebut
+Isi seluruh pertanyaan yang ada dalam formulir pemulihan akun (kata sandi yang pernah dipakai, alamat email, atau nomor ponsel). Apabila kamu tidak yakin atau tidak mengetahui dengan jawaban tersebut, kamu dapat menebaknya
+Harap tidak melakukan pengisian formulir berkali-kali sebelum kamu mendapatkan jawaban akhir dari Google karena akan menghambat proses pemulihan yang sedang berjalan.
+Jika Anda sudah tidak memiliki perangkat yang dapat mengakses akun Anda, maka Anda bisa coba mengajukan pembuatan kartu SIM terbaru dengan nomor ponsel yang sama dengan yang terdaftar di akun Anda kepada provider kartu yang Anda gunakan. Jika belum berhasil, ikuti pemecahan masalah lain di Ponsel saya hilang.
+ 
+Semoga membantu.
+ 
+Jika Anda terbantu dengan jawaban ini, mohon klik tombol Rekomendasikan di bawah ini.
+Terima Kasih! 😊
+
+
+
+link pemulihan
+https://accounts.google.com/signin/v2/usernamerecovery?flowName=GlifWebSignIn&flowEntry=ServiceLogin
+
+penjelasan
+https://support.google.com/accounts/answer/6294825?hl=id&sjid=4887605008056712447-NC
+
+https://accounts.google.com/v3/signin/recoveryidentifier?source=esir&flowName=GlifWebSignIn&dsh=S386233704%3A1776965918333621
+
+
+
+
+
+buatkan background foto untuk banner 4x3 meter uin logo sama vitue terus opacity jangan terlalu kentara position custom/acak
+
+buat untuk foto dipegang bentuknya saja terus kata-katanya custom
+
+
+hari 29
+mengajar di sd 6 pitue
+mengecat tugu
+membantu persiapan acara pelayanan 6 bidang SPM Posyandu
+
+hari 30
+mengajar di sd 29 gusunge, terakhir kali
+membantu acara pelayanan 6 bidang SPM Posyandu
+
+hari 31 menajar sd 6 terakhir kali
+lettering tulisan kampung nila di tugu dan menyelesaikan tugu desa pitue kenang kenangan untuk warga
+mengajar di tpa untuk terakhir kalinya
+
+
+
+catatan untuk kalender
+
+2 33 sabtu 2026
+3 34
+4 35
+5 36
+6 37
+7 38
+8 39
+9 40
+10 41
+11 42
+

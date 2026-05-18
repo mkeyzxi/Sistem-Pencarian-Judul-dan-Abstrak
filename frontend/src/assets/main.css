@@ -1,19 +1,41 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #14b866;
-  --color-primary-light: #1dd975;
-  --color-primary-dark: #0f9a54;
-  --color-background-light: #f6f8f7;
-  --color-background-dark: #112119;
-  --color-surface-light: #ffffff;
-  --color-surface-dark: #162b20;
-  --font-family-display: "Lexend", sans-serif;
-  --radius: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
+  /* Spotify-Inspired Color System */
+  --color-bg-base: #121212;
+  --color-bg-surface: #181818;
+  --color-bg-elevated: #1f1f1f;
+  --color-bg-highlight: #252525;
+  --color-bg-card: #272727;
+
+  --color-primary: #1ed760;
+  --color-primary-dark: #1db954;
+  --color-primary-light: #1fdf64;
+
+  --color-text-base: #ffffff;
+  --color-text-subdued: #b3b3b3;
+  --color-text-muted: #6a6a6a;
+  --color-text-bright: #fdfdfd;
+
+  --color-border-default: #4d4d4d;
+  --color-border-subtle: #282828;
+  --color-border-bright: #7c7c7c;
+
+  --color-negative: #f3727f;
+  --color-warning: #ffa42b;
+  --color-info: #539df5;
+
+  /* Font */
+  --font-family-display: "Inter", "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* Radius Scale (Spotify pill geometry) */
+  --radius: 4px;
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 16px;
+  --radius-pill: 500px;
   --radius-full: 9999px;
 }
 
@@ -28,13 +50,18 @@ html {
 }
 
 body {
-  font-family: "Lexend", sans-serif;
+  font-family: "Inter", "Helvetica Neue", helvetica, arial, sans-serif;
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #121212;
+  color: #ffffff;
 }
 
-/* Scrollbar Utilities */
+/* ========================================
+   SCROLLBAR — Spotify Dark Style
+   ======================================== */
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -44,7 +71,6 @@ body {
   scrollbar-width: none;
 }
 
-/* Custom thin scrollbar for chat area */
 .thin-scrollbar::-webkit-scrollbar {
   width: 4px;
 }
@@ -54,15 +80,18 @@ body {
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 
 .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(255, 255, 255, 0.22);
 }
 
-/* Smooth transitions for interactive elements */
+/* ========================================
+   INTERACTIVE ELEMENTS
+   ======================================== */
+
 .interactive {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -75,41 +104,69 @@ body {
   transform: translateY(0);
 }
 
-/* Glow effect for primary buttons */
+/* ========================================
+   GLOW — Spotify Green
+   ======================================== */
+
 .glow-primary {
   box-shadow:
-    0 4px 14px rgba(20, 184, 102, 0.25),
-    0 0 0 0 rgba(20, 184, 102, 0);
+    0 4px 14px rgba(30, 215, 96, 0.25),
+    0 0 0 0 rgba(30, 215, 96, 0);
   transition: box-shadow 0.3s ease;
 }
 
 .glow-primary:hover {
   box-shadow:
-    0 6px 20px rgba(20, 184, 102, 0.35),
-    0 0 0 4px rgba(20, 184, 102, 0.08);
+    0 6px 20px rgba(30, 215, 96, 0.35),
+    0 0 0 4px rgba(30, 215, 96, 0.08);
 }
 
-/* Gradient text */
+/* ========================================
+   SHADOWS — Spotify Heavy Shadows
+   ======================================== */
+
+.shadow-spotify-medium {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 8px;
+}
+
+.shadow-spotify-heavy {
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 24px;
+}
+
+.shadow-spotify-inset {
+  box-shadow: rgb(18, 18, 18) 0px 1px 0px,
+    rgb(124, 124, 124) 0px 0px 0px 1px inset;
+}
+
+/* ========================================
+   GRADIENT TEXT
+   ======================================== */
+
 .gradient-text {
-  background: linear-gradient(135deg, #14b866, #1dd975, #0f9a54);
+  background: linear-gradient(135deg, #1ed760, #1fdf64, #1db954);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glass effect */
+/* ========================================
+   GLASS — Dark Variant
+   ======================================== */
+
 .glass {
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
 }
 
-/* Fade up animation */
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
 @keyframes fadeUp {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -120,19 +177,30 @@ body {
   animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Pulse subtle */
 @keyframes pulseSubtle {
-
   0%,
   100% {
     opacity: 1;
   }
-
   50% {
-    opacity: 0.7;
+    opacity: 0.5;
   }
 }
 
 .animate-pulse-subtle {
   animation: pulseSubtle 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(30, 215, 96, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(30, 215, 96, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
 }

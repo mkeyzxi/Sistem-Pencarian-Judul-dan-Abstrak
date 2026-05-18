@@ -35,14 +35,14 @@ const handleKeydown = (event) => {
 
 <template>
   <div
-    class="shrink-0 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border-t border-slate-200/50 dark:border-slate-800/50 px-4 sm:px-6 py-3 sm:py-4 pb-[max(env(safe-area-inset-bottom),1rem)]"
+    class="shrink-0 bg-bg-base/80 glass border-t border-border-subtle !px-4 !py-3 !sm:py-4 !pb-[max(env(safe-area-inset-bottom),1rem)]"
   >
     <div
-      class="w-full max-w-6xl mx-auto flex items-end gap-2 rounded-2xl p-2 sm:p-3 border transition-all duration-300"
+      class="w-full max-w-6xl mx-auto flex items-end gap-2.5 rounded-pill p-2 sm:p-3 transition-all duration-300"
       :class="
         isFocused
-          ? 'bg-white dark:bg-slate-800 border-primary/30 shadow-lg shadow-primary/5'
-          : 'bg-slate-100 dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700/50'
+          ? 'bg-bg-elevated shadow-spotify-inset ring-1 ring-primary/20'
+          : 'bg-bg-elevated shadow-spotify-inset'
       "
     >
       <textarea
@@ -54,16 +54,16 @@ const handleKeydown = (event) => {
         @blur="isFocused = false"
         placeholder="Ketik judul, topik, atau kata kunci skripsi..."
         rows="1"
-        class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm py-2.5 sm:py-3 px-3 resize-none max-h-[120px] hide-scrollbar font-display text-slate-800 dark:text-slate-200 placeholder-slate-400/70"
+        class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm !py-2.5 !sm:py-3 !px-3 resize-none !max-h-[120px] hide-scrollbar font-display text-text-base placeholder-text-subdued/50"
       ></textarea>
       <button
         @click="submitMessage"
         :disabled="!message.trim()"
-        class="h-10 w-10 sm:h-11 sm:w-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 active:scale-90"
+        class="h-10 w-10 sm:h-11 sm:w-11 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 active:scale-90"
         :class="
           message.trim()
-            ? 'bg-primary text-white hover:bg-primary shadow-md shadow-primary/30 hover:shadow-lg hover:shadow-primary/40'
-            : 'bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 cursor-not-allowed'
+            ? 'bg-primary text-black hover:bg-primary-light shadow-spotify-medium glow-primary'
+            : 'bg-bg-highlight text-text-muted cursor-not-allowed'
         "
       >
         <span class="material-symbols-outlined text-lg sm:text-xl">send</span>
@@ -72,7 +72,7 @@ const handleKeydown = (event) => {
 
     <!-- Footer Info -->
     <p
-      class="text-[9px] sm:text-[10px] text-center text-slate-400/60 mt-2.5 font-medium max-w-6xl mx-auto"
+      class="text-[9px] sm:text-[10px] text-center text-text-muted mt-2.5 font-medium tracking-wide max-w-6xl mx-auto"
     >
       Powered by Teknik Informatika UIN Alauddin • Enter untuk kirim, Shift+Enter untuk baris baru
     </p>

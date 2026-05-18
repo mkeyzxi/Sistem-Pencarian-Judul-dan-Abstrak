@@ -11,7 +11,7 @@ const isDrawerOpen = ref(false)
 
 <template>
   <div
-    class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display w-full h-screen flex flex-col lg:flex-row overflow-hidden"
+    class="bg-bg-base text-text-base font-display w-full h-screen flex flex-col lg:flex-row overflow-hidden"
   >
     <!-- Sidebar (Desktop/Tablet - lg+) -->
     <Sidebar />

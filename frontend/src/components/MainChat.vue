@@ -39,7 +39,7 @@ const submitMessage = (message) => {
 </script>
 
 <template>
-  <main ref="chatContainer" class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar">
+  <main ref="chatContainer" class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar !p-4">
     <!-- Empty State / Welcome -->
     <div
       v-if="messages.length === 0"
@@ -48,7 +48,7 @@ const submitMessage = (message) => {
       <!-- Animated Icon -->
       <div class="animate-fade-up" style="animation-delay: 0ms">
         <div
-          class="w-20 h-20 sm:w-24 sm:h-24 bg-primary/10 rounded-3xl flex items-center justify-center shadow-md shadow-primary/10 border border-primary/10"
+          class="w-20 h-20 sm:w-24 sm:h-24 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle"
         >
           <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span>
         </div>
@@ -56,30 +56,30 @@ const submitMessage = (message) => {
 
       <!-- Welcome Text -->
       <div class="animate-fade-up space-y-2 sm:space-y-3 max-w-md" style="animation-delay: 100ms">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight">
+        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight">
           Selamat datang
         </h2>
-        <p class="text-slate-500 dark:text-slate-400 text-sm sm:text-base leading-relaxed">
+        <p class="text-text-subdued text-sm sm:text-base leading-relaxed">
           Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah
         </p>
       </div>
 
       <!-- Example Prompt Chips -->
       <div
-        class="w-full max-w-md grid grid-cols-1 gap-2 sm:gap-3 animate-fade-up"
+        class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
         style="animation-delay: 200ms"
       >
         <button
           @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
-          class="text-left p-4 sm:p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-primary/40 hover:shadow-md hover:shadow-primary/5 transition-all duration-300 active:scale-[0.98]"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
         >
-          <div class="flex items-start gap-2">
+          <div class="flex items-start gap-3">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               search
             </span>
             <div class="min-w-0 text-left">
-              <p class="text-xs font-bold text-primary mb-1">Contoh Pencarian</p>
-              <p class="text-sm text-slate-600 dark:text-slate-300 leading-snug break-words">
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Contoh Pencarian</p>
+              <p class="text-sm text-text-subdued leading-snug break-words">
                 "Implementasi Algoritma CNN pada deteksi penyakit daun"
               </p>
             </div>
@@ -88,15 +88,15 @@ const submitMessage = (message) => {
 
         <button
           @click="submitMessage('Analisis Sentimen Twitter menggunakan Naive Bayes')"
-          class="text-left p-4 sm:p-5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-primary/40 hover:shadow-md hover:shadow-primary/5 transition-all duration-300 active:scale-[0.98]"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
         >
-          <div class="flex items-start gap-2">
+          <div class="flex items-start gap-3">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               trending_up
             </span>
             <div class="min-w-0 text-left">
-              <p class="text-xs font-bold text-primary mb-1">Topik Populer</p>
-              <p class="text-sm text-slate-600 dark:text-slate-300 leading-snug break-words">
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Topik Populer</p>
+              <p class="text-sm text-text-subdued leading-snug break-words">
                 "Analisis Sentimen Twitter menggunakan Naive Bayes"
               </p>
             </div>
@@ -106,7 +106,7 @@ const submitMessage = (message) => {
 
       <!-- Tip -->
       <div
-        class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-slate-400 font-medium"
+        class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium"
         style="animation-delay: 300ms"
       >
         <span class="material-symbols-outlined text-sm flex-shrink-0">lightbulb</span>
@@ -123,25 +123,25 @@ const submitMessage = (message) => {
         <!-- User Bubble (kanan) -->
         <div v-if="msg.role === 'user'" class="flex justify-end animate-fade-up">
           <div
-            class="max-w-[80%] sm:max-w-[70%] bg-primary text-white rounded-2xl rounded-br-md px-4 py-3 sm:px-5 sm:py-3 break-words shadow-md shadow-primary/20"
+            class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium"
           >
-            <p class="text-sm sm:text-base leading-relaxed">{{ msg.content }}</p>
+            <p class="text-sm sm:text-base font-medium leading-relaxed">{{ msg.content }}</p>
           </div>
         </div>
 
         <!-- Bot Bubble (kiri) — render markdown -->
         <div v-else class="flex justify-start animate-fade-up">
-          <div class="flex items-start gap-2.5 max-w-[90%] sm:max-w-[80%]">
+          <div class="flex items-start gap-3 max-w-[90%] sm:max-w-[80%]">
             <!-- Bot Avatar -->
             <div
-              class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center flex-shrink-0 shadow-sm mt-1"
+              class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium mt-1"
             >
-              <span class="material-symbols-outlined text-white text-sm">smart_toy</span>
+              <span class="material-symbols-outlined text-black text-sm">smart_toy</span>
             </div>
 
             <!-- Bot Message Content -->
             <div
-              class="bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 rounded-2xl rounded-tl-md px-4 py-4 sm:px-5 sm:py-4 shadow-sm border border-slate-200/60 dark:border-slate-700/60 min-w-0 overflow-hidden"
+              class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md px-4 py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden"
             >
               <div
                 class="prose-chat text-sm sm:text-base leading-relaxed"
@@ -154,19 +154,19 @@ const submitMessage = (message) => {
 
       <!-- Loading Indicator -->
       <div v-if="isLoading" class="flex justify-start animate-fade-up">
-        <div class="flex items-start gap-2.5">
+        <div class="flex items-start gap-3">
           <div
-            class="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center flex-shrink-0 shadow-sm"
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium"
           >
-            <span class="material-symbols-outlined text-white text-sm animate-pulse"
+            <span class="material-symbols-outlined text-black text-sm animate-pulse"
               >smart_toy</span
             >
           </div>
           <div
-            class="bg-white dark:bg-slate-800 rounded-2xl rounded-tl-md px-5 py-4 shadow-sm border border-slate-200/60 dark:border-slate-700/60"
+            class="bg-bg-surface rounded-2xl rounded-tl-md px-5 py-4 shadow-spotify-medium"
           >
             <div class="flex items-center gap-2">
-              <div class="flex gap-1">
+              <div class="flex gap-1.5">
                 <span
                   class="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
                   style="animation-delay: 0ms"
@@ -180,7 +180,7 @@ const submitMessage = (message) => {
                   style="animation-delay: 300ms"
                 ></span>
               </div>
-              <span class="text-xs text-slate-400 ml-1">Mencari...</span>
+              <span class="text-xs text-text-subdued ml-1">Mencari...</span>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@ const submitMessage = (message) => {
 </template>
 
 <style scoped>
-/* Prose styling for rendered markdown in bot bubbles */
+/* Prose styling for rendered markdown in bot bubbles — Spotify Dark Theme */
 .prose-chat :deep(h1),
 .prose-chat :deep(h2),
 .prose-chat :deep(h3) {
@@ -198,6 +198,7 @@ const submitMessage = (message) => {
   margin-top: 0.75rem;
   margin-bottom: 0.5rem;
   line-height: 1.3;
+  color: #ffffff;
 }
 .prose-chat :deep(h1) {
   font-size: 1.1rem;
@@ -219,11 +220,12 @@ const submitMessage = (message) => {
 
 .prose-chat :deep(strong) {
   font-weight: 700;
-  color: var(--color-primary, #6366f1);
+  color: #1ed760;
 }
 
 .prose-chat :deep(em) {
   font-style: italic;
+  color: #b3b3b3;
 }
 
 .prose-chat :deep(ul),
@@ -236,10 +238,10 @@ const submitMessage = (message) => {
   line-height: 1.5;
 }
 .prose-chat :deep(li::marker) {
-  color: var(--color-primary, #6366f1);
+  color: #1ed760;
 }
 
-/* Table styling — membuat tabel rapi di chat bubble */
+/* Table styling — Spotify dark tables */
 .prose-chat :deep(table) {
   width: 100%;
   border-collapse: collapse;
@@ -250,64 +252,51 @@ const submitMessage = (message) => {
   overflow-x: auto;
 }
 .prose-chat :deep(thead) {
-  background: linear-gradient(135deg, var(--color-primary, #6366f1) 0%, #818cf8 100%);
-  color: white;
+  background: #1ed760;
+  color: #000000;
 }
 .prose-chat :deep(th) {
   padding: 0.5rem 0.75rem;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   white-space: nowrap;
 }
 .prose-chat :deep(td) {
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #282828;
   vertical-align: top;
-}
-.dark .prose-chat :deep(td) {
-  border-bottom-color: #334155;
+  color: #b3b3b3;
 }
 .prose-chat :deep(tbody tr:hover) {
-  background: rgba(99, 102, 241, 0.04);
-}
-.dark .prose-chat :deep(tbody tr:hover) {
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(30, 215, 96, 0.06);
 }
 .prose-chat :deep(tbody tr:nth-child(even)) {
-  background: rgba(0, 0, 0, 0.015);
-}
-.dark .prose-chat :deep(tbody tr:nth-child(even)) {
   background: rgba(255, 255, 255, 0.02);
 }
 
 /* Horizontal rule */
 .prose-chat :deep(hr) {
   border: none;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid #282828;
   margin: 0.75rem 0;
-}
-.dark .prose-chat :deep(hr) {
-  border-top-color: #334155;
 }
 
 /* Code */
 .prose-chat :deep(code) {
-  background: #f1f5f9;
-  padding: 0.15rem 0.35rem;
-  border-radius: 0.3rem;
+  background: #1f1f1f;
+  color: #1ed760;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
   font-size: 0.85em;
-  font-family: 'Fira Code', monospace;
-}
-.dark .prose-chat :deep(code) {
-  background: #1e293b;
+  font-family: 'Fira Code', 'Consolas', monospace;
 }
 
 /* Links */
 .prose-chat :deep(a) {
-  color: var(--color-primary, #6366f1);
+  color: #1ed760;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -317,13 +306,10 @@ const submitMessage = (message) => {
 
 /* Blockquote */
 .prose-chat :deep(blockquote) {
-  border-left: 3px solid var(--color-primary, #6366f1);
+  border-left: 3px solid #1ed760;
   padding-left: 0.75rem;
   margin: 0.5rem 0;
-  color: #64748b;
+  color: #b3b3b3;
   font-style: italic;
-}
-.dark .prose-chat :deep(blockquote) {
-  color: #94a3b8;
 }
 </style>

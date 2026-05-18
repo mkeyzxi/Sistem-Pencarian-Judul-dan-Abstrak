@@ -4,7 +4,7 @@
 
 <template>
   <!-- Empty State / Welcome -->
-  <div class="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6">
+  <div class="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6 !p-4">
     <!-- Icon -->
     <div class="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center">
       <span class="material-symbols-outlined text-4xl text-primary">school</span>
