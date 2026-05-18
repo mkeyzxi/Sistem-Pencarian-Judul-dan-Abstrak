@@ -39,7 +39,10 @@ const submitMessage = (message) => {
 </script>
 
 <template>
-  <main ref="chatContainer" class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar !p-4">
+  <main
+    ref="chatContainer"
+    class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar !p-4"
+  >
     <!-- Empty State / Welcome -->
     <div
       v-if="messages.length === 0"
@@ -55,10 +58,11 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Welcome Text -->
-      <div class="animate-fade-up space-y-2 sm:space-y-3 max-w-md" style="animation-delay: 100ms">
-        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight">
-          Selamat datang
-        </h2>
+      <div
+        class="animate-fade-up !space-y-2 !sm:space-y-3 max-w-md !mb-4"
+        style="animation-delay: 100ms"
+      >
+        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight">Selamat datang</h2>
         <p class="text-text-subdued text-sm sm:text-base leading-relaxed">
           Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah
         </p>
@@ -73,12 +77,14 @@ const submitMessage = (message) => {
           @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
           class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
         >
-          <div class="flex items-start gap-3">
+          <div class="flex items-start gap-3 !p-2">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               search
             </span>
             <div class="min-w-0 text-left">
-              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Contoh Pencarian</p>
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">
+                Contoh Pencarian
+              </p>
               <p class="text-sm text-text-subdued leading-snug break-words">
                 "Implementasi Algoritma CNN pada deteksi penyakit daun"
               </p>
@@ -90,12 +96,14 @@ const submitMessage = (message) => {
           @click="submitMessage('Analisis Sentimen Twitter menggunakan Naive Bayes')"
           class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
         >
-          <div class="flex items-start gap-3">
+          <div class="flex items-start gap-3 !p-2">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               trending_up
             </span>
             <div class="min-w-0 text-left">
-              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Topik Populer</p>
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">
+                Topik Populer
+              </p>
               <p class="text-sm text-text-subdued leading-snug break-words">
                 "Analisis Sentimen Twitter menggunakan Naive Bayes"
               </p>
@@ -125,7 +133,7 @@ const submitMessage = (message) => {
           <div
             class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium"
           >
-            <p class="text-sm sm:text-base font-medium leading-relaxed">{{ msg.content }}</p>
+            <p class="text-sm sm:text-base font-medium leading-relaxed !p-2">{{ msg.content }}</p>
           </div>
         </div>
 
@@ -141,7 +149,7 @@ const submitMessage = (message) => {
 
             <!-- Bot Message Content -->
             <div
-              class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md px-4 py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden"
+              class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden"
             >
               <div
                 class="prose-chat text-sm sm:text-base leading-relaxed"
@@ -162,9 +170,7 @@ const submitMessage = (message) => {
               >smart_toy</span
             >
           </div>
-          <div
-            class="bg-bg-surface rounded-2xl rounded-tl-md px-5 py-4 shadow-spotify-medium"
-          >
+          <div class="bg-bg-surface rounded-2xl rounded-tl-md px-5 py-4 shadow-spotify-medium">
             <div class="flex items-center gap-2">
               <div class="flex gap-1.5">
                 <span

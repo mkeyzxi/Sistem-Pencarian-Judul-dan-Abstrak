@@ -46,7 +46,7 @@ defineEmits(['menuClick'])
 
       <!-- Status Online — Pill Shape -->
       <div
-        class="flex items-center gap-2 px-3.5 py-1.5 bg-primary/10 rounded-full border border-primary/20"
+        class="flex items-center gap-2 px-3.5 py-1.5 bg-primary/10 rounded-full border border-primary/20 !p-1"
       >
         <span class="relative flex h-2 w-2">
           <span

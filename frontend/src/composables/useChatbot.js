@@ -42,15 +42,19 @@ export const useChatbot = () => {
 			}
 
 			const data = await response.json()
-
+			console.log(data.documents[0])
 			// 3. Ambil teks response dari API (bisa di field response, message, atau langsung string)
 			const botText = data.response || data.message || data.answer || (typeof data === 'string' ? data : JSON.stringify(data))
 
 			messages.value.push({
 				role: 'bot',
-				content: botText
+				content: botText,
+				documents: data.documents,
+				// title: data.title
 			})
-			console.log(data)
+			// console.log(data)
+			// console.log(messages.value)
+			// console.log(messages.value[messages.value.length - 1].documents)
 
 		} catch (err) {
 			error.value = err

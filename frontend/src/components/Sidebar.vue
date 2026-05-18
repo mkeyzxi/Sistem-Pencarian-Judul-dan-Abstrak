@@ -44,9 +44,9 @@ console.log(searchMode)
         >
           Mode Pencarian
         </h3>
-        <div class="space-y-2">
+        <div class="space-y-2 flex flex-col gap-2 ">
           <label
-            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200"
+            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
             :class="
               searchMode === 'rag'
                 ? 'bg-bg-highlight border border-primary/30'
@@ -54,7 +54,7 @@ console.log(searchMode)
             "
           >
             <div
-              class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
+              class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors "
               :class="
                 searchMode === 'rag' ? 'border-primary' : 'border-border-bright'
               "
@@ -80,7 +80,7 @@ console.log(searchMode)
           </label>
 
           <label
-            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200"
+            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
             :class="
               searchMode === 'hyde'
                 ? 'bg-bg-highlight border border-primary/30'
@@ -100,9 +100,9 @@ console.log(searchMode)
               @click="setMode('hyde')"
               type="radio"
               value="hyde"
-              class="sr-only"
+              class="sr-only "
             />
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 ">
               <span class="text-sm font-bold text-text-base"
                 >HyDE Mode</span
               >
