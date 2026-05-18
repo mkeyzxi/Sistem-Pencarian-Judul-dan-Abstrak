@@ -53,6 +53,7 @@ export const useChatbot = () => {
 				// title: data.title
 			})
 			// console.log(data)
+			console.log(messages.value)
 			// console.log(messages.value)
 			// console.log(messages.value[messages.value.length - 1].documents)
 

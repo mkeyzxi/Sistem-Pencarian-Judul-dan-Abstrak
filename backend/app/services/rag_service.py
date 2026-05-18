@@ -69,7 +69,8 @@ class RAGService:
                 {
                     "title": doc.metadata.get("title", "Unknown"),
                     "source": doc.metadata.get("source", "Unknown"),
-                    "content": doc.page_content[:1500],  # Limit content
+                    "content": doc.page_content[:1500],  # Ringkasan untuk tabel
+                    "full_content": doc.page_content,  # Full content untuk expand detail
                     "score": None
                 }
                 for doc in docs
@@ -122,7 +123,8 @@ Abstrak:"""
                 {
                     "title": doc.metadata.get("title", "Unknown"),
                     "source": doc.metadata.get("source", "Unknown"),
-                    "content": doc.page_content[:1500],
+                    "content": doc.page_content[:1500],  # Ringkasan untuk tabel
+                    "full_content": doc.page_content,  # Full content untuk expand detail
                     "score": None
                 }
                 for doc in docs

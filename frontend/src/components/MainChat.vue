@@ -4,6 +4,7 @@ import { ref, watch, nextTick, computed } from 'vue'
 import { marked } from 'marked'
 import { useChatbot } from '../composables/useChatbot'
 import { useSearchMode } from '../composables/useSearchMode'
+import TableResults from './TableResults.vue'
 
 const { messages, isLoading, error, sendMessage } = useChatbot()
 const { searchMode } = useSearchMode()
@@ -39,29 +40,20 @@ const submitMessage = (message) => {
 </script>
 
 <template>
-  <main
-    ref="chatContainer"
-    class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar !p-4"
-  >
+  <main ref="chatContainer" class="flex-1 overflow-y-auto relative flex flex-col thin-scrollbar !p-4">
     <!-- Empty State / Welcome -->
-    <div
-      v-if="messages.length === 0"
-      class="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-12 sm:py-16 text-center space-y-6 sm:space-y-8"
-    >
+    <div v-if="messages.length === 0"
+      class="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 py-12 sm:py-16 text-center space-y-6 sm:space-y-8">
       <!-- Animated Icon -->
       <div class="animate-fade-up" style="animation-delay: 0ms">
         <div
-          class="w-20 h-20 sm:w-24 sm:h-24 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle"
-        >
+          class="w-20 h-20 sm:w-24 sm:h-24 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle">
           <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span>
         </div>
       </div>
 
       <!-- Welcome Text -->
-      <div
-        class="animate-fade-up !space-y-2 !sm:space-y-3 max-w-md !mb-4"
-        style="animation-delay: 100ms"
-      >
+      <div class="animate-fade-up !space-y-2 !sm:space-y-3 max-w-md !mb-4" style="animation-delay: 100ms">
         <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight">Selamat datang</h2>
         <p class="text-text-subdued text-sm sm:text-base leading-relaxed">
           Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah
@@ -69,14 +61,9 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Example Prompt Chips -->
-      <div
-        class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
-        style="animation-delay: 200ms"
-      >
-        <button
-          @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
-          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
-        >
+      <div class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up" style="animation-delay: 200ms">
+        <button @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
           <div class="flex items-start gap-3 !p-2">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               search
@@ -92,10 +79,8 @@ const submitMessage = (message) => {
           </div>
         </button>
 
-        <button
-          @click="submitMessage('Analisis Sentimen Twitter menggunakan Naive Bayes')"
-          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium"
-        >
+        <button @click="submitMessage('Analisis Sentimen Twitter menggunakan Naive Bayes')"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
           <div class="flex items-start gap-3 !p-2">
             <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
               trending_up
@@ -113,48 +98,44 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Tip -->
-      <div
-        class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium"
-        style="animation-delay: 300ms"
-      >
+      <div class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium"
+        style="animation-delay: 300ms">
         <span class="material-symbols-outlined text-sm flex-shrink-0">lightbulb</span>
         <span>Ketik kata kunci atau tanyakan topik skripsi</span>
       </div>
     </div>
 
     <!-- Chat Messages (Dynamic) -->
-    <div
-      v-else
-      class="flex flex-col gap-4 sm:gap-6 px-4 sm:px-6 py-6 sm:py-8 max-w-4xl mx-auto w-full"
-    >
+    <div v-else class="flex flex-col gap-4 sm:gap-6 px-4 sm:px-6 py-6 sm:py-8 max-w-4xl mx-auto w-full">
       <template v-for="(msg, index) in messages" :key="index">
         <!-- User Bubble (kanan) -->
         <div v-if="msg.role === 'user'" class="flex justify-end animate-fade-up">
           <div
-            class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium"
-          >
+            class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium">
             <p class="text-sm sm:text-base font-medium leading-relaxed !p-2">{{ msg.content }}</p>
           </div>
         </div>
 
-        <!-- Bot Bubble (kiri) — render markdown -->
+        <!-- Bot Bubble (kiri) — render markdown + table results -->
         <div v-else class="flex justify-start animate-fade-up">
-          <div class="flex items-start gap-3 max-w-[90%] sm:max-w-[80%]">
+          <div class="flex items-start gap-3 w-full max-w-4xl">
             <!-- Bot Avatar -->
             <div
-              class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium mt-1"
-            >
+              class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium mt-1">
               <span class="material-symbols-outlined text-black text-sm">smart_toy</span>
             </div>
 
             <!-- Bot Message Content -->
             <div
-              class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden"
-            >
-              <div
-                class="prose-chat text-sm sm:text-base leading-relaxed"
-                v-html="renderMarkdown(msg.content)"
-              ></div>
+              class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden flex-1">
+              <!-- Chat message markdown text -->
+              <div class="prose-chat text-sm sm:text-base leading-relaxed" v-html="renderMarkdown(msg.content)"></div>
+
+              <!-- Interactive Table Results (jika ada documents) -->
+              <!-- <----------- menambahkan table results untuk pencarian jika ingin melihat abstrak lengkapnya ->>>>>>>>>>>>>>>>>>>> -->
+              <!-- <div v-if="msg.documents && msg.documents.length > 0" class="mt-6 pt-4 border-t border-border-subtle">
+                <TableResults :documents="msg.documents" />
+              </div> -->
             </div>
           </div>
         </div>
@@ -164,27 +145,15 @@ const submitMessage = (message) => {
       <div v-if="isLoading" class="flex justify-start animate-fade-up">
         <div class="flex items-start gap-3">
           <div
-            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium"
-          >
-            <span class="material-symbols-outlined text-black text-sm animate-pulse"
-              >smart_toy</span
-            >
+            class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium">
+            <span class="material-symbols-outlined text-black text-sm animate-pulse">smart_toy</span>
           </div>
           <div class="bg-bg-surface rounded-2xl rounded-tl-md px-5 py-4 shadow-spotify-medium">
             <div class="flex items-center gap-2">
               <div class="flex gap-1.5">
-                <span
-                  class="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
-                  style="animation-delay: 0ms"
-                ></span>
-                <span
-                  class="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
-                  style="animation-delay: 150ms"
-                ></span>
-                <span
-                  class="w-2 h-2 bg-primary/60 rounded-full animate-bounce"
-                  style="animation-delay: 300ms"
-                ></span>
+                <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+                <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+                <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
               </div>
               <span class="text-xs text-text-subdued ml-1">Mencari...</span>
             </div>
@@ -206,12 +175,15 @@ const submitMessage = (message) => {
   line-height: 1.3;
   color: #ffffff;
 }
+
 .prose-chat :deep(h1) {
   font-size: 1.1rem;
 }
+
 .prose-chat :deep(h2) {
   font-size: 1rem;
 }
+
 .prose-chat :deep(h3) {
   font-size: 0.95rem;
 }
@@ -220,6 +192,7 @@ const submitMessage = (message) => {
   margin-bottom: 0.5rem;
   line-height: 1.65;
 }
+
 .prose-chat :deep(p:last-child) {
   margin-bottom: 0;
 }
@@ -239,10 +212,12 @@ const submitMessage = (message) => {
   padding-left: 1.25rem;
   margin-bottom: 0.5rem;
 }
+
 .prose-chat :deep(li) {
   margin-bottom: 0.25rem;
   line-height: 1.5;
 }
+
 .prose-chat :deep(li::marker) {
   color: #1ed760;
 }
@@ -257,10 +232,12 @@ const submitMessage = (message) => {
   display: block;
   overflow-x: auto;
 }
+
 .prose-chat :deep(thead) {
   background: #1ed760;
   color: #000000;
 }
+
 .prose-chat :deep(th) {
   padding: 0.5rem 0.75rem;
   text-align: left;
@@ -270,15 +247,18 @@ const submitMessage = (message) => {
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
+
 .prose-chat :deep(td) {
   padding: 0.5rem 0.75rem;
   border-bottom: 1px solid #282828;
   vertical-align: top;
   color: #b3b3b3;
 }
+
 .prose-chat :deep(tbody tr:hover) {
   background: rgba(30, 215, 96, 0.06);
 }
+
 .prose-chat :deep(tbody tr:nth-child(even)) {
   background: rgba(255, 255, 255, 0.02);
 }
@@ -306,6 +286,7 @@ const submitMessage = (message) => {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
 .prose-chat :deep(a:hover) {
   opacity: 0.8;
 }
