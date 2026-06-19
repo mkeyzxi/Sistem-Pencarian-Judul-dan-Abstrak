@@ -5,7 +5,6 @@ import { marked } from 'marked'
 import { useChatbot } from '../composables/useChatbot'
 import { useSearchMode } from '../composables/useSearchMode'
 import TableResults from './TableResults.vue'
-
 const { messages, isLoading, error, sendMessage } = useChatbot()
 const { searchMode } = useSearchMode()
 
@@ -48,13 +47,14 @@ const submitMessage = (message) => {
       <div class="animate-fade-up" style="animation-delay: 0ms">
         <div
           class="w-20 h-20 sm:w-24 sm:h-24 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle">
-          <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span>
+          <!-- <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span> -->
+          <img src="/logo-pencarian.png" alt="Logo Pencarian">
         </div>
       </div>
 
       <!-- Welcome Text -->
       <div class="animate-fade-up !space-y-2 !sm:space-y-3 max-w-md !mb-4" style="animation-delay: 100ms">
-        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight">Selamat datang</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight !mt-5">Selamat datang</h2>
         <p class="text-text-subdued text-sm sm:text-base leading-relaxed">
           Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah
         </p>
@@ -98,9 +98,9 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Tip -->
-      <div class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium"
+      <div class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium !mt-5"
         style="animation-delay: 300ms">
-        <span class="material-symbols-outlined text-sm flex-shrink-0">lightbulb</span>
+        <span class="material-symbols-outlined text-sm flex-shrink-0 ">lightbulb</span>
         <span>Ketik kata kunci atau tanyakan topik skripsi</span>
       </div>
     </div>
@@ -132,10 +132,11 @@ const submitMessage = (message) => {
               <div class="prose-chat text-sm sm:text-base leading-relaxed" v-html="renderMarkdown(msg.content)"></div>
 
               <!-- Interactive Table Results (jika ada documents) -->
-              <!-- <----------- menambahkan table results untuk pencarian jika ingin melihat abstrak lengkapnya ->>>>>>>>>>>>>>>>>>>> -->
-              <!-- <div v-if="msg.documents && msg.documents.length > 0" class="mt-6 pt-4 border-t border-border-subtle">
+              <!-- <----------- menambahkan table results untuk pencarian jika ingin melihat abstrak lengkapnya
+                ->>>>>>>>>>>>>>>>>>>> -->
+              <div v-if="msg.documents && msg.documents.length > 0" class="mt-6 pt-4 border-t border-border-subtle">
                 <TableResults :documents="msg.documents" />
-              </div> -->
+              </div>
             </div>
           </div>
         </div>
