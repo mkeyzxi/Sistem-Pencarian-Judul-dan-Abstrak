@@ -15,22 +15,20 @@ console.log(searchMode)
 
 <template>
   <aside
-    class="hidden lg:flex flex-col w-[280px] h-screen sticky top-0 bg-bg-base border-r border-border-subtle overflow-y-auto hide-scrollbar shrink-0 !p-2"
-  >
+    class="hidden lg:flex flex-col w-[280px] h-screen sticky top-0 bg-bg-base border-r border-border-subtle overflow-y-auto hide-scrollbar shrink-0 !p-2">
     <!-- Brand Header -->
     <div class="p-5 pb-4">
       <div class="flex items-center gap-3 mb-1">
-        <div
-          class="w-10 h-10 bg-primary rounded-full flex items-center justify-center shadow-spotify-medium"
-        >
-          <span class="material-symbols-outlined text-black text-lg">school</span>
+        <div class="w-10 h-10 rounded-full flex items-center justify-center shadow-spotify-medium">
+          <!-- <span class="material-symbols-outlined text-black text-lg">school</span> -->
+          <img src="/logo-pencarian.png" alt="Logo Pencarian" class="w-full h-full object-contain">
         </div>
         <div>
-          <h2 class="text-base font-bold text-text-base leading-tight">
+          <h2 class=" text-base font-bold text-text-base leading-tight">
             Panel Kontrol
           </h2>
           <p class="text-[10px] text-text-subdued uppercase tracking-[0.2em] font-semibold">
-            Chatbot Skripsi TI
+            Pencarian Skripsi TI
           </p>
         </div>
       </div>
@@ -39,80 +37,44 @@ console.log(searchMode)
     <div class="flex-1 !px-2 !space-y-5 overflow-y-auto hide-scrollbar !gap-4 !mt-10">
       <!-- Mode Pencarian -->
       <section>
-        <h3
-          class="text-[10px] font-bold text-text-subdued uppercase tracking-[0.15em] !mb-3 !px-1"
-        >
+        <h3 class="text-[10px] font-bold text-text-subdued uppercase tracking-[0.15em] !mb-3 !px-1">
           Mode Pencarian
         </h3>
-        <div class="space-y-2">
-          <label
-            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200"
-            :class="
-              searchMode === 'rag'
-                ? 'bg-bg-highlight border border-primary/30'
-                : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
-            "
-          >
-            <div
-              class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
-              :class="
-                searchMode === 'rag' ? 'border-primary' : 'border-border-bright'
-              "
-            >
+        <div class="space-y-2 flex flex-col gap-2 ">
+          <label class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
+            :class="searchMode === 'rag'
+              ? 'bg-bg-highlight border border-primary/30'
+              : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
+              ">
+            <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors " :class="searchMode === 'rag' ? 'border-primary' : 'border-border-bright'
+              ">
               <div v-if="searchMode === 'rag'" class="w-2 h-2 rounded-full bg-primary"></div>
             </div>
-            <input
-              v-model="searchMode"
-              @click="setMode('rag')"
-              type="radio"
-              value="rag"
-              class="sr-only"
-            />
+            <input v-model="searchMode" @click="setMode('rag')" type="radio" value="rag" class="sr-only" />
             <div class="flex-1 min-w-0">
               <span class="text-sm font-bold text-text-base">RAG Mode</span>
               <p class="text-[10px] text-text-subdued mt-0.5">Akurasi tinggi</p>
             </div>
-            <span
-              v-if="searchMode === 'rag'"
-              class="material-symbols-outlined text-primary text-base"
-              >check_circle</span
-            >
+            <span v-if="searchMode === 'rag'"
+              class="material-symbols-outlined text-primary text-base">check_circle</span>
           </label>
 
-          <label
-            class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200"
-            :class="
-              searchMode === 'hyde'
-                ? 'bg-bg-highlight border border-primary/30'
-                : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
-            "
-          >
-            <div
-              class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
-              :class="
-                searchMode === 'hyde' ? 'border-primary' : 'border-border-bright'
-              "
-            >
+          <label class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
+            :class="searchMode === 'hyde'
+              ? 'bg-bg-highlight border border-primary/30'
+              : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
+              ">
+            <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors" :class="searchMode === 'hyde' ? 'border-primary' : 'border-border-bright'
+              ">
               <div v-if="searchMode === 'hyde'" class="w-2 h-2 rounded-full bg-primary"></div>
             </div>
-            <input
-              v-model="searchMode"
-              @click="setMode('hyde')"
-              type="radio"
-              value="hyde"
-              class="sr-only"
-            />
-            <div class="flex-1 min-w-0">
-              <span class="text-sm font-bold text-text-base"
-                >HyDE Mode</span
-              >
+            <input v-model="searchMode" @click="setMode('hyde')" type="radio" value="hyde" class="sr-only " />
+            <div class="flex-1 min-w-0 ">
+              <span class="text-sm font-bold text-text-base">HyDE Mode</span>
               <p class="text-[10px] text-text-subdued mt-0.5">Pencarian semantik</p>
             </div>
-            <span
-              v-if="searchMode === 'hyde'"
-              class="material-symbols-outlined text-primary text-base"
-              >check_circle</span
-            >
+            <span v-if="searchMode === 'hyde'"
+              class="material-symbols-outlined text-primary text-base">check_circle</span>
           </label>
         </div>
       </section>
@@ -153,7 +115,7 @@ console.log(searchMode)
     <div class="p-4 border-t border-border-subtle shrink-0">
       <div class="flex items-center gap-2">
         <div class="w-2 h-2 rounded-full bg-primary animate-pulse-glow"></div>
-        <p class="text-[10px] text-text-subdued font-medium">v1.0.4 — Sistem aktif</p>
+        <p class="text-[10px] text-text-subdued font-medium">v1.0.4 - Sistem aktif</p>
       </div>
     </div>
   </aside>

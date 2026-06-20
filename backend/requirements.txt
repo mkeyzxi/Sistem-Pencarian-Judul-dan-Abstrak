@@ -10,6 +10,7 @@ langchain-huggingface
 
 chromadb
 sentence-transformers>=2.6.0
+
 pypdf
 torch
 
@@ -387,13 +388,67 @@ mengajar di tpa untuk terakhir kalinya
 catatan untuk kalender
 
 2 33 sabtu 2026
-3 34
-4 35
-5 36
-6 37
-7 38
-8 39
-9 40
-10 41
-11 42
+mengajar menari
+mengajar menyanyi
+3 34 minggu
+mengajar sholawat 
+4 35 senin 
+membantu merapikan baruga sekaligus menyusun buku perpustakaan
+5 36 selasa
+membantu merapikan baruga sekaligus menyusun buku perpustakaan
+melatih menyanyi
+6 37 rabu
+mengajar menari
+mengajar menyanyi
+membuat pisang peppe
+7 38 kamis
+jalan jalan ke pulau sakuala
+8 39 jumat
+membersihkan bareng tentara 
+belajar menari
+belajar showaat
+belajar nyanyi
+makan kerang bareng pak desa
+persiapan untuk ramah tamah
+9 40 sabtu
+ramah tamah
+
+
+
+
+
+
+
+
+
+
+
+
+catatan untuk ibu darma
+1000 data juudl dan abstrak
+yang ditampilkan di pencarian 5 saja atau yang sesuai
+gunakan teknik pencarian yang sudah ada
+10 41 minggu
+silaturahmi ke kak mariana
+
+
+sudah ttd
+mustika sari
+pak Hasrul
+faisal stmt
+Muhammad Nur Akbar, S.T., M.T
+hariani
+asep
+sri wahyuni
+syafar
+wahyudin
+ridwan kambau
+
+11 42 senin
+memancing di empang kepala dusun pitue🥰
+12 43 selasa
+seminar hasil
+memberikan beberapa kado ke kepala dusun
+
+13 44 pulang
 

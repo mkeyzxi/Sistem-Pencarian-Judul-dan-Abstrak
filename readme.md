@@ -1,403 +1,187 @@
-# 📚 Chatbot Eksperimen Pencarian Judul & Abstrak Skripsi Teknik Informatika UIN Alauddin Makassar
+# 📚 Sistem Pencarian Judul & Abstrak Skripsi
 
-Chatbot ini merupakan **chatbot eksperimen berbasis FastAPI + RAG (Retrieval-Augmented Generation)** yang digunakan untuk:
+README ini menjelaskan cara menjalankan dan mengembangkan project Chatbot Pencarian Judul & Abstrak Skripsi (FastAPI backend + Vue.js frontend).
 
-* Mencari **judul dan abstrak skripsi Teknik Informatika UIN Alauddin Makassar**
-* Memberikan **respon seperti chatbot** (natural & interaktif)
-* Memberikan **saran akademik tambahan** jika user memasukkan **judul skripsi lengkap**
+**Ringkasan singkat**
 
-Chatbot ini **bukan sistem produksi**, melainkan digunakan untuk **eksperimen riset, evaluasi RAG, dan kebutuhan akademik (skripsi)**.
-
----
-
-## 🎯 Tujuan Sistem
-
-1. Mengimplementasikan **RAG (Standard RAG & HyDE RAG)**
-2. Menguji kemampuan chatbot dalam:
-
-   * Menemukan skripsi relevan
-   * Menampilkan judul & abstrak
-   * Memberikan saran pengembangan judul
-3. Menjadi dasar **evaluasi performa pencarian judul & abstrak skripsi**
+- **Tujuan**: Menyediakan eksperimen retrieval dokumen (RAG & HyDE) untuk mencari judul dan abstrak skripsi.
+- **Stack**: Python (FastAPI, LangChain, ChromaDB) untuk backend; Vue 3 + Vite untuk frontend.
 
 ---
 
-## 🏗️ Arsitektur Sistem
+**Overview**
 
-```
-User (Vue.js)
-   ↓
-FastAPI (Chat Endpoint)
-   ↓
-RAG / HyDE Retrieval
-   ↓
-ChromaDB (Vector Store)
-   ↓
-PDF Judul & Abstrak Skripsi
-```
+- **Backend**: [backend/app/main.py](backend/app/main.py#L1) — FastAPI sebagai API server, RAG logic di [backend/app/services/rag_service.py](backend/app/services/rag_service.py#L1).
+- **Frontend**: [frontend/](frontend/README.md#L1) — UI minimal berbasis Vue 3, berkomunikasi dengan endpoint `/api/chat`.
+- **Indexing**: Script `backend/scripts/build_index.py` membuat vector store di `backend/chroma_db/`.
 
 ---
 
-## 📁 Struktur Folder Project
+**Fitur Utama**
 
-```
-backend/
-│
-├── app/
-│   ├── main.py                 # Entry FastAPI
-│   │
-│   ├── api/
-│   │   └── chat.py              # Endpoint chatbot
-│   │
-│   ├── services/
-│   │   ├── document_service.py  # Load & preprocessing PDF
-│   │   ├── embedding_service.py # HuggingFace Embedding
-│   │   ├── rag_service.py       # RAG & HyDE logic
-│   │   └── suggestion_service.py# Saran judul skripsi
-│   │
-│   └── core/
-│       └── config.py            # Konfigurasi & env
-│
-├── data/
-│   └── pdf/                     # Dataset PDF skripsi
-│
-├── chroma_db/                   # Vector database (persist)
-│
-├── scripts/
-│   └── build_index.py           # Script embedding (sekali jalan)
-│
-├── requirements.txt
-├── .env
-└── README.md
-```
+- **Pencarian dokumen**: retrieve judul & abstrak berdasarkan query.
+- **Mode retrieval**: `rag` (standard) dan `hyde` (HyDE hypothetical docs).
+- **Saran akademik**: ketika input merupakan judul lengkap, server memberikan saran pengembangan.
 
 ---
 
-## ⚙️ Instalasi & Setup
+**Repository Structure (ringkas)**
 
-### 1️⃣ Buat Virtual Environment
+- **backend/**: kode server, scripts, dan penyimpanan ChromaDB.
+- **frontend/**: aplikasi Vue 3 untuk antarmuka pengguna.
 
-```bash 
+Lihat struktur lengkap di file kode, contoh: [backend/app/api/chat.py](backend/app/api/chat.py#L1).
+
+---
+
+**Prerequisites**
+
+- Python 3.10+ (direkomendasikan)
+- Node.js 20+ dan pnpm (atau npm/yarn)
+- (Opsional) GPU untuk embedding/LLM namun default adalah CPU
+
+---
+
+**Backend — Setup & Run**
+
+- **1) Buat virtual environment**
+
+```bash
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-anaconda : venv/bin/activate  # Windows: venv\Scripts\activate
+# Windows
 venv\Scripts\activate
+# macOS / Linux
+source venv/bin/activate
 ```
 
-### 2️⃣ Install Dependency
+- **2) Install dependencies**
 
 ```bash
-pip install -r requirements.txt
+pip install -r backend/requirements.txt
 ```
 
-`requirements.txt`
+- **3) Konfigurasi environment**
 
-```
-fastapi
-uvicorn
-python-dotenv
-langchain
-langchain-community
-langchain-core
-langchain-groq
-langchain-huggingface
-chromadb
-sentence-transformers
-pypdf
+Buat file `.env` di folder `backend/` berisi minimal:
+
+```text
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
----
+- **4) Bangun index (WAJIB sebelum server)**
 
-## 📄 Dataset
-
-* Dataset berupa **file PDF skripsi Teknik Informatika UIN Alauddin Makassar**
-* Setiap PDF minimal memiliki:
-
-  * Sampul
-  * Abstrak
-
-Letakkan semua PDF di:
-
-```
-backend/data/pdf/
-```
-
----
-
-## 🔧 Preprocessing & Embedding (WAJIB)
-
-Embedding **hanya dilakukan sekali**, bukan saat chatbot berjalan.
-
-Jalankan:
+Letakkan file PDF skripsi di `backend/data/pdf/` lalu jalankan:
 
 ```bash
-python scripts/build_index.py
+python backend/scripts/build_index.py
 ```
 
-Proses ini akan:
+Proses ini akan mengekstrak teks, membuat embedding dengan model `intfloat/multilingual-e5-small`, dan menyimpan vector ke `backend/chroma_db/`.
 
-* Mengekstrak judul, identitas, dan abstrak
-* Membersihkan teks
-* Membuat embedding dengan `intfloat/multilingual-e5-small`
-* Menyimpan vektor ke `chroma_db/`
-
----
-
-## 🚀 Menjalankan Server FastAPI
+- **5) Jalankan server**
 
 ```bash
+# Development (hot reload)
+uvicorn app.main:app --reload --port 8000 --host 0.0.0.0
+
+# Atau dari folder backend
+cd backend
 uvicorn app.main:app --reload
 ```
 
-Akses:
+Endpoint dokumentasi tersedia di `http://localhost:8000/docs`.
 
-* API: [http://localhost:8000](http://localhost:8000)
-* Docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+Referensi kode penting:
+
+- Router utama: [backend/app/api/chat.py](backend/app/api/chat.py#L1)
+- RAG logic: [backend/app/services/rag_service.py](backend/app/services/rag_service.py#L1)
 
 ---
 
-## 💬 Endpoint Chatbot
+**Frontend — Setup & Run**
 
-### `POST /chat`
+Masuk ke folder `frontend/` lalu install deps dan jalankan dev server:
 
-#### Request Body
+```bash
+cd frontend
+pnpm install    # atau: npm install / yarn
+pnpm dev
+```
+
+Default Vite dev server akan berjalan (biasanya) di `http://localhost:5173`.
+
+Jika backend berjalan di port lain, pastikan CORS dan base URL sesuai (lihat [backend/app/main.py](backend/app/main.py#L1) dan file frontend yang memanggil API).
+
+---
+
+**API — Ringkasan**
+
+- **POST /api/chat** — Endpoint utama chat. Request JSON:
 
 ```json
 {
-  "message": "Judul skripsi atau topik",
-  "mode": "rag"
+  "message": "kata kunci atau judul skripsi",
+  "mode": "rag"    # atau "hyde"
 }
 ```
 
-Mode:
+Response berisi fields: `success`, `message`, `query`, `mode`, `documents`, `suggestion`.
 
-* `rag` → Standard RAG
-* `hyde` → HyDE RAG
+- **GET /api/health** — Health check termasuk jumlah vektor di DB.
+- **GET /api/info** — Informasi model & vector DB.
 
----
-
-## 🤖 Logika Respon Chatbot
-
-Chatbot **tidak hanya mengembalikan dokumen**, tetapi juga memberikan respon natural.
-
-### 🔹 Jika input berupa topik singkat
-
-Contoh:
-
-```
-"sistem rekomendasi"
-```
-
-Respon:
-
-* Menampilkan beberapa judul & abstrak relevan
-* Memberikan ringkasan singkat
-
-### 🔹 Jika input berupa judul skripsi lengkap
-
-Contoh:
-
-```
-"Sistem Rekomendasi Pemilihan Dosen Pembimbing Menggunakan Collaborative Filtering"
-```
-
-Respon chatbot:
-
-1. Menyapa user
-2. Menampilkan skripsi relevan
-3. Memberikan **saran akademik**, seperti:
-
-   * Potensi pengembangan metode
-   * Perbandingan dengan penelitian sebelumnya
-   * Variasi dataset atau algoritma
+Implementasi endpoint ada di [backend/app/api/chat.py](backend/app/api/chat.py#L1).
 
 ---
 
-## 🧠 Contoh Respon Chatbot
+**Menambah Dataset (PDF)**
 
-```
-Halo 👋
-Berdasarkan judul yang kamu ajukan, berikut beberapa skripsi yang relevan:
-
-1. Judul: ...
-   Abstrak: ...
-
-📌 Saran Pengembangan:
-Judul yang kamu ajukan sudah relevan. Namun, berdasarkan penelitian sebelumnya,
-kamu dapat mempertimbangkan:
-- Mengganti metode X dengan Y
-- Menggunakan dataset terbaru
-- Menambahkan evaluasi performa
-```
+- Letakkan file PDF di `backend/data/pdf/`.
+- Setiap PDF disarankan memiliki halaman sampul (title & identitas) dan abstrak.
+- Jalankan ulang `python backend/scripts/build_index.py` untuk memperbarui ChromaDB.
 
 ---
 
-## 🔐 Environment Variable
+**Troubleshooting & Tips**
 
-`.env`
-
-```
-GROQ_API_KEY=your_api_key_here
-```
-
----
-
-## 📊 Catatan Akademik
-
-* Chatbot ini **tidak menggantikan pembimbing skripsi**
-* Digunakan sebagai **alat bantu eksplorasi judul & literatur awal**
-* Cocok untuk:
-
-  * Evaluasi RAG vs HyDE
-  * Pengujian retrieval
-  * Penelitian NLP & IR
+- **GROQ_API_KEY not found**: pastikan `.env` ada di folder `backend/` dan berisi kunci.
+- **No vectors found**: jalankan `python backend/scripts/build_index.py` dan pastikan ada PDF di `backend/data/pdf/`.
+- **CUDA out of memory**: set `EMBEDDING_DEVICE=cpu` di `backend/.env` atau gunakan mesin dengan memori GPU lebih besar.
+- **CORS**: CORS diizinkan semua asal di development (`allow_origins=["*"]`) pada [backend/app/main.py](backend/app/main.py#L1). Untuk produksi, batasi origin.
 
 ---
 
-## 📌 Status Project
+**Development notes**
 
-✅ Eksperimen RAG & HyDE
-✅ Dataset skripsi lokal
-✅ Chatbot FastAPI
-❌ Bukan sistem produksi
+- File util & core config: [backend/app/core/config.py](backend/app/core/config.py#L1)
+- Build index script: [backend/scripts/build_index.py](backend/scripts/build_index.py#L1)
+- Embedding service: [backend/app/services/embedding_service.py](backend/app/services/embedding_service.py#L1)
 
----
-
-## 👨‍🎓 Konteks Penelitian
-
-Project ini dikembangkan sebagai bagian dari:
-
-> **Eksperimen chatbot pencarian judul dan abstrak skripsi Teknik Informatika
-> UIN Alauddin Makassar menggunakan pendekatan Retrieval-Augmented Generation (RAG)**
+Jika ingin menambahkan model atau mengubah embedding, lakukan penyesuaian di `config.py`.
 
 ---
 
-✨ Siap dikembangkan ke:
+**Contributing & Next Steps**
 
-* Evaluasi Top-K
-* Precision / Recall
-* UI Vue.js
-* Logging percakapan
+- Tambahkan testing, CI, dan dokumentasi API lebih rinci.
+- Implementasi pagination / reranking untuk hasil retrieval.
+- Tambahkan persistence percakapan (history) dan otentikasi jika diperlukan.
 
 ---
 
-📌 **Catatan:** Seluruh logika chatbot mengacu pada kode eksperimen LangChain + ChromaDB yang telah disiapkan sebelumnya.
+**License & Contact**
 
+- Project ini disiapkan sebagai eksperimen akademik. Untuk pertanyaan, hubungi penulis proyek.
 
-Kode program dibawah ini menggunakan google colab mau dirubah ke FastAPi namun dengan respon yang lebih baik
-!pip uninstall chromadb -y
+---
 
-!pip install -U \
-langchain langchain-community langchain-core \
-langchain-groq langchain-huggingface \
-chromadb sentence-transformers pypdf
+Jika Anda ingin, saya dapat:
 
+- Menambahkan badge status (build / python / node)
+- Menambahkan instruksi Docker untuk menjalankan seluruh stack
+- Membuat contoh request `curl` dan Postman collection
 
-import os
-os.environ["TRANSFORMERS_NO_TF"] = "1"
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-import os
-os.environ["TRANSFORMERS_NO_TF"] = "1"
-os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-
-
-import torch
-print("GPU aktif:", torch.cuda.is_available())
-
-import os
-import re
-import shutil
-
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_core.documents import Document
-
-def extract_title(lines):
-    title_lines = []
-    stop_words = [
-        "skripsi", "diajukan", "oleh", "nama", "nim",
-        "program studi", "fakultas", "universitas"
-    ]
-
-    for line in lines:
-        low = line.lower()
-
-        if any(sw in low for sw in stop_words):
-            break
-
-        if len(line.strip()) > 3:
-            title_lines.append(line.strip())
-
-        if len(" ".join(title_lines)) > 150:
-            break
-
-    return " ".join(title_lines)
-
-def extract_identity(text):
-    nama = re.search(r"nama\s*[:\-]?\s*(.+)", text, re.IGNORECASE)
-    nim  = re.search(r"nim\s*[:\-]?\s*(\d+)", text, re.IGNORECASE)
-
-    result = []
-    if nama:
-        result.append(f"Nama: {nama.group(1).strip()}")
-    if nim:
-        result.append(f"NIM: {nim.group(1).strip()}")
-
-    return " | ".join(result)
-
-def extract_abstract(text):
-    match = re.search(r"abstrak(.*)", text, re.IGNORECASE | re.DOTALL)
-    if match:
-        return match.group(1).strip()
-    return ""
-
-
-def clean_text(text):
-    noise = [
-        "sampul skripsi",
-        "diajukan untuk memenuhi",
-        "program studi",
-        "fakultas",
-        "universitas"
-    ]
-
-    for n in noise:
-        text = re.sub(n, "", text, flags=re.IGNORECASE)
-
-    return re.sub(r"\s+", " ", text).strip()
-
-
-data_dir = "/content/drive/MyDrive/Data_Judul_Abstrak_Skripsi_Teknik_Informatika"
-documents = []
-
-
-for file in os.listdir(data_dir):
-    if not file.endswith(".pdf"):
-        continue
-
-    loader = PyPDFLoader(os.path.join(data_dir, file))
-    pages = loader.load()
-
-    if len(pages) < 2:
-        continue
-
-    cover_text = pages[0].page_content
-    body_text = "\n".join(p.page_content for p in pages[1:])
-
-    lines = [l.strip() for l in cover_text.split("\n") if len(l.strip()) > 2]
-
-    title = extract_title(lines)
-    identity = extract_identity(cover_text)
-    abstract = extract_abstract(body_text)
-
-    if len(abstract) < 200:
-        continue
-
-    title = clean_text(title)
-    abstract = clean_text(abstract)
-
-    content = f"""
-Judul: {title}
-{identity}
+Mau saya terapkan salah satu dari opsi di atas sekarang?
 
 Abstrak:
 {abstract}
@@ -412,58 +196,52 @@ Abstrak:
 
 print("Jumlah dokumen siap embedding:", len(documents))
 
-
 from langchain_huggingface import HuggingFaceEmbeddings
 
-
 embedding = HuggingFaceEmbeddings(
-    model_name="intfloat/multilingual-e5-small",
-    model_kwargs={"device": "cpu"},
-    encode_kwargs={"normalize_embeddings": True}
+model_name="intfloat/multilingual-e5-small",
+model_kwargs={"device": "cpu"},
+encode_kwargs={"normalize_embeddings": True}
 )
 
-
 from langchain_community.vectorstores import Chroma
-
 
 persist_directory = "/content/chroma_db"
 
 if os.path.exists(persist_directory):
-    shutil.rmtree(persist_directory)
-
+shutil.rmtree(persist_directory)
 
 vectorstore = Chroma(
-    embedding_function=embedding,
-    persist_directory=persist_directory
+embedding_function=embedding,
+persist_directory=persist_directory
 )
-
 
 batch_size = 10
 for i in range(0, len(documents), batch_size):
-    vectorstore.add_documents(documents[i:i + batch_size])
+vectorstore.add_documents(documents[i:i + batch_size])
 
 vectorstore.persist()
-print("Jumlah vektor:", vectorstore._collection.count())
-
+print("Jumlah vektor:", vectorstore.\_collection.count())
 
 from langchain_groq import ChatGroq
 
-
 import os
+
 # Replace 'YOUR_GROQ_API_KEY' with your actual Groq API key
+
 os.environ["GROQ_API_KEY"] = "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"
 
 llm = ChatGroq(
-    model="meta-llama/llama-4-scout-17b-16e-instruct",
-    temperature=0.2,
+model="meta-llama/llama-4-scout-17b-16e-instruct",
+temperature=0.2,
 )
 
 def run_rag(query, k=5):
-    docs = vectorstore.max_marginal_relevance_search(
-        query,
-        k=k,
-        fetch_k=20
-    )
+docs = vectorstore.max_marginal_relevance_search(
+query,
+k=k,
+fetch_k=20
+)
 
     if not docs:
         return "Tidak ditemukan"
@@ -475,9 +253,8 @@ def run_rag(query, k=5):
 
     return result
 
-
 def hyde_retrieve(query, k=5):
-    prompt = f"""
+prompt = f"""
 Tuliskan abstrak skripsi singkat (3–4 kalimat)
 yang relevan dengan topik berikut:
 
@@ -494,7 +271,7 @@ Topik: "{query}"
     return hypothetical_doc, docs
 
 def hyde_answer(query):
-    hypo, docs = hyde_retrieve(query)
+hypo, docs = hyde_retrieve(query)
 
     if not docs:
         return "Tidak ditemukan"
@@ -506,11 +283,12 @@ def hyde_answer(query):
 
     return result
 
-
 query = "kalah deh"
 
 print(run_rag(query))
 print()
 print(hyde_answer(query))# Sistem-Pencarian-Judul-dan-Abstrak
+
 # Sistem-Pencarian-Judul-dan-Abstrak
+
 # Sistem-Pencarian-Judul-dan-Abstrak
