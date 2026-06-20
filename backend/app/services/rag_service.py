@@ -1,6 +1,10 @@
 """
 RAG Service
 Menangani Standard RAG dan HyDE RAG retrieval logic.
+
+REVISI 2: Output format sesuai REVISIDUA.md
+- Setiap dokumen dikembalikan sebagai {page_content, metadata}
+- similarity_score masuk ke dalam metadata
 """
 
 from langchain_community.vectorstores import Chroma
@@ -40,9 +44,61 @@ class RAGService:
         except:
             return 0
     
+    @staticmethod
+    def _distance_to_score(distance: float) -> float:
+        """Konversi ChromaDB distance ke similarity score (0-100%).
+        
+        ChromaDB dengan cosine distance mengembalikan nilai 0-2:
+        - 0 = identik (similarity 100%)
+        - 1 = orthogonal (similarity 0%)
+        - 2 = berlawanan (similarity -100%, kita clamp ke 0%)
+        
+        Rumus: similarity = (1.0 - distance) * 100, di-clamp ke [0, 100].
+        """
+        try:
+            score = (1.0 - float(distance)) * 100.0
+            score = max(0.0, min(100.0, score))
+            return round(score, 2)
+        except (TypeError, ValueError):
+            return 0.0
+
+    def _build_document_response(self, doc, distance: float) -> dict:
+        """Bangun response dokumen sesuai format REVISIDUA.md.
+        
+        Output: {
+            "page_content": "...",
+            "metadata": {
+                "source": "...",
+                "judul": "...",
+                "nama": "...",
+                "nim": "...",
+                "pembimbing": "...",
+                "tahun": "...",
+                "similarity_score": 75.0
+            }
+        }
+        """
+        score = self._distance_to_score(distance)
+
+        return {
+            "page_content": doc.page_content,
+            "metadata": {
+                "source": doc.metadata.get("source", "Unknown"),
+                "judul": doc.metadata.get("judul", ""),
+                "nama": doc.metadata.get("nama", ""),
+                "nim": doc.metadata.get("nim", ""),
+                "pembimbing": doc.metadata.get("pembimbing", ""),
+                "tahun": doc.metadata.get("tahun", ""),
+                "similarity_score": score,
+            },
+        }
+
     def standard_rag(self, query: str, k: int = None) -> dict:
         """
         Standard RAG retrieval - langsung retrieve dokumen relevan.
+        
+        Menggunakan similarity_search_with_score() yang mengembalikan
+        list[(Document, distance)] sehingga skor relevansi bisa dihitung.
         
         Args:
             query: Query dari user
@@ -54,27 +110,20 @@ class RAGService:
         if k is None:
             k = settings.K_RETRIEVAL
         
-        # Retrieve dokumen menggunakan Max Marginal Relevance
-        docs = self.vectorstore.max_marginal_relevance_search(
+        docs_with_scores = self.vectorstore.similarity_search_with_score(
             query,
             k=k,
-            fetch_k=settings.FETCH_K
         )
-        
+
+        documents = []
+        for doc, distance in docs_with_scores:
+            documents.append(self._build_document_response(doc, distance))
+
         return {
             "mode": "rag",
             "query": query,
-            "docs_count": len(docs),
-            "documents": [
-                {
-                    "title": doc.metadata.get("title", "Unknown"),
-                    "source": doc.metadata.get("source", "Unknown"),
-                    "content": doc.page_content[:1500],  # Ringkasan untuk tabel
-                    "full_content": doc.page_content,  # Full content untuk expand detail
-                    "score": None
-                }
-                for doc in docs
-            ]
+            "docs_count": len(documents),
+            "documents": documents
         }
     
     def hyde_rag(self, query: str, k: int = None) -> dict:
@@ -105,30 +154,22 @@ Abstrak:"""
             print(f"Error generating hypothetical doc: {e}")
             hypothetical_doc = query
         
-        # Embed hypothetical document
-        hypo_vector = self.embedding.embed_query(hypothetical_doc)
-        
-        # Retrieve dokumen berdasarkan hypothetical vector
-        docs = self.vectorstore.similarity_search_by_vector(
-            hypo_vector,
-            k=k
+        # Retrieve menggunakan hypothetical doc sebagai query
+        docs_with_scores = self.vectorstore.similarity_search_with_score(
+            hypothetical_doc,
+            k=k,
         )
-        
+
+        documents = []
+        for doc, distance in docs_with_scores:
+            documents.append(self._build_document_response(doc, distance))
+
         return {
             "mode": "hyde",
             "query": query,
             "hypothetical_document": hypothetical_doc,
-            "docs_count": len(docs),
-            "documents": [
-                {
-                    "title": doc.metadata.get("title", "Unknown"),
-                    "source": doc.metadata.get("source", "Unknown"),
-                    "content": doc.page_content[:1500],  # Ringkasan untuk tabel
-                    "full_content": doc.page_content,  # Full content untuk expand detail
-                    "score": None
-                }
-                for doc in docs
-            ]
+            "docs_count": len(documents),
+            "documents": documents
         }
 
 

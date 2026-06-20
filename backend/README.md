@@ -1,3 +1,7 @@
+cd C:\belajarku\semester 7\Sistem Pencarian Judul dan Abstrak Skripsi\backend
+conda activate chatbot-env
+uvicorn app.main:app --reload
+
 # Backend - FastAPI Chatbot Pencarian Skripsi
 
 Implementasi backend FastAPI untuk chatbot pencarian judul dan abstrak skripsi dengan menggunakan RAG (Retrieval-Augmented Generation) dan HyDE approach.
@@ -74,6 +78,7 @@ python scripts/build_index.py
 ```
 
 Proses ini akan:
+
 - ✅ Load semua PDF dari `data/pdf/`
 - ✅ Extract judul, identitas, dan abstrak
 - ✅ Membuat embedding dengan multilingual-e5-small
@@ -90,6 +95,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 Server akan berjalan di:
+
 - 🌐 API: http://localhost:8000
 - 📚 Swagger Docs: http://localhost:8000/docs
 - 🔍 ReDoc: http://localhost:8000/redoc
@@ -101,6 +107,7 @@ Server akan berjalan di:
 **POST** `/api/chat`
 
 Request body:
+
 ```json
 {
   "message": "sistem rekomendasi",
@@ -109,10 +116,12 @@ Request body:
 ```
 
 Mode:
+
 - `"rag"` - Standard RAG (default)
 - `"hyde"` - HyDE RAG (hypothetical document embeddings)
 
 Response:
+
 ```json
 {
   "success": true,
@@ -157,6 +166,7 @@ Check status server.
 4. Copy API key ke file `.env`
 
 API gratis Groq:
+
 - ✅ Unlimited requests
 - ✅ Fast inference
 - ✅ Model: Llama 3 70B
@@ -177,11 +187,13 @@ API gratis Groq:
 ## 🧠 Logika Chatbot
 
 ### Standard RAG
+
 - Langsung retrieve dokumen relevan dari database
 - Lebih cepat dan efisien
 - Bagus untuk topik spesifik
 
 ### HyDE RAG
+
 - Generate hypothetical abstract menggunakan LLM
 - Embed hypothetical doc dan retrieve
 - Lebih baik untuk topik umum dan diverse queries
@@ -190,16 +202,19 @@ API gratis Groq:
 ## 🔧 Troubleshooting
 
 ### Error: "GROQ_API_KEY not found"
+
 - Pastikan file `.env` sudah dibuat di folder `backend/`
 - Pastikan API key sudah benar di `.env`
 - Restart terminal atau server
 
 ### Error: "No vectors found"
+
 - Jalankan `python scripts/build_index.py`
 - Pastikan ada PDF di folder `data/pdf/`
 - Pastikan PDF valid dan berisi abstrak
 
 ### Error: "CUDA out of memory"
+
 - Set `EMBEDDING_DEVICE=cpu` di `.env`
 - Atau batch size di `config.py` menjadi lebih kecil
 
@@ -222,6 +237,7 @@ API gratis Groq:
 ## 📞 Support
 
 Untuk bantuan lebih lanjut:
+
 - 📖 FastAPI Docs: https://fastapi.tiangolo.com/
 - 🦙 Groq Console: https://console.groq.com/
 - 🔗 LangChain Docs: https://python.langchain.com/

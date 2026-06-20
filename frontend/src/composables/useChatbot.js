@@ -42,15 +42,14 @@ export const useChatbot = () => {
 			}
 
 			const data = await response.json()
-			console.log(data.documents[0])
-			// 3. Ambil teks response dari API (bisa di field response, message, atau langsung string)
-			const botText = data.response || data.message || data.answer || (typeof data === 'string' ? data : JSON.stringify(data))
+			console.log(data.documents && data.documents[0])
+			// Tampilkan respons LLM dari backend
+			const botText = data.message || 'Berikut hasil pencarian yang ditemukan:'
 
 			messages.value.push({
 				role: 'bot',
 				content: botText,
-				documents: data.documents,
-				// title: data.title
+				documents: data.documents || [],
 			})
 			// console.log(data)
 			console.log(messages.value)
