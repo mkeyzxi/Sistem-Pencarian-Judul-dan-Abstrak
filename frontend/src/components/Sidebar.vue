@@ -2,6 +2,15 @@
 import { ref } from 'vue'
 import { useSearchMode } from '@/composables/useSearchMode'
 
+const props = defineProps({
+  isOpen: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const emit = defineEmits(['close'])
+
 const { searchMode, setMode } = useSearchMode()
 
 const chatHistory = ref([
@@ -14,17 +23,26 @@ console.log(searchMode)
 </script>
 
 <template>
+  <!-- Mobile Backdrop Overlay -->
+  <div 
+    v-if="isOpen" 
+    class="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
+    @click="emit('close')"
+  ></div>
+
   <aside
-    class="hidden lg:flex flex-col w-[280px] h-screen sticky top-0 bg-bg-base border-r border-border-subtle overflow-y-auto hide-scrollbar shrink-0 !p-2">
+    class="fixed lg:sticky top-0 left-0 z-50 flex flex-col w-[280px] h-screen bg-bg-base border-r border-border-subtle overflow-y-auto hide-scrollbar shrink-0 !p-2 transition-transform duration-300 ease-in-out lg:translate-x-0"
+    :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
+  >
     <!-- Brand Header -->
-    <div class="p-5 pb-4">
-      <div class="flex items-center gap-3 mb-1">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center shadow-spotify-medium">
+    <div class="p-5 pb-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center shadow-spotify-medium shrink-0">
           <!-- <span class="material-symbols-outlined text-black text-lg">school</span> -->
           <img src="/logo-pencarian.png" alt="Logo Pencarian" class="w-full h-full object-contain">
         </div>
         <div>
-          <h2 class=" text-base font-bold text-text-base leading-tight">
+          <h2 class="text-base font-bold text-text-base leading-tight">
             Panel Kontrol
           </h2>
           <p class="text-[10px] text-text-subdued uppercase tracking-[0.2em] font-semibold">
@@ -32,6 +50,13 @@ console.log(searchMode)
           </p>
         </div>
       </div>
+      <!-- Mobile Close Button -->
+      <button 
+        class="lg:hidden p-2 text-text-subdued hover:text-text-base rounded-full hover:bg-bg-elevated transition-colors" 
+        @click="emit('close')"
+      >
+        <span class="material-symbols-outlined text-lg">close</span>
+      </button>
     </div>
 
     <div class="flex-1 !px-2 !space-y-5 overflow-y-auto hide-scrollbar !gap-4 !mt-10">

@@ -46,7 +46,7 @@ const submitMessage = (message) => {
       <!-- Animated Icon -->
       <div class="animate-fade-up" style="animation-delay: 0ms">
         <div
-          class="w-20 h-20 sm:w-24 sm:h-24 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle">
+          class="w-20 h-20 sm:w-24 sm:h-24 !p-2 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle">
           <!-- <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span> -->
           <img src="/logo-pencarian.png" alt="Logo Pencarian">
         </div>

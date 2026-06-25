@@ -199,6 +199,39 @@ API gratis Groq:
 - Lebih baik untuk topik umum dan diverse queries
 - Sedikit lebih lambat
 
+## ⚙️ Pipeline Pemrosesan PDF & Ekstraksi
+
+Sistem memiliki pipeline khusus untuk memproses PDF mentah (skripsi) menjadi vektor yang bersih dan terstruktur. Hal ini ditangani oleh `document_service.py`.
+
+### 1. Pemuatan & Pemisahan Halaman (PDF Loading)
+Menggunakan `PyPDFLoader`, dokumen PDF dibaca per halaman. Teks dari halaman pertama (cover) digunakan sebagai sumber utama ekstraksi metadata, sedangkan halaman berikutnya untuk abstrak.
+
+### 2. Ekstraksi Metadata (Judul & Identitas)
+Pola yang digunakan untuk mengekstrak informasi:
+- **Judul**: Diekstrak dari baris-baris awal cover. Sistem akan membaca baris per baris dan **berhenti** ketika menemukan *stop words* (seperti "skripsi", "diajukan", "oleh", "nama", "nim"). 
+  > *Catatan: Judul seringkali cacat/terpotong jika terdapat kata-kata tersebut di dalam judul itu sendiri, atau format teks PDF berantakan karena letak logo/spasi.*
+- **Identitas (NIM, Nama, Pembimbing)**: Menggunakan pola *Regular Expression (Regex)*.
+- **Dynamic Metadata Rescue**: Jika metadata gagal didapatkan dari cover, sistem akan mencoba mencari ulang pola "Judul: ...", "NIM: ..." di dalam teks isi/abstrak.
+- **Prioritas File Name**: Untuk tahun dan nama penulis, sistem memprioritaskan pembacaan dari format nama file standar: `TAHUN_NAMA_PENULIS.pdf` (Contoh: `2023_RINI.pdf`).
+
+### 3. Pembersihan Abstrak (Algoritma Guillotine)
+Abstrak di PDF skripsi seringkali tercampur dengan nama pembimbing dan header. Sistem menerapkan strategi bertingkat untuk membersihkannya:
+- **Explicit Slicing**: Memotong teks secara tegas tepat setelah ditemukannya kata "Abstrak:" atau "Abstract:".
+- **Strategi 1 (Academic Title)**: Memotong teks tepat setelah gelar terakhir (seperti M.Kom, Ph.D, S.T, dsb.) karena biasanya isi abstrak dimulai setelah daftar pembimbing.
+- **Strategi 2 (Pembimbing Anchor)**: Memotong tepat setelah blok nama pembimbing terdeteksi.
+- **Strategi 3 (Narrative Anchor)**: Mencari kata kunci pembuka esai abstrak standar (seperti "Latar belakang", "Penelitian ini", "Seiring perkembangan teknologi", dll.) dan membuang teks di atasnya.
+- **Post-Cleaning**: Menghapus sisa-sisa garis bawah yang panjang, spasi ganda, newline, atau teks identitas sisa seperti "Nama : ...".
+
+### 4. Embedding & Vector Database Storage
+**Data HANYA akan dimasukkan ke vector database SETELAH semua proses ekstraksi dan pembersihan selesai.**
+Setelah teks abstrak dinyatakan bersih (dijadikan sebagai *page_content*) dan semua atribut metadata (judul, nama, NIM, pembimbing, tahun) berhasil diamankan, teks tersebut baru akan diubah menjadi representasi *vector embeddings* menggunakan model `multilingual-e5-small` via HuggingFace. Vektor-vektor ini beserta metadatanya kemudian disimpan secara permanen ke dalam vector database **ChromaDB** (folder `chroma_db/`) agar dapat digunakan untuk proses pencarian semantik (RAG).
+
+### ⚠️ Mengapa ada Judul yang Tidak Terdeteksi / Cacat?
+Jika Anda menemukan dokumen dengan judul yang cacat atau kosong, penyebab utamanya adalah:
+1. **Format Cover Tidak Standar**: PDF tidak menggunakan letak teks cover konvensional, atau teks menyatu dengan gambar/logo sehingga tidak terbaca sempurna oleh PDF parser (PyPDFLoader).
+2. **Terpotong *Stop Words***: Algoritma memotong pengambilan baris judul begitu menemui kata seperti "Oleh" atau "Skripsi". Jika baris judul di file asli mengandung kata-kata ini secara terbalik letaknya, judul bisa terpotong.
+3. **Solusi**: Jika data ini krusial, pastikan metadata judul ada pada metadata bawaan file PDF sebelum digenerate, atau Anda bisa mengatur ulang file PDF-nya agar cover-nya dapat diseleksi teksnya secara normal. Format penamaan file `TAHUN_NAMA_PENULIS.pdf` sangat membantu mengamankan sebagian metadata jika covernya benar-benar tidak bisa terbaca.
+
 ## 🔧 Troubleshooting
 
 ### Error: "GROQ_API_KEY not found"

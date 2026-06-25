@@ -142,11 +142,17 @@ class RAGService:
             k = settings.K_RETRIEVAL
         
         # Generate hypothetical abstract
-        prompt = f"""Tuliskan abstrak skripsi singkat (3-4 kalimat) yang relevan dengan topik berikut:
+        clean_query = query.strip()
+        prompt = f"""Anda adalah asisten akademik yang ahli dalam penulisan abstrak skripsi Teknik Informatika. Tugas Anda adalah menghasilkan sebuah potongan abstrak hipotetis (maksimal 3 kalimat) yang merangkum fokus utama penelitian berdasarkan kueri berikut.
 
-Topik: "{query}"
+Aturan Mutlak:
+1. Koreksi Leksikal (Typo): Jika kueri mengandung salah ketik atau singkatan tidak baku, perbaiki secara otomatis ke dalam istilah baku Teknik Informatika sebelum menyusun abstrak.
+2. Kueri Awam (Semantik): Jika kueri menggunakan bahasa non-formal (misal: "alat buat cegah maling motor"), terjemahkan dan susun menjadi narasi akademis spesifik (misal: "Penelitian ini mengembangkan sistem keamanan kendaraan bermotor menggunakan mikrokontroler...").
+3. Kueri Teknis (Leksikal): Jika kueri sudah berisi algoritma/istilah spesifik (misal: "k-means", "yolov8"), JANGAN berhalusinasi menambahkan sensor, metode, atau arsitektur lain secara acak. Fokuskan narasi murni pada implementasi metode tersebut.
+4. Format: Dilarang memberikan salam, pendahuluan, atau label 'Output:'. Langsung berikan teks abstraknya.
 
-Abstrak:"""
+Kueri: "{clean_query}"
+Abstrak Hipotetis:"""
         
         try:
             hypothetical_doc = self.llm.invoke(prompt).content.strip()

@@ -209,7 +209,11 @@ class DocumentService:
         r"teknologi\s+(?:informasi|yang|ini)|"
         r"perancangan|implementasi|analisis|"
         r"aplikasi\s+(?:ini|yang|merupakan)|"
-        r"lembaga|pemerintah|masyarakat"
+        r"lembaga|pemerintah|masyarakat|"
+        r"setiap\s+(?:wanita|orang|manusia)|"
+        r"cabai\s+merupakan|"
+        r"pertumbuhan\s+(?:tanaman|ekonomi)|"
+        r"kebakaran\s+hutan"
         r")",
     )
 
@@ -247,57 +251,83 @@ class DocumentService:
                 cleaned = after_marker
 
         # ══════════════════════════════════════════════════════════════ #
-        # AREA PENCARIAN TERBATAS: Hanya 800 karakter pertama.
-        # Mencegah false-cut jika kata pemicu (gelar, "Penelitian ini")
-        # muncul di tengah/akhir esai asli mahasiswa.
-        # Jika cut_pos ditemukan di header_zone, pemotongan dilakukan
-        # pada string `cleaned` yang utuh.
+        # AREA PENCARIAN: Seluruh panjang string `cleaned`.
+        # Regex mencari di seluruh teks, tetapi pemotongan hanya
+        # dieksekusi jika cut_pos <= 3000 karakter dari awal
+        # (safety guard agar tidak memotong di tengah esai).
         # ══════════════════════════════════════════════════════════════ #
-        header_zone = cleaned[:800]
+        MAX_CUT_POS = 3000
 
         # ── STRATEGI 1: Academic Title Guillotine ──
-        # Cari SEMUA kemunculan gelar di header zone, ambil yang paling belakang
+        # Cari SEMUA kemunculan gelar di seluruh cleaned, ambil yang paling belakang
+        # yang masih dalam batas MAX_CUT_POS
         try:
-            all_matches = list(cls._GELAR_RE.finditer(header_zone))
-            if all_matches:
-                last_match = all_matches[-1]
+            all_matches = list(cls._GELAR_RE.finditer(cleaned))
+            # Filter hanya match yang berada dalam batas aman
+            safe_matches = [m for m in all_matches if m.end() <= MAX_CUT_POS]
+            if safe_matches:
+                last_match = safe_matches[-1]
                 cut_pos = last_match.end()
 
-                # Potong pada cleaned utuh (bukan header_zone)
                 remainder = cleaned[cut_pos:].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    return cls._postclean(cls.sanitize_text(cleaned))
         except Exception:
             pass
 
         # ── STRATEGI 2: Pembimbing Anchor ──
         try:
-            pembimbing_matches = list(cls._PEMBIMBING_RE.finditer(header_zone))
-            if pembimbing_matches:
-                last_pemb = pembimbing_matches[-1]
+            pembimbing_matches = list(cls._PEMBIMBING_RE.finditer(cleaned))
+            safe_pemb = [m for m in pembimbing_matches if m.end() <= MAX_CUT_POS]
+            if safe_pemb:
+                last_pemb = safe_pemb[-1]
                 cut_pos = last_pemb.end()
                 remainder = cleaned[cut_pos:].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    return cls._postclean(cls.sanitize_text(cleaned))
         except Exception:
             pass
 
         # ── STRATEGI 3: Narrative Anchor ──
         try:
-            m = cls._NARRATIVE_STARTERS.search(header_zone)
-            if m:
-                # m.start() merujuk posisi di header_zone = posisi di cleaned
+            m = cls._NARRATIVE_STARTERS.search(cleaned)
+            if m and m.start() <= MAX_CUT_POS:
                 remainder = cleaned[m.start():].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    return cls._postclean(cls.sanitize_text(cleaned))
         except Exception:
             pass
 
         # ── FALLBACK: sanitasi saja tanpa pemotongan ──
-        return cls.sanitize_text(cleaned)
+        return cls._postclean(cls.sanitize_text(cleaned))
+
+    # ================================================================== #
+    #  POST-CLEAN: Hardcoded Cleanup
+    # ================================================================== #
+
+    @classmethod
+    def _postclean(cls, cleaned: str) -> str:
+        """Pembersihan hardcode untuk sisa-sisa metadata yang lolos.
+
+        1. Hapus garis underscore panjang (________)
+        2. Hapus pengulangan pola "Nama : ... Nim : ... Judul : ..."
+        """
+        # Hapus garis underscore panjang (10+ karakter)
+        cleaned = re.sub(r"_{10,}", "", cleaned)
+
+        # Hapus pola metadata sisa: "Nama : ... Nim : ... Judul : ..."
+        cleaned = re.sub(
+            r"(?i)(?:Nama|Nim|Judul)\s*[:\-]\s*[^\n]{2,80}(?:\n|$)",
+            "",
+            cleaned,
+        )
+
+        # Bersihkan spasi/newline berlebih setelah penghapusan
+        cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+        return cleaned.strip()
 
     # ================================================================== #
     #  EKSTRAKSI ABSTRAK (WRAPPER)
@@ -420,16 +450,33 @@ class DocumentService:
                     continue
 
                 # ── Susun metadata final ──
-                tahun = metadata.get("tahun") or ""
+                # PRIORITAS: Ekstrak tahun & nama dari NAMA FILE PDF
+                # Format standar: TAHUN_NAMA_PENULIS.pdf (contoh: 2023_RINI_AMALIAH.pdf)
+                file_stem = re.sub(r"(?i)\.pdf$", "", file)  # Buang ekstensi
+                file_parts = file_stem.split("_")
+
+                if len(file_parts) >= 2 and re.match(r"^(19|20)\d{2}$", file_parts[0]):
+                    # Format standar terdeteksi → ambil dari nama file
+                    tahun_from_file = file_parts[0]
+                    nama_from_file = " ".join(file_parts[1:]).title()
+                    print(f"   📂 Filename Parse — tahun: {tahun_from_file}, nama: '{nama_from_file}'")
+                else:
+                    # Fallback: nama file tidak standar → gunakan regex lama
+                    tahun_from_file = None
+                    nama_from_file = None
+
+                tahun = tahun_from_file or metadata.get("tahun") or ""
                 if not tahun:
                     m = re.search(r"(19|20)\d{2}", file)
                     if m:
                         tahun = m.group(0)
 
+                nama = nama_from_file or metadata.get("nama") or ""
+
                 doc_meta = {
                     "source": file,
                     "judul": metadata.get("judul") or "",
-                    "nama": metadata.get("nama") or "",
+                    "nama": nama,
                     "nim": metadata.get("nim") or "",
                     "pembimbing": metadata.get("pembimbing") or "",
                     "tahun": tahun,
