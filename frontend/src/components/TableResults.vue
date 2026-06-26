@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 defineProps({
   documents: {
@@ -7,6 +7,26 @@ defineProps({
     default: () => []
   }
 })
+
+// State untuk track tombol copy mana yang baru saja disalin
+const copiedCards = reactive(new Set())
+
+/**
+ * Salin teks abstrak ke clipboard dengan visual feedback.
+ * Ganti icon menjadi checkmark selama 2 detik.
+ */
+const copyToClipboard = async (text, event, index) => {
+  event.stopPropagation()
+  try {
+    await navigator.clipboard.writeText(text)
+    copiedCards.add(index)
+    setTimeout(() => {
+      copiedCards.delete(index)
+    }, 2000)
+  } catch (err) {
+    console.error('Gagal menyalin teks:', err)
+  }
+}
 
 // State untuk track kartu mana yang expand
 const expandedCards = ref(new Set())
@@ -56,7 +76,7 @@ const getContent = (doc) => {
 <template>
   <div class="space-y-4">
     <!-- Info text -->
-    <p class="text-xs text-text-muted flex items-center gap-1.5 mb-2">
+    <p class="text-xs text-text-muted flex items-center !gap-1.5 !mb-2 !mt-1">
       <span class="material-symbols-outlined text-sm text-primary">info</span>
       Sistem menemukan {{ documents.length }} dokumen yang relevan.
     </p>
@@ -128,10 +148,16 @@ const getContent = (doc) => {
               {{ isExpanded(index) ? 'Tutup Detail' : 'Baca Selengkapnya' }}
             </button>
 
-            <button v-if="isExpanded(index)" @click.stop="() => { navigator.clipboard.writeText(getContent(doc)) }"
-              class="flex items-center !gap-1.5 !px-3 !py-1.5 bg-primary/10 hover:bg-primary/20 text-primary rounded text-xs font-medium transition-colors">
-              <span class="material-symbols-outlined text-[16px]">content_copy</span>
-              Salin Abstrak
+            <button v-if="isExpanded(index)" @click.stop="copyToClipboard(getContent(doc), $event, index)"
+              class="flex items-center !gap-1.5 !px-3 !py-1.5 rounded text-xs font-medium transition-all duration-300"
+              :class="copiedCards.has(index)
+                ? 'bg-green-500/20 text-green-400'
+                : 'bg-primary/10 hover:bg-primary/20 text-primary'">
+              <span class="material-symbols-outlined text-[16px] transition-transform duration-300"
+                :class="{ 'scale-110': copiedCards.has(index) }">
+                {{ copiedCards.has(index) ? 'check' : 'content_copy' }}
+              </span>
+              {{ copiedCards.has(index) ? 'Tersalin!' : 'Salin Abstrak' }}
             </button>
           </div>
         </div>

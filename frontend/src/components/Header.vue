@@ -1,4 +1,5 @@
 <script setup>
+import ThemeToggle from './ThemeToggle.vue'
 defineEmits(['toggleDrawer'])
 </script>
 
@@ -26,13 +27,16 @@ defineEmits(['toggleDrawer'])
         </div>
       </div>
 
-      <!-- Right Section: Status -->
-      <div class="flex items-center gap-2 !px-2 !py-1 bg-primary/8 rounded-lg border border-primary/15 flex-shrink-0 !p-10">
-        <span class="relative flex h-1.5 w-1.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-        </span>
-        <span class="text-[9px] font-bold text-primary uppercase ">Online</span>
+      <!-- Right Section: Theme toggle + Status -->
+      <div class="flex items-center gap-2">
+        <ThemeToggle />
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-1.5 w-1.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+          </span>
+          <span class="text-[9px] font-bold text-primary uppercase ">Online</span>
+        </div>
       </div>
     </div>
   </header>

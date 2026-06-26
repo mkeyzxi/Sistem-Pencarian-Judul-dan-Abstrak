@@ -1,164 +1,144 @@
 """
 Document Service
-Menangani loading, preprocessing, dan ekstraksi konten dari PDF.
-
-REVISI 3 — Metadata Rescue & Explicit Abstract Slicing:
-- BARU: Dynamic Metadata Rescue (selamatkan judul/nim/nama dari raw_abstract)
-- BARU: Explicit Abstract Slicing (potong tegas di kata "Abstrak:")
-- Strategi 1: Academic Title Guillotine (potong berdasarkan gelar terakhir)
-- Strategi 2: Pembimbing Anchor (potong berdasarkan kata Pembimbing)
-- Strategi 3: Narrative Anchor (potong berdasarkan awal paragraf esai)
-- Sanitasi karakter terakhir
+Menangani loading, preprocessing, dan ekstraksi konten dari PDF dengan Strict Quality Gate.
+Implementasi 100% Rule-Based Pipeline (Tanpa LLM/API).
 """
 
 import os
 import re
-from typing import Optional
-from pathlib import Path
+from typing import Optional, List
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.documents import Document
-from app.core.config import settings
-
+import wordninja
 
 class DocumentService:
-    """Service untuk menangani dokumen PDF dan menyiapkan dokumen untuk embedding."""
+    """Service untuk menangani dokumen PDF dengan Quality Gate mutlak tanpa API LLM."""
 
     # ================================================================== #
-    #  UTILITAS
+    #  UTILITAS & PRE-PROCESSING
     # ================================================================== #
+
+    @staticmethod
+    def split_long_words(text: str) -> str:
+        """Pecah kata yang hilang spasinya menggunakan wordninja."""
+        if not text:
+            return ""
+        words = text.split()
+        processed_words = []
+        for word in words:
+            if len(word) > 20 and not any(c in word for c in ".-/,_"):
+                split_word = " ".join(wordninja.split(word))
+                processed_words.append(split_word)
+            else:
+                processed_words.append(word)
+        return " ".join(processed_words)
 
     @staticmethod
     def sanitize_text(text: str) -> str:
-        """Sanitasi karakter pada teks setelah pemotongan Guillotine.
-
-        1. \\n tunggal → spasi
-        2. \\n\\n ganda → pertahankan sebagai paragraf baru
-        3. Spasi ganda → satu spasi
-        """
         if not text:
             return ""
         text = text.replace("\r\n", "\n").replace("\r", "\n")
-        # Simpan paragraph break (\\n\\n) sementara
         text = text.replace("\n\n", "<<PARA>>")
-        # Single newline → spasi
         text = text.replace("\n", " ")
-        # Kembalikan paragraph break
         text = text.replace("<<PARA>>", "\n\n")
-        # Hapus spasi ganda
         text = re.sub(r"[ \t]{2,}", " ", text)
-        # Hapus spasi di awal/akhir setiap baris
         lines = [l.strip() for l in text.split("\n")]
         text = "\n".join(lines)
-        # Kurangi newline >2 menjadi 2
         text = re.sub(r"\n{3,}", "\n\n", text)
         return text.strip()
 
-    # ================================================================== #
-    #  EKSTRAKSI JUDUL
-    # ================================================================== #
-
     @staticmethod
-    def extract_title(lines: list) -> str:
-        """Ekstrak judul dari baris-baris cover page."""
-        title_lines = []
-        stop_words = [
-            "skripsi", "diajukan", "oleh", "nama", "nim",
-            "program studi", "fakultas", "universitas"
-        ]
-
-        for line in lines:
-            low = line.lower().strip()
-            if any(sw in low for sw in stop_words):
-                break
-            if len(line.strip()) > 3:
-                title_lines.append(line.strip())
-            if len(" ".join(title_lines)) > 200:
-                break
-
-        return " ".join(title_lines).strip()
-
-    # ================================================================== #
-    #  EKSTRAKSI METADATA (FAULT-TOLERANT)
-    # ================================================================== #
-
-    @staticmethod
-    def extract_metadata(text: str) -> dict:
-        """Ekstrak metadata dari cover/halaman awal.
-
-        Fault-tolerant: jika tidak ditemukan → None / string kosong.
-        Mengembalikan dict: judul, nama, nim, pembimbing, tahun
-        """
-        meta = {
-            "judul": None,
-            "nama": None,
-            "nim": None,
-            "pembimbing": None,
-            "tahun": None,
+    def fix_ocr_spaces(text: str) -> str:
+        """Heuristik Perbaikan Spasi Ghaib (OCR Artifacts)."""
+        if not text:
+            return ""
+        # 1. Menghapus spasi ganda secara merata
+        text = re.sub(r'\s+', ' ', text)
+        
+        # 2. Menggabungkan spasi pada pola berantakan "S I S T E M"
+        def repl_multi(match):
+            return match.group(0).replace(" ", "")
+        text = re.sub(r'(?:[A-Z]\s){2,}[A-Z]\b', repl_multi, text)
+        
+        # 3. Memperbaiki huruf tunggal terpisah ("T ANI" -> "TANI")
+        text = re.sub(r'\b([A-Z])\s([A-Z]+)\b', r'\1\2', text)
+        
+        # 4. Dictionary hardcode untuk kata terpotong
+        hardcodes = {
+            "IMPLEMENT ASI": "IMPLEMENTASI",
+            "SIST EM": "SISTEM",
+            "INFOR MASI": "INFORMASI",
+            "APLIK ASI": "APLIKASI",
+            "PENGEMBANG AN": "PENGEMBANGAN",
+            "KLASIFIK ASI": "KLASIFIKASI",
+            "PENELITI AN": "PENELITIAN"
         }
+        
+        for k, v in hardcodes.items():
+            # Support exact match and title case match
+            text = text.replace(k, v)
+            text = text.replace(k.title(), v.title())
+            
+        return text.strip()
 
-        # --- NAMA ---
-        m = re.search(
-            r"(?:nama\s*(?:penulis|mahasiswa)?\s*[:\-]\s*|oleh\s*[:\-]?\s*)(.+)",
-            text,
-            re.IGNORECASE,
-        )
+    # ================================================================== #
+    #  EKSTRAKSI DETERMINISTIK & VALIDASI
+    # ================================================================== #
+
+    @staticmethod
+    def is_valid_title(title_text: str) -> bool:
+        """Validasi ketat apakah teks layak disebut judul skripsi."""
+        if not title_text:
+            return False
+        
+        # 1. Panjang karakter
+        if not (20 <= len(title_text) <= 250):
+            return False
+            
+        # 2. Minimal 3 kata
+        words = title_text.split()
+        if len(words) < 3:
+            return False
+            
+        # 3. Rasio karakter alfabet vs simbol/angka
+        alpha_count = sum(c.isalpha() for c in title_text)
+        if alpha_count / len(title_text) < 0.5:
+            # Jika lebih dari 50% karakternya bukan alfabet (angka/simbol), tolak
+            return False
+            
+        return True
+
+    @staticmethod
+    def extract_nim_regex(text: str) -> Optional[str]:
+        m = re.search(r'\b\d{6,15}\b', text)
         if m:
-            nama = m.group(1).strip()
-            # Stop di NIM, Jurusan, atau digit panjang
-            nama = re.split(r"(?i)\s*(?:NIM|Jurusan|Program|Fakultas)\s*[:\-]", nama)[0]
-            nama = re.sub(r"[\.\,\;\:]+$", "", nama).strip()
-            if len(nama) > 2:
-                meta["nama"] = nama
+            return m.group(0)
+        return None
 
-        # --- NIM ---
-        m = re.search(r"nim\s*[:\-]?\s*(\d{6,20})", text, re.IGNORECASE)
-        if m:
-            meta["nim"] = m.group(1).strip()
-
-        # --- PEMBIMBING ---
-        pemb_parts = []
-        # Cari semua pembimbing (I dan II)
-        for pattern in [
-            r"pembimbing\s*(?:I|1|pertama)\s*[:\-]\s*(.+?)(?=\s*(?:pembimbing|$))",
-            r"pembimbing\s*(?:II|2|kedua)\s*[:\-]\s*(.+?)(?=\s*(?:pembimbing|$|\n))",
-        ]:
-            m = re.search(pattern, text, re.IGNORECASE | re.DOTALL)
-            if m:
-                p = m.group(1).strip()
-                p = re.sub(r"[\n\r]+", " ", p)
-                p = re.sub(r"\s{2,}", " ", p)
-                p = re.sub(r"[\.\,\;\:]+$", "", p).strip()
-                if len(p) > 2:
-                    pemb_parts.append(p)
-
-        # Fallback: cari "Pembimbing :" tanpa nomor
-        if not pemb_parts:
-            m = re.search(
-                r"pembimbing\s*[:\-]\s*(.+)",
-                text,
-                re.IGNORECASE,
-            )
-            if m:
-                p = re.sub(r"[\.\,\;\:]+$", "", m.group(1).strip()).strip()
-                if len(p) > 2:
-                    pemb_parts.append(p)
-
-        if pemb_parts:
-            meta["pembimbing"] = " dan ".join(pemb_parts)
-
-        # --- TAHUN ---
-        m = re.search(r"\b(19|20)\d{2}\b", text)
-        if m:
-            meta["tahun"] = m.group(0)
-
-        return meta
+    @staticmethod
+    def extract_title_deterministic(text: str) -> Optional[str]:
+        """Ekstrak judul dari cover PDF menggunakan Anchor-Based Slicing."""
+        if not text:
+            return None
+            
+        # 1. Tangkap Teks Sebelum Anchor
+        parts = re.split(r'\bSKRIPSI\b|\bDIAJUKAN\b|\bTUGAS\s+AKHIR\b', text, flags=re.IGNORECASE)
+        raw_title = parts[0]
+        
+        # 2. Runtuhkan Spasi dan Newline (Flattening)
+        clean_title = re.sub(r'\s+', ' ', raw_title).strip()
+        
+        # 3. Hapus Sisa Sampah di Awal (Karakter non-alfabetik)
+        clean_title = re.sub(r'^[^a-zA-Z]+', '', clean_title).strip()
+        
+        if DocumentService.is_valid_title(clean_title):
+            return clean_title
+        return None
 
     # ================================================================== #
     #  ALGORITMA GUILLOTINE — PEMBERSIHAN ABSTRAK
     # ================================================================== #
 
-    # Gelar akademik khas Indonesia — dengan Word Boundary agar tidak
-    # memotong kata di tengah (contoh: "Android" tidak lagi match "Dr")
     _GELAR_RE = re.compile(
         r"\b(?:"
         r"S\.?Kom|M\.?Kom|M\.?T|S\.?T|"
@@ -171,7 +151,6 @@ class DocumentService:
         re.IGNORECASE,
     )
 
-    # Pola Pembimbing Anchor
     _PEMBIMBING_RE = re.compile(
         r"(?:pembimbing|dosen\s+pembimbing)\s*(?:I{1,2}|1|2)?\s*[:\-]?\s*"
         r"[A-Za-z\s\.\,\'\-]+?"
@@ -183,7 +162,6 @@ class DocumentService:
         re.IGNORECASE,
     )
 
-    # Kata-kata pembuka esai abstrak yang umum
     _NARRATIVE_STARTERS = re.compile(
         r"(?i)(?:"
         r"latar\s+belakang|"
@@ -209,103 +187,88 @@ class DocumentService:
         r"teknologi\s+(?:informasi|yang|ini)|"
         r"perancangan|implementasi|analisis|"
         r"aplikasi\s+(?:ini|yang|merupakan)|"
-        r"lembaga|pemerintah|masyarakat"
+        r"lembaga|pemerintah|masyarakat|"
+        r"setiap\s+(?:wanita|orang|manusia)|"
+        r"cabai\s+merupakan|"
+        r"pertumbuhan\s+(?:tanaman|ekonomi)|"
+        r"kebakaran\s+hutan"
         r")",
     )
 
     @classmethod
     def clean_abstract_text(cls, raw_text: str) -> str:
-        """Membersihkan raw text abstrak menggunakan strategi bertingkat.
-
-        PRE-STEP: Explicit Abstract Slicing — potong tegas di "Abstrak:" / "Abstract:"
-        Strategi 1: Academic Title Guillotine — cari gelar terakhir, potong setelahnya.
-        Strategi 2: Pembimbing Anchor — cari kata Pembimbing, potong setelahnya.
-        Strategi 3: Narrative Anchor — cari kata pembuka esai, potong dari situ.
-
-        Returns:
-            String abstrak bersih, atau raw_text yang sudah di-sanitasi jika semua gagal.
-        """
         if not raw_text or len(raw_text.strip()) < 50:
-            return cls.sanitize_text(raw_text or "")
+            cleaned = cls._postclean(cls.sanitize_text(raw_text or ""))
+            return cls.split_long_words(cleaned)
 
         cleaned = raw_text
 
-        # ══════════════════════════════════════════════════════════════ #
-        # PRE-STEP: EXPLICIT ABSTRACT SLICING
-        # Jika teks mengandung "Abstrak:" atau "Abstract:", potong TEGAS.
-        # Buang semua teks sebelumnya (termasuk kata "Abstrak" itu sendiri).
-        # Ini mengeliminasi "Judul: ... NIM: ..." yang menempel di awal.
-        # ══════════════════════════════════════════════════════════════ #
         abstract_marker = re.search(
             r"(?i)(?:abstrak|abstract)\s*[:\-]?\s*",
             cleaned,
         )
         if abstract_marker:
             after_marker = cleaned[abstract_marker.end():].strip()
-            # Hanya gunakan jika masih ada teks substansial setelahnya
             if len(after_marker) >= 80:
                 cleaned = after_marker
 
-        # ══════════════════════════════════════════════════════════════ #
-        # AREA PENCARIAN TERBATAS: Hanya 800 karakter pertama.
-        # Mencegah false-cut jika kata pemicu (gelar, "Penelitian ini")
-        # muncul di tengah/akhir esai asli mahasiswa.
-        # Jika cut_pos ditemukan di header_zone, pemotongan dilakukan
-        # pada string `cleaned` yang utuh.
-        # ══════════════════════════════════════════════════════════════ #
-        header_zone = cleaned[:800]
+        MAX_CUT_POS = 3000
 
-        # ── STRATEGI 1: Academic Title Guillotine ──
-        # Cari SEMUA kemunculan gelar di header zone, ambil yang paling belakang
         try:
-            all_matches = list(cls._GELAR_RE.finditer(header_zone))
-            if all_matches:
-                last_match = all_matches[-1]
+            all_matches = list(cls._GELAR_RE.finditer(cleaned))
+            safe_matches = [m for m in all_matches if m.end() <= MAX_CUT_POS]
+            if safe_matches:
+                last_match = safe_matches[-1]
                 cut_pos = last_match.end()
-
-                # Potong pada cleaned utuh (bukan header_zone)
                 remainder = cleaned[cut_pos:].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    cleaned = cls._postclean(cls.sanitize_text(cleaned))
+                    return cls.split_long_words(cleaned)
         except Exception:
             pass
 
-        # ── STRATEGI 2: Pembimbing Anchor ──
         try:
-            pembimbing_matches = list(cls._PEMBIMBING_RE.finditer(header_zone))
-            if pembimbing_matches:
-                last_pemb = pembimbing_matches[-1]
+            pembimbing_matches = list(cls._PEMBIMBING_RE.finditer(cleaned))
+            safe_pemb = [m for m in pembimbing_matches if m.end() <= MAX_CUT_POS]
+            if safe_pemb:
+                last_pemb = safe_pemb[-1]
                 cut_pos = last_pemb.end()
                 remainder = cleaned[cut_pos:].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    cleaned = cls._postclean(cls.sanitize_text(cleaned))
+                    return cls.split_long_words(cleaned)
         except Exception:
             pass
 
-        # ── STRATEGI 3: Narrative Anchor ──
         try:
-            m = cls._NARRATIVE_STARTERS.search(header_zone)
-            if m:
-                # m.start() merujuk posisi di header_zone = posisi di cleaned
+            m = cls._NARRATIVE_STARTERS.search(cleaned)
+            if m and m.start() <= MAX_CUT_POS:
                 remainder = cleaned[m.start():].strip()
                 if len(remainder) >= 80:
                     cleaned = remainder
-                    return cls.sanitize_text(cleaned)
+                    cleaned = cls._postclean(cls.sanitize_text(cleaned))
+                    return cls.split_long_words(cleaned)
         except Exception:
             pass
 
-        # ── FALLBACK: sanitasi saja tanpa pemotongan ──
-        return cls.sanitize_text(cleaned)
+        cleaned = cls._postclean(cls.sanitize_text(cleaned))
+        return cls.split_long_words(cleaned)
 
-    # ================================================================== #
-    #  EKSTRAKSI ABSTRAK (WRAPPER)
-    # ================================================================== #
+    @classmethod
+    def _postclean(cls, cleaned: str) -> str:
+        cleaned = re.sub(r"_{10,}", "", cleaned)
+        cleaned = re.sub(
+            r"(?i)(?:Nama|Nim|Judul)\s*[:\-]\s*[^\n]{2,80}(?:\n|$)",
+            "",
+            cleaned,
+        )
+        cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+        return cleaned.strip()
 
     @staticmethod
     def extract_abstract_block(text: str) -> str:
-        """Ekstrak blok kasar setelah header 'ABSTRAK' sampai header berikutnya."""
         if not text:
             return ""
 
@@ -316,136 +279,94 @@ class DocumentService:
             text,
             re.IGNORECASE,
         )
-
         if match:
             return match.group(1).strip()
-        else:
-            # Fallback: ambil awal dokumen (maks 5000 char)
-            return text.strip()[:5000]
+        return text.strip()[:5000]
 
     # ================================================================== #
-    #  LOAD DOKUMEN DARI FOLDER
+    #  LOAD DOKUMEN (Dengan Strict Rule-Based Extraction)
     # ================================================================== #
 
     @staticmethod
-    def load_documents_from_folder(folder_path: str) -> list:
-        """Load dan process semua PDF dari folder.
-
-        Mengembalikan list Document siap embedding.
-        - page_content: MURNI teks esai abstrak (tanpa Nama/NIM/Pembimbing)
-        - metadata: {source, judul, nama, nim, pembimbing, tahun}
-        """
+    def load_documents_from_files(file_paths: List[str]) -> List[Document]:
+        """Load dan process PDF menggunakan ekstraksi murni lokal deterministik."""
         documents = []
+        print(f"📁 Memproses {len(file_paths)} file PDF (Strict Rule-Based)...")
 
-        if not os.path.exists(folder_path):
-            print(f"❌ Folder tidak ditemukan: {folder_path}")
-            return documents
-
-        pdf_files = [f for f in os.listdir(folder_path) if f.lower().endswith(".pdf")]
-        print(f"📁 Ditemukan {len(pdf_files)} file PDF")
-
-        for idx, file in enumerate(pdf_files, 1):
+        for idx, file_path in enumerate(file_paths, 1):
+            file = os.path.basename(file_path)
             try:
-                file_path = os.path.join(folder_path, file)
-                print(f"\n⏳ Memproses [{idx}/{len(pdf_files)}]: {file}")
+                print(f"\n⏳ Memproses [{idx}/{len(file_paths)}]: {file}")
 
                 loader = PyPDFLoader(file_path)
                 pages = loader.load()
 
                 if len(pages) < 1:
-                    print(f"   ⚠️  PDF kosong / tidak bisa dibaca, di-skip")
+                    print(f"   ⚠️  FAILED_QUALITY_CHECK: PDF kosong / tidak terbaca.")
                     continue
 
                 cover_text = pages[0].page_content or ""
+                # Heuristik pembersihan Spasi OCR
+                cover_text = DocumentService.fix_ocr_spaces(cover_text)
+                
                 body_text = "\n".join(p.page_content for p in pages[1:]) if len(pages) > 1 else ""
 
-                # ── Extract metadata dari cover (prioritas) dan fallback ke body ──
-                metadata = DocumentService.extract_metadata(cover_text)
-                if not any(metadata.values()) and body_text:
-                    metadata = DocumentService.extract_metadata(body_text[:3000])
+                # Ekstraksi Nama File
+                file_stem = re.sub(r"(?i)\.pdf$", "", file)
+                file_parts = file_stem.split("_")
+                
+                tahun = None
+                nama = ""
+                if len(file_parts) >= 2 and re.match(r"^(19|20)\d{2}$", file_parts[0]):
+                    tahun = file_parts[0]
+                    nama = " ".join(file_parts[1:]).title()
 
-                # Extract title heuristically dari cover
-                lines = [l.strip() for l in cover_text.split("\n") if len(l.strip()) > 2]
-                judul = DocumentService.extract_title(lines) or metadata.get("judul") or ""
-                metadata["judul"] = judul
-
-                # ── Extract abstract block ──
-                raw_abstract = DocumentService.extract_abstract_block(body_text)
-
-                # Jika abstrak terlalu pendek, coba dari combined
-                if len(raw_abstract) < 100:
-                    combined = cover_text + "\n\n" + body_text
-                    raw_abstract = DocumentService.extract_abstract_block(combined)
-
-                # ════════════════════════════════════════════════════ #
-                # DYNAMIC METADATA RESCUE
-                # Jika metadata dari cover kosong, coba selamatkan
-                # dari raw_abstract sebelum teks di-guillotine.
-                # ════════════════════════════════════════════════════ #
-                if not metadata.get("judul"):
-                    m = re.search(
-                        r"(?i)Judul\s*[:\-]?\s*(.+?)(?=\n|NIM|Nama|Abstrak|Pembimbing)",
-                        raw_abstract,
-                    )
-                    if m:
-                        metadata["judul"] = m.group(1).strip()
-                        print(f"   🔧 Metadata Rescue — judul: '{metadata['judul'][:50]}'")
-
-                if not metadata.get("nim"):
-                    m = re.search(
-                        r"(?i)NIM\s*[:\-]?\s*(\d{6,15})",
-                        raw_abstract,
-                    )
-                    if m:
-                        metadata["nim"] = m.group(1).strip()
-                        print(f"   🔧 Metadata Rescue — nim: {metadata['nim']}")
-
-                if not metadata.get("nama"):
-                    m = re.search(
-                        r"(?i)Nama\s*[:\-]?\s*([A-Za-z\s\.\,]+?)(?=\n|NIM|Judul|Abstrak|Pembimbing)",
-                        raw_abstract,
-                    )
-                    if m:
-                        rescued_name = m.group(1).strip()
-                        rescued_name = re.sub(r"[\.,;:]+$", "", rescued_name).strip()
-                        if len(rescued_name) > 2:
-                            metadata["nama"] = rescued_name
-                            print(f"   🔧 Metadata Rescue — nama: '{metadata['nama']}'")
-
-                # ── GUILLOTINE + ABSTRACT SLICING: Bersihkan metadata ──
-                clean_abstract = DocumentService.clean_abstract_text(raw_abstract)
-
-                if len(clean_abstract) < 80:
-                    print(f"   ⚠️  Abstrak terlalu pendek ({len(clean_abstract)}), di-skip")
-                    continue
-
-                # ── Susun metadata final ──
-                tahun = metadata.get("tahun") or ""
                 if not tahun:
                     m = re.search(r"(19|20)\d{2}", file)
                     if m:
                         tahun = m.group(0)
 
+                # Ekstraksi Murni Deterministik
+                judul = DocumentService.extract_title_deterministic(cover_text)
+                nim = DocumentService.extract_nim_regex(cover_text)
+
+                # Quality Gate 1: Judul Lokal Gagal
+                if not judul:
+                    print(f"   🚨 FAILED_LOCAL_EXTRACTION: Judul gagal diekstrak atau ditolak oleh is_valid_title(). Dokumen di-SKIPPED.")
+                    continue
+
+                # Abstrak Ekstraksi & Quality Gate
+                raw_abstract = DocumentService.extract_abstract_block(body_text)
+                if len(raw_abstract) < 100:
+                    combined = cover_text + "\n\n" + body_text
+                    raw_abstract = DocumentService.extract_abstract_block(combined)
+
+                clean_abstract = DocumentService.clean_abstract_text(raw_abstract)
+
+                # Quality Gate 2: Abstrak Pendek
+                if len(clean_abstract) < 300:
+                    print(f"   ⚠️  FAILED_QUALITY_CHECK: Abstrak terlalu pendek ({len(clean_abstract)} char), dokumen ditolak.")
+                    continue
+
                 doc_meta = {
                     "source": file,
-                    "judul": metadata.get("judul") or "",
-                    "nama": metadata.get("nama") or "",
-                    "nim": metadata.get("nim") or "",
-                    "pembimbing": metadata.get("pembimbing") or "",
-                    "tahun": tahun,
+                    "judul": judul,
+                    "nama": nama,
+                    "nim": nim or "",
+                    "pembimbing": "",
+                    "tahun": tahun or "",
                 }
 
                 doc = Document(
-                    page_content=clean_abstract,
+                    page_content=f"Judul: {judul}\n\nAbstrak:\n{clean_abstract}",
                     metadata=doc_meta,
                 )
                 documents.append(doc)
-                print(f"   ✅ Berhasil: judul='{doc_meta['judul'][:60]}'")
-                print(f"       abstrak={len(clean_abstract)} char, nama={doc_meta['nama'][:30]}")
+                print(f"   ✅ SUCCESS: '{judul[:60]}...'")
+                print(f"       abstrak={len(clean_abstract)} char")
 
             except Exception as e:
-                print(f"   ❌ Error memproses {file}: {str(e)}")
+                print(f"   ❌ Error internal saat memproses {file}: {str(e)}")
                 continue
 
-        print(f"\n✨ Total dokumen siap embedding: {len(documents)}")
         return documents

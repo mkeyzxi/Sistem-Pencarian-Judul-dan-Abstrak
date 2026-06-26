@@ -2,24 +2,24 @@
 
 @theme {
   /* Spotify-Inspired Color System */
-  --color-bg-base: #121212;
-  --color-bg-surface: #181818;
-  --color-bg-elevated: #1f1f1f;
-  --color-bg-highlight: #252525;
-  --color-bg-card: #272727;
+  --color-bg-base: var(--app-bg-base);
+  --color-bg-surface: var(--app-bg-surface);
+  --color-bg-elevated: var(--app-bg-elevated);
+  --color-bg-highlight: var(--app-bg-highlight);
+  --color-bg-card: var(--app-bg-card);
 
   --color-primary: #1ed760;
   --color-primary-dark: #1db954;
   --color-primary-light: #1fdf64;
 
-  --color-text-base: #ffffff;
-  --color-text-subdued: #b3b3b3;
-  --color-text-muted: #6a6a6a;
-  --color-text-bright: #fdfdfd;
+  --color-text-base: var(--app-text-base);
+  --color-text-subdued: var(--app-text-subdued);
+  --color-text-muted: var(--app-text-muted);
+  --color-text-bright: var(--app-text-bright);
 
-  --color-border-default: #4d4d4d;
-  --color-border-subtle: #282828;
-  --color-border-bright: #7c7c7c;
+  --color-border-default: var(--app-border-default);
+  --color-border-subtle: var(--app-border-subtle);
+  --color-border-bright: var(--app-border-bright);
 
   --color-negative: #f3727f;
   --color-warning: #ffa42b;
@@ -39,6 +39,42 @@
   --radius-full: 9999px;
 }
 
+:root {
+  /* Light Mode Variables (Default) */
+  --app-bg-base: #f3f4f6;
+  --app-bg-surface: #ffffff;
+  --app-bg-elevated: #f9fafb;
+  --app-bg-highlight: #e5e7eb;
+  --app-bg-card: #ffffff;
+
+  --app-text-base: #1f2937;
+  --app-text-subdued: #4b5563;
+  --app-text-muted: #6b7280;
+  --app-text-bright: #111827;
+
+  --app-border-default: #d1d5db;
+  --app-border-subtle: #e5e7eb;
+  --app-border-bright: #9ca3af;
+}
+
+:root.dark {
+  /* Dark Mode Variables */
+  --app-bg-base: #121212;
+  --app-bg-surface: #181818;
+  --app-bg-elevated: #1f1f1f;
+  --app-bg-highlight: #252525;
+  --app-bg-card: #272727;
+
+  --app-text-base: #ffffff;
+  --app-text-subdued: #b3b3b3;
+  --app-text-muted: #6a6a6a;
+  --app-text-bright: #fdfdfd;
+
+  --app-border-default: #4d4d4d;
+  --app-border-subtle: #282828;
+  --app-border-bright: #7c7c7c;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -54,8 +90,9 @@ body {
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #121212;
-  color: #ffffff;
+  background-color: var(--app-bg-base);
+  color: var(--app-text-base);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ========================================
@@ -134,8 +171,8 @@ body {
 }
 
 .shadow-spotify-inset {
-  box-shadow: rgb(18, 18, 18) 0px 1px 0px,
-    rgb(124, 124, 124) 0px 0px 0px 1px inset;
+  box-shadow: var(--app-bg-surface) 0px 1px 0px,
+    var(--app-border-bright) 0px 0px 0px 1px inset;
 }
 
 /* ========================================

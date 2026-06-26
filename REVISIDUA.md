@@ -1,24 +1,32 @@
-# PROMPT PERBAIKAN BACKEND: REGEX WORD BOUNDARY & LLM RESPONSE FORMAT
+# PROMPT PERBAIKAN: METADATA DARI NAMA FILE (BACKEND) & FITUR COPY (FRONTEND)
 
-Bertindaklah sebagai Senior Python Engineer. Terjadi dua anomali kritis pada sistem RAG Skripsi saya:
+Bertindaklah sebagai Senior Fullstack Engineer (FastAPI & Vue.js). RAG Skripsi saya mengalami 2 masalah:
 
-1. Response Chat LLM bocor menampilkan JSON mentah ke UI.
-2. Fungsi Guillotine abstrak memotong kata di tengah-tengah secara brutal (contoh: "Android" terpotong menjadi "oid"). Ini terjadi karena regex gelar akademik seperti `Dr\.?` menangkap string "dr" di dalam kata "Android" akibat ketiadaan Word Boundary (`\b`).
+1. Backend kadang mengekstrak nama penulis dengan keliru (memasukkan gelar "Sarjana" dll). Padahal, nama file PDF sudah memiliki format yang sangat rapi: `TAHUN_NAMA_PENULIS.pdf` (contoh: `2023_RINI_AMALIAH.pdf`).
+2. Frontend gagal menjalankan fitur "Salin Abstrak" karena referensi variabelnya keliru.
 
-Lakukan perbaikan pada 2 file berikut HANYA pada bagian yang diinstruksikan:
+Selesaikan perbaikan ini dalam 2 fase:
 
-### 1. Perbaiki `app/services/suggestion_service.py` (Hapus Output JSON)
+### FASE 1: PERBAIKAN BACKEND (File `document_service.py`)
 
-- Buka metode `generate_chat_response()`.
-- HAPUS seluruh instruksi yang meminta LLM membuat output JSON "card-ready".
-- Ganti prompt-nya persis menjadi seperti ini:
-  "Anda adalah asisten akademik. User mencari topik: '{query}'. Sistem telah menemukan dokumen relevan di bawah ini: {docs_text}.
-  TUGAS ANDA: Berikan narasi pengantar 1 hingga 2 paragraf menggunakan format Markdown biasa. DILARANG KERAS merespons menggunakan JSON, format array, atau membuat tabel. Jangan me-listing ulang judul-judul dokumen tersebut karena sistem UI frontend sudah menampilkannya secara otomatis dalam bentuk kartu. Cukup berikan narasi pengantar yang ramah dan tarik kesimpulan umum dari dokumen-dokumen yang ditemukan."
+Fokus pada metode `load_documents_from_folder(folder_path)`.
 
-### 2. Perbaiki `app/services/document_service.py` (Regex Boundary & Limitasi Area Potong)
+- Ganti logika pengambilan `tahun` dan `nama`. JANGAN gunakan hasil ekstrak teks dari regex untuk `nama` jika format nama file sudah memenuhi standar.
+- Ekstrak langsung dari nama `file` (variabel nama file PDF).
+- Logika:
+  1. Buang ekstensi `.pdf` (kasus abaikan / case-insensitive).
+  2. Split string berdasarkan underscore `_`.
+  3. Indeks pertama `parts[0]` pasti TAHUN.
+  4. Gabungan indeks sisanya `" ".join(parts[1:])` pasti NAMA MAHASISWA. Jangan lupa gunakan `.title()` agar namanya menjadi huruf kapital di setiap awal kata (Contoh: "RINI AMALIAH" -> "Rini Amaliah").
+- Timpa/Overwrite `doc_meta["nama"]` dan `doc_meta["tahun"]` menggunakan hasil ekstraksi dari nama file ini sebelum objek `Document` dibuat. Terapkan fallback ke regex lama HANYA jika nama file tidak mengandung underscore.
 
-- Di definisi `_GELAR_RE`, Anda WAJIB menambahkan Word Boundary `\b` di awal dan di akhir kelompok gelar, serta mengatur agar case-insensitive-nya lebih aman. Ubah menjadi pola yang tidak merusak kata di tengah. Gunakan pola boundary eksplisit: `r"\b(?:S\.?Kom|M\.?Kom|M\.?T|S\.?T|M\.?Sc|Ph\.?D|M\.?Si|M\.?M|M\.?Pd|M\.?Eng|S\.?Si|S\.?Pd|S\.?H|M\.?H|Dr|Prof|Ir|S\.?Ag|M\.?Ag)\b[\.\,\s]*"`
-- Di metode `clean_abstract_text()`, BATASI area pencarian regex untuk Strategi Guillotine dan Narrative Anchor HANYA pada `raw_text[:800]` (800 karakter pertama).
-- Logikanya: Lakukan `finditer` atau `search` HANYA pada string 800 karakter awal tersebut. Hal ini mencegah algoritma memotong teks jika kata pemicu (seperti gelar atau kata "Penelitian ini") ternyata disebut oleh mahasiswa di tengah-tengah atau akhir esai aslinya. Jika `cut_pos` ditemukan di dalam 800 karakter awal, lakukan pemotongan pada `raw_text` aslinya.
+### FASE 2: PERBAIKAN FRONTEND (Komponen `MainChat.vue` / Card UI)
 
-Berikan saya revisi kode untuk `suggestion_service.py` (metode `generate_chat_response` saja) dan `document_service.py` (regex GELAR_RE dan metode `clean_abstract_text` saja).
+Fokus pada tombol "Salin Abstrak" di komponen Card UI.
+
+- Saat ini tombol mencoba menyalin `doc.full_content || doc.content`. Padahal, backend RAG kita mengirimkan teks abstrak murni di dalam variabel `doc.page_content`.
+- Buat sebuah fungsi di `<script setup>` bernama `copyToClipboard(text, event)` yang menggunakan `navigator.clipboard.writeText(text)`.
+- Jika berhasil disalin, ubah teks tombol tersebut sementara menjadi "Tersalin!" (atau ganti iconnya menjadi `check`) selama 2 detik untuk memberikan visual feedback kepada user.
+- Pastikan event `@click` pada tombol memanggil `copyToClipboard(doc.page_content, $event)`. DILARANG propagation event (gunakan `.stop` jika perlu).
+
+Berikan saya revisi blok kode untuk `document_service.py` (khusus di bagian perulangan `for file in pdf_files:` sebelum pembuatan `Document`) dan revisi kode script/template Vue 3 untuk tombol Copy-nya.

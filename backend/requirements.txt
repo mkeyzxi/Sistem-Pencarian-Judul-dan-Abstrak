@@ -13,6 +13,7 @@ sentence-transformers>=2.6.0
 
 pypdf
 torch
+wordninja
 
 
 
