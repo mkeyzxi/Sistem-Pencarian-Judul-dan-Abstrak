@@ -132,7 +132,8 @@ def build_index():
     try:
         vectorstore = Chroma(
             embedding_function=embedding,
-            persist_directory=chroma_dir
+            persist_directory=chroma_dir,
+            collection_metadata={"hnsw:space": "cosine"}
         )
         print("✅ Vectorstore connected")
     except Exception as e:

@@ -39,7 +39,11 @@ class Settings:
     # LLM Configuration (Groq)
     GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
     GROQ_MODEL = "openai/gpt-oss-20b"  # Model yang digunakan
-    LLM_TEMPERATURE = 0.2
+    LLM_TEMPERATURE = 0.0
+    LLM_TOP_P = 1.0
+    LLM_MAX_TOKENS = 200
+    LLM_FREQUENCY_PENALTY = 0.0
+    LLM_PRESENCE_PENALTY = 0.0
     
     # Server Configuration
     HOST = "0.0.0.0"

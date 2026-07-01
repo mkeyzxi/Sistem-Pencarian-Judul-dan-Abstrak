@@ -553,7 +553,8 @@ class RAGService:
         print("🔄 Initializing ChromaDB vectorstore...")
         self.vectorstore = Chroma(
             embedding_function=self.embedding,
-            persist_directory=settings.CHROMA_PERSIST_DIR
+            persist_directory=settings.CHROMA_PERSIST_DIR,
+            collection_metadata={"hnsw:space": "cosine"}
         )
         print("✅ ChromaDB loaded")
 
@@ -570,9 +571,46 @@ class RAGService:
         self.llm = ChatGroq(
             model=settings.GROQ_MODEL,
             temperature=settings.LLM_TEMPERATURE,
+            max_tokens=settings.LLM_MAX_TOKENS,
+            model_kwargs={
+                "top_p": settings.LLM_TOP_P,
+                "frequency_penalty": settings.LLM_FREQUENCY_PENALTY,
+                "presence_penalty": settings.LLM_PRESENCE_PENALTY,
+            },
             groq_api_key=settings.GROQ_API_KEY,
         )
         print("✅ Groq LLM initialized")
+
+        # Prompt 1: Strict Abstract Components (masalah, metode, hasil)
+        self.prompt_1 = (
+            "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam Bahasa Indonesia "
+            "berdasarkan topik berikut.\n"
+            "Struktur abstrak harus mengikuti komponen berikut secara ketat:\n"
+            "1. Masalah: Masalah penelitian yang diselesaikan.\n"
+            "2. Metode: Metode, algoritma, atau teknologi yang digunakan.\n"
+            "3. Hasil: Hasil atau tujuan akhir yang ingin dicapai.\n\n"
+            "Topik: {query}"
+        )
+
+        # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
+        self.prompt_2 = (
+            "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
+            "Bahasa Indonesia berdasarkan topik berikut.\n\n"
+            "Aturan ketat:\n"
+            "- Panjang: 2–3 kalimat saja.\n"
+            "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
+            "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari topik. "
+            "Jangan tambahkan metode lain untuk mengurangi ambiguitas dan halusinasi.\n"
+            "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi "
+            "absensi pakai muka'), terjemahkan ke istilah akademis yang tepat "
+            "(misal: 'Penelitian ini membangun sistem absensi berbasis "
+            "pengenalan wajah...').\n"
+            "- Jika ada typo, koreksi otomatis ke istilah baku yang paling "
+            "mendekati dalam bidang Teknik Informatika.\n"
+            "- Output hanya teks abstrak. Tanpa salam, tanpa label, tanpa "
+            "tanda kutip pembuka/penutup.\n\n"
+            "Topik: {query}"
+        )
 
     def get_vector_count(self) -> int:
         try:
@@ -732,10 +770,11 @@ class RAGService:
         k: int = None,
         min_score: float = None,
         is_eval: bool = False,
+        prompt_type: str = "prompt2",
     ) -> dict:
         """
         HyDE (Hypothetical Document Embeddings) RAG.
-        Terintegrasi dengan saklar evaluasi (is_eval).
+        Terintegrasi dengan saklar evaluasi (is_eval) dan pilihan prompt_type.
         """
         if k is None:
             k = settings.K_RETRIEVAL
@@ -745,24 +784,11 @@ class RAGService:
         elif min_score is None:
             min_score = getattr(settings, "MIN_SIMILARITY_SCORE", 30.0)
 
-        prompt = (
-            "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
-            "Bahasa Indonesia berdasarkan topik berikut.\n\n"
-            "Aturan ketat:\n"
-            "- Panjang: 2–3 kalimat saja.\n"
-            "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
-            "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari topik. "
-            "Jangan tambahkan metode lain.\n"
-            "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi "
-            "absensi pakai muka'), terjemahkan ke istilah akademis yang tepat "
-            "(misal: 'Penelitian ini membangun sistem absensi berbasis "
-            "pengenalan wajah...').\n"
-            "- Jika ada typo, koreksi otomatis ke istilah baku yang paling "
-            "mendekati dalam bidang Teknik Informatika.\n"
-            "- Output hanya teks abstrak. Tanpa salam, tanpa label, tanpa "
-            "tanda kutip pembuka/penutup.\n\n"
-            f"Topik: {query.strip()}"
-        )
+        # Pilih template prompt berdasarkan parameter
+        if prompt_type == "prompt1":
+            prompt = self.prompt_1.format(query=query.strip())
+        else:
+            prompt = self.prompt_2.format(query=query.strip())
 
         try:
             hypothetical_doc = self.llm.invoke(prompt).content.strip()
