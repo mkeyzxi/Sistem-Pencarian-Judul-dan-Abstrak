@@ -149,7 +149,7 @@ const submitMessage = (message) => {
             class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 shadow-spotify-medium">
             <span class="material-symbols-outlined text-black text-sm animate-pulse">smart_toy</span>
           </div>
-          <div class="bg-bg-surface rounded-2xl rounded-tl-md px-5 py-4 shadow-spotify-medium">
+          <div class="bg-bg-surface rounded-2xl rounded-tl-md !px-5 !py-4 shadow-spotify-medium">
             <div class="flex items-center gap-2">
               <div class="flex gap-1.5">
                 <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
