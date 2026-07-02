@@ -71,282 +71,282 @@
   },
   {
     "ID": "Q11",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "klasifikasi kematangan buah cabai cnn",
-    "Ground_Truth_File": "2024_AZIZAH_SALSABILA.pdf"
+    "Tipe": "Leksikal Tematik",
+    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
+    "Query_Text": "sistem pakar forward chaining",
+    "Ground_Truth_File": null
   },
   {
     "ID": "Q12",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "vehicle routing problem logistik waktu",
-    "Ground_Truth_File": "2025_ANDI_ANI_NURDIANINGRAT.pdf"
+    "Tipe": "Leksikal Tematik",
+    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
+    "Query_Text": "keamanan jaringan wireless security",
+    "Ground_Truth_File": null
   },
   {
     "ID": "Q13",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "kualitas sarang burung walet vgg16",
-    "Ground_Truth_File": "2023_ASHABUL_KAHFI_ASH_SHIDDIQ.pdf"
+    "Tipe": "Leksikal Tematik",
+    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
+    "Query_Text": "kriptografi aes enkripsi data",
+    "Ground_Truth_File": null
   },
   {
     "ID": "Q14",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "pakan lele otomatis iot",
-    "Ground_Truth_File": "2025_ULFA_RAHMAYANI.pdf"
+    "Tipe": "Leksikal Tematik",
+    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
+    "Query_Text": "pengenalan pola citra digital",
+    "Ground_Truth_File": null
   },
   {
     "ID": "Q15",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "pengenalan jenis kulit wajah vgg16",
-    "Ground_Truth_File": "2024_NUR_AISYA_HERI.pdf"
+    "Tipe": "Leksikal Tematik",
+    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
+    "Query_Text": "klasifikasi data menggunakan naive bayes",
+    "Ground_Truth_File": null
   },
   {
     "ID": "Q16",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "klasifikasi fertilitas telur ayam yolov8",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q17",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "water resistant perkebunan karet mikrokontroler",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q18",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "sentimen ulasan wisata pantai losari lstm",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q19",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "animasi struktur bumi augmented reality",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q20",
-    "Tipe": "Leksikal Spesifik",
-    "Deskripsi_Tipe": "Menguji presisi mutlak. Satu dokumen target wajib berada di Rank 1.",
-    "Query_Text": "deteksi kelelawar mikrokontroler android",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q21",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
     "Query_Text": "cara otomatis pisahin telur bagus",
     "Ground_Truth_File": null
   },
   {
+    "ID": "Q17",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "alat biar motor tidak hilang",
+    "Ground_Truth_File": null
+  },
+  {
+    "ID": "Q18",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "aplikasi donasi untuk daerah pelosok",
+    "Ground_Truth_File": null
+  },
+  {
+    "ID": "Q19",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "aplikasi hafalan quran santri",
+    "Ground_Truth_File": null
+  },
+  {
+    "ID": "Q20",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "siram bawang otomatis pakai sensor",
+    "Ground_Truth_File": null
+  },
+  {
+    "ID": "Q21",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "website untuk cari info kos",
+    "Ground_Truth_File": null
+  },
+  {
     "ID": "Q22",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "alat biar motor gak gampang dicuri",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q23",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "bikin aplikasi donasi untuk pelosok",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q24",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "aplikasi buat hafalan quran santri",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q25",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "gimana cara siram bawang otomatis",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q26",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "website buat cari info kos",
-    "Ground_Truth_File": null
-  },
-  {
-    "ID": "Q27",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
     "Query_Text": "alat biar sapi tidak dicuri",
     "Ground_Truth_File": null
   },
   {
-    "ID": "Q28",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
+    "ID": "Q23",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
     "Query_Text": "bantu tunanetra tahu nominal uang",
     "Ground_Truth_File": null
   },
   {
-    "ID": "Q29",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
+    "ID": "Q24",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
     "Query_Text": "aplikasi lapor fasilitas publik rusak",
     "Ground_Truth_File": null
   },
   {
-    "ID": "Q30",
-    "Tipe": "Semantik Tematik",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi (Search Intent). HyDE dirancang unggul di sini.",
-    "Query_Text": "cara cek tugas akhir plagiat",
+    "ID": "Q25",
+    "Tipe": "Semantic Gap",
+    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
+    "Query_Text": "cara cek plagiat tugas akhir",
     "Ground_Truth_File": null
   },
   {
+    "ID": "Q26",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "klasifikasi kematangan buah cabai cnn",
+    "Ground_Truth_File": "2024_AZIZAH_SALSABILA.pdf"
+  },
+  {
+    "ID": "Q27",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "vehicle routing problem logistik waktu",
+    "Ground_Truth_File": "2025_ANDI_ANI_NURDIANINGRAT.pdf"
+  },
+  {
+    "ID": "Q28",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "kualitas sarang burung walet vgg16",
+    "Ground_Truth_File": "2023_ASHABUL_KAHFI_ASH_SHIDDIQ.pdf"
+  },
+  {
+    "ID": "Q29",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "pakan lele otomatis iot",
+    "Ground_Truth_File": "2025_ULFA_RAHMAYANI.pdf"
+  },
+  {
+    "ID": "Q30",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "pengenalan jenis kulit wajah vgg16",
+    "Ground_Truth_File": "2024_NUR_AISYA_HERI.pdf"
+  },
+  {
     "ID": "Q31",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "klasifiaksi",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "klasifikasi fertilitas telur ayam yolov8",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q32",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "mikrokntroler",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "water resistant perkebunan karet mikrokontroler",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q33",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "yolo",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "ulasan wisata pantai losari lstm",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q34",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "androdi",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "animasi bumi augmented reality",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q35",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "algorimta",
+    "Tipe": "Spesifik",
+    "Deskripsi_Tipe": "Menguji presisi mutlak terhadap dokumen target tertentu yang terdaftar di database.",
+    "Query_Text": "deteksi kelelawar mikrokontroler android",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q36",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "k-menas",
+    "Tipe": "Typo/Noisy",
+    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
+    "Query_Text": "klasifiaksi",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q37",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "naiv bayes",
+    "Tipe": "Typo/Noisy",
+    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
+    "Query_Text": "mikrokntroler",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q38",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "blokchain",
+    "Tipe": "Typo/Noisy",
+    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
+    "Query_Text": "yolo",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q39",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "frameowrk",
+    "Tipe": "Typo/Noisy",
+    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
+    "Query_Text": "androdi",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q40",
-    "Tipe": "Typo Stress Test",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise. RAG rentan gagal, HyDE rentan berhalusinasi.",
-    "Query_Text": "pwa",
+    "Tipe": "Typo/Noisy",
+    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
+    "Query_Text": "algorimta",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q41",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
     "Query_Text": "sistem pakar android 2018",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q42",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
     "Query_Text": "internet of things 2024",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q43",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
     "Query_Text": "augmented reality 2017",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q44",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
     "Query_Text": "sistem pendukung keputusan 2020",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q45",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
     "Query_Text": "convolutional neural network 2025",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q46",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
-    "Query_Text": "aplikasi rumah sakit 2021",
+    "Tipe": "Kasual",
+    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
+    "Query_Text": "skripsi android yang terbaru dong",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q47",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
-    "Query_Text": "progressive web app 2022",
+    "Tipe": "Kasual",
+    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
+    "Query_Text": "mau cari tentang machine learning",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q48",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
-    "Query_Text": "algoritma k-means 2024",
+    "Tipe": "Kasual",
+    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
+    "Query_Text": "ada skripsi iot gaa",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q49",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
-    "Query_Text": "mikrokontroler arduino 2019",
+    "Tipe": "Kasual",
+    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
+    "Query_Text": "rekomendasi judul sistem pendukung keputusan",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q50",
-    "Tipe": "Metadata Query",
-    "Deskripsi_Tipe": "Menguji apakah model embedding bisa memisahkan konteks topik dari angka tahun absolut.",
-    "Query_Text": "sistem pakar web 2017",
+    "Tipe": "Kasual",
+    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
+    "Query_Text": "info skripsi sistem pakar terbaru",
     "Ground_Truth_File": null
   }
 ]

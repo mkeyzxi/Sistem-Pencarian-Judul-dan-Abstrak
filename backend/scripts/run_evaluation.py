@@ -634,14 +634,6 @@ def normalize_source(source: str) -> str:
     return Path(source).name if source else ""
 
 
-def extract_year_from_filename(filename: str) -> int | None:
-    """Ekstrak tahun dari nama file format: 2024_NAMA_PENULIS.pdf"""
-    try:
-        return int(Path(filename).name.split("_")[0])
-    except (ValueError, IndexError):
-        return None
-
-
 def run_standard_rag(
     service: RAGService, query_text: str, top_k: int
 ) -> tuple[list[dict], float]:
@@ -650,7 +642,7 @@ def run_standard_rag(
     Score dipertahankan dalam format 0–100 sesuai output rag_service.py.
     """
     t0 = time.perf_counter()
-    rag_response = service.standard_rag(query_text, k=top_k)
+    rag_response = service.standard_rag(query_text, k=top_k, is_eval=True)
     latency_ms = (time.perf_counter() - t0) * 1000
 
     results = []
@@ -673,23 +665,24 @@ def run_standard_rag(
 
 
 def run_hyde(
-    service: RAGService, query_text: str, top_k: int
+    service: RAGService, query_text: str, top_k: int, prompt_type: str = "prompt2"
 ) -> tuple[list[dict], float]:
     """
     Jalankan HyDE RAG dan kembalikan (results, latency_ms).
     Latency mencakup waktu generate hypothetical doc + retrieval.
     """
     t0 = time.perf_counter()
-    hyde_response = service.hyde_rag(query_text, k=top_k)
+    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type=prompt_type)
     latency_ms = (time.perf_counter() - t0) * 1000
 
     hypothetical_doc = hyde_response.get("hypothetical_document", "")
+    method_name = f"HyDE ({'Prompt 1' if prompt_type == 'prompt1' else 'Prompt 2'})"
     results = []
     for rank_idx, doc in enumerate(hyde_response.get("documents", []), start=1):
         meta = doc.get("metadata", {})
         file_source = meta.get("source", "unknown.pdf")
         results.append({
-            "Metode": "HyDE",
+            "Metode": method_name,
             "Rank": rank_idx,
             "Skor_Similarity": round(meta.get("similarity_score", 0), 4),
             "File_Source": file_source,
@@ -805,13 +798,18 @@ def compute_summary(all_results: list[dict]) -> dict:
 
     # Tentukan pemenang berdasarkan MRR (lebih informatif dari Hit Rate)
     mrr_rag = (summary_by_method.get("Standard RAG") or {}).get("MRR") or 0
-    mrr_hyde = (summary_by_method.get("HyDE") or {}).get("MRR") or 0
-    if mrr_rag > mrr_hyde:
-        winner = "Standard RAG"
-    elif mrr_hyde > mrr_rag:
-        winner = "HyDE"
-    else:
-        winner = "Tie"
+    mrr_hyde1 = (summary_by_method.get("HyDE (Prompt 1)") or {}).get("MRR") or 0
+    mrr_hyde2 = (summary_by_method.get("HyDE (Prompt 2)") or {}).get("MRR") or 0
+
+    mrr_dict = {
+        "Standard RAG": mrr_rag,
+        "HyDE (Prompt 1)": mrr_hyde1,
+        "HyDE (Prompt 2)": mrr_hyde2
+    }
+
+    winner = max(mrr_dict, key=mrr_dict.get)
+    if list(mrr_dict.values()).count(mrr_dict[winner]) > 1:
+        winner = "Tie / Multiple methods share the top MRR"
 
     return {
         "by_method": summary_by_method,
@@ -866,19 +864,36 @@ def main():
                                  "Query_Text": query_text,
                                  "Ground_Truth_File": ground_truth_file, **r})
 
-        # — HyDE —
-        print(f"  → HyDE ...", end=" ", flush=True)
+        # — HyDE (Prompt 1) —
+        print(f"  → HyDE (Prompt 1) ...", end=" ", flush=True)
         try:
-            hyde_results, hyde_latency = run_hyde(service, query_text, TOP_K)
-            hyde_results = compute_ir_metrics(hyde_results, ground_truth_file)
-            print(f"OK | {hyde_latency:.0f}ms | {len(hyde_results)} docs | "
-                  f"Hit={hyde_results[0]['Hit_GT'] if hyde_results else 'N/A'} "
-                  f"RR={hyde_results[0]['RR'] if hyde_results else 'N/A'}")
+            hyde1_results, hyde1_latency = run_hyde(service, query_text, TOP_K, prompt_type="prompt1")
+            hyde1_results = compute_ir_metrics(hyde1_results, ground_truth_file)
+            print(f"OK | {hyde1_latency:.0f}ms | {len(hyde1_results)} docs | "
+                  f"Hit={hyde1_results[0]['Hit_GT'] if hyde1_results else 'N/A'} "
+                  f"RR={hyde1_results[0]['RR'] if hyde1_results else 'N/A'}")
         except Exception as e:
             print(f"ERROR: {e}")
-            hyde_results = []
+            hyde1_results = []
 
-        for r in hyde_results:
+        for r in hyde1_results:
+            all_results.append({"ID": qid, "Tipe": tipe,
+                                 "Query_Text": query_text,
+                                 "Ground_Truth_File": ground_truth_file, **r})
+
+        # — HyDE (Prompt 2) —
+        print(f"  → HyDE (Prompt 2) ...", end=" ", flush=True)
+        try:
+            hyde2_results, hyde2_latency = run_hyde(service, query_text, TOP_K, prompt_type="prompt2")
+            hyde2_results = compute_ir_metrics(hyde2_results, ground_truth_file)
+            print(f"OK | {hyde2_latency:.0f}ms | {len(hyde2_results)} docs | "
+                  f"Hit={hyde2_results[0]['Hit_GT'] if hyde2_results else 'N/A'} "
+                  f"RR={hyde2_results[0]['RR'] if hyde2_results else 'N/A'}")
+        except Exception as e:
+            print(f"ERROR: {e}")
+            hyde2_results = []
+
+        for r in hyde2_results:
             all_results.append({"ID": qid, "Tipe": tipe,
                                  "Query_Text": query_text,
                                  "Ground_Truth_File": ground_truth_file, **r})
@@ -908,10 +923,10 @@ def main():
             "timestamp": datetime.now().isoformat(),
             "top_k": TOP_K,
             "embedding_model": "intfloat/multilingual-e5-small",
-            "llm_model": "llama3-8b-8192",
+            "llm_model": settings.GROQ_MODEL,
             "chroma_collection": "skripsi_docs",
             "total_queries": len(queries),
-            "methods": ["Standard RAG", "HyDE"],
+            "methods": ["Standard RAG", "HyDE (Prompt 1)", "HyDE (Prompt 2)"],
         },
         "summary": summary,      # ← Metrik agregat
         "results": all_results,  # raw results tetap ada
