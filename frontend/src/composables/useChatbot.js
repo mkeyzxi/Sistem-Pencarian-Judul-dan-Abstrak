@@ -46,6 +46,10 @@ export const useChatbot = () => {
 
       const data = await response.json()
       console.log(data.documents && data.documents[0])
+      if (data.hypothetical_document) {
+        console.log('HyDE Hypothesis Document:', data.hypothetical_document)
+      }
+      console.log('ini hipotesis ' + data.hypothetical_document)
       // Tampilkan respons LLM dari backend
       const botText = data.message || 'Berikut hasil pencarian yang ditemukan:'
 
@@ -53,6 +57,7 @@ export const useChatbot = () => {
         role: 'bot',
         content: botText,
         documents: data.documents || [],
+        hypothetical_document: data.hypothetical_document || null,
       })
       // console.log(data)
       console.log(messages.value)

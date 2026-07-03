@@ -40,11 +40,6 @@ class RAGService:
             model=settings.GROQ_MODEL,
             temperature=getattr(settings, "LLM_TEMPERATURE_STANDARD", 0.0),
             max_tokens=settings.LLM_MAX_TOKENS,
-            model_kwargs={
-                "top_p": settings.LLM_TOP_P,
-                "frequency_penalty": settings.LLM_FREQUENCY_PENALTY,
-                "presence_penalty": settings.LLM_PRESENCE_PENALTY,
-            },
             groq_api_key=settings.GROQ_API_KEY,
         )
         
@@ -52,11 +47,6 @@ class RAGService:
             model=settings.GROQ_MODEL,
             temperature=getattr(settings, "LLM_TEMPERATURE_HYDE", 0.4),
             max_tokens=settings.LLM_MAX_TOKENS,
-            model_kwargs={
-                "top_p": settings.LLM_TOP_P,
-                "frequency_penalty": settings.LLM_FREQUENCY_PENALTY,
-                "presence_penalty": settings.LLM_PRESENCE_PENALTY,
-            },
             groq_api_key=settings.GROQ_API_KEY,
         )
         print("✅ Groq LLM initialized")
@@ -273,6 +263,13 @@ class RAGService:
         try:
             hypothetical_doc = self.llm_hyde.invoke(prompt).content.strip()
             hypothetical_doc = " ".join(hypothetical_doc.split())
+            
+            # Validasi: jika LLM mengembalikan string kosong, fallback ke query
+            if not hypothetical_doc:
+                print(f"⚠️  LLM returned empty hypothesis for query: {query}")
+                hypothetical_doc = query
+            else:
+                print(f"✅ HyDE hypothesis generated: {hypothetical_doc[:100]}...")
         except Exception as e:
             print(f"⚠️  Error generating hypothetical doc: {e}")
             hypothetical_doc = query  
