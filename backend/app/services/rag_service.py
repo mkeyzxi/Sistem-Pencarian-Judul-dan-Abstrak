@@ -18,13 +18,13 @@ class RAGService:
     def __init__(self):
         self.embedding = embedding_service.get_embedding_function()
 
-        print("🔄 Initializing ChromaDB vectorstore...")
+        print("-> Initializing ChromaDB vectorstore...")
         self.vectorstore = Chroma(
             embedding_function=self.embedding,
             persist_directory=settings.CHROMA_PERSIST_DIR,
             collection_metadata={"hnsw:space": "cosine"}
         )
-        print("✅ ChromaDB loaded")
+        print("[OK] ChromaDB loaded")
 
         # Deteksi distance metric collection (cosine vs l2 vs ip)
         # Agar _distance_to_score tidak salah hitung
