@@ -612,6 +612,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from app.services.rag_service import get_rag_service, RAGService
+from app.core.config import settings
 
 # ─── Konfigurasi ──────────────────────────────────────────────────────────────
 
@@ -665,18 +666,18 @@ def run_standard_rag(
 
 
 def run_hyde(
-    service: RAGService, query_text: str, top_k: int, prompt_type: str = "prompt2"
+    service: RAGService, query_text: str, top_k: int
 ) -> tuple[list[dict], float]:
     """
     Jalankan HyDE RAG dan kembalikan (results, latency_ms).
     Latency mencakup waktu generate hypothetical doc + retrieval.
     """
     t0 = time.perf_counter()
-    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type=prompt_type)
+    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt2")
     latency_ms = (time.perf_counter() - t0) * 1000
 
     hypothetical_doc = hyde_response.get("hypothetical_document", "")
-    method_name = f"HyDE ({'Prompt 1' if prompt_type == 'prompt1' else 'Prompt 2'})"
+    method_name = "HyDE"
     results = []
     for rank_idx, doc in enumerate(hyde_response.get("documents", []), start=1):
         meta = doc.get("metadata", {})
@@ -798,13 +799,11 @@ def compute_summary(all_results: list[dict]) -> dict:
 
     # Tentukan pemenang berdasarkan MRR (lebih informatif dari Hit Rate)
     mrr_rag = (summary_by_method.get("Standard RAG") or {}).get("MRR") or 0
-    mrr_hyde1 = (summary_by_method.get("HyDE (Prompt 1)") or {}).get("MRR") or 0
-    mrr_hyde2 = (summary_by_method.get("HyDE (Prompt 2)") or {}).get("MRR") or 0
+    mrr_hyde = (summary_by_method.get("HyDE") or {}).get("MRR") or 0
 
     mrr_dict = {
         "Standard RAG": mrr_rag,
-        "HyDE (Prompt 1)": mrr_hyde1,
-        "HyDE (Prompt 2)": mrr_hyde2
+        "HyDE": mrr_hyde
     }
 
     winner = max(mrr_dict, key=mrr_dict.get)
@@ -864,36 +863,19 @@ def main():
                                  "Query_Text": query_text,
                                  "Ground_Truth_File": ground_truth_file, **r})
 
-        # — HyDE (Prompt 1) —
-        print(f"  → HyDE (Prompt 1) ...", end=" ", flush=True)
+        # — HyDE —
+        print(f"  → HyDE ...", end=" ", flush=True)
         try:
-            hyde1_results, hyde1_latency = run_hyde(service, query_text, TOP_K, prompt_type="prompt1")
-            hyde1_results = compute_ir_metrics(hyde1_results, ground_truth_file)
-            print(f"OK | {hyde1_latency:.0f}ms | {len(hyde1_results)} docs | "
-                  f"Hit={hyde1_results[0]['Hit_GT'] if hyde1_results else 'N/A'} "
-                  f"RR={hyde1_results[0]['RR'] if hyde1_results else 'N/A'}")
+            hyde_results, hyde_latency = run_hyde(service, query_text, TOP_K)
+            hyde_results = compute_ir_metrics(hyde_results, ground_truth_file)
+            print(f"OK | {hyde_latency:.0f}ms | {len(hyde_results)} docs | "
+                  f"Hit={hyde_results[0]['Hit_GT'] if hyde_results else 'N/A'} "
+                  f"RR={hyde_results[0]['RR'] if hyde_results else 'N/A'}")
         except Exception as e:
             print(f"ERROR: {e}")
-            hyde1_results = []
+            hyde_results = []
 
-        for r in hyde1_results:
-            all_results.append({"ID": qid, "Tipe": tipe,
-                                 "Query_Text": query_text,
-                                 "Ground_Truth_File": ground_truth_file, **r})
-
-        # — HyDE (Prompt 2) —
-        print(f"  → HyDE (Prompt 2) ...", end=" ", flush=True)
-        try:
-            hyde2_results, hyde2_latency = run_hyde(service, query_text, TOP_K, prompt_type="prompt2")
-            hyde2_results = compute_ir_metrics(hyde2_results, ground_truth_file)
-            print(f"OK | {hyde2_latency:.0f}ms | {len(hyde2_results)} docs | "
-                  f"Hit={hyde2_results[0]['Hit_GT'] if hyde2_results else 'N/A'} "
-                  f"RR={hyde2_results[0]['RR'] if hyde2_results else 'N/A'}")
-        except Exception as e:
-            print(f"ERROR: {e}")
-            hyde2_results = []
-
-        for r in hyde2_results:
+        for r in hyde_results:
             all_results.append({"ID": qid, "Tipe": tipe,
                                  "Query_Text": query_text,
                                  "Ground_Truth_File": ground_truth_file, **r})
@@ -926,7 +908,7 @@ def main():
             "llm_model": settings.GROQ_MODEL,
             "chroma_collection": "skripsi_docs",
             "total_queries": len(queries),
-            "methods": ["Standard RAG", "HyDE (Prompt 1)", "HyDE (Prompt 2)"],
+            "methods": ["Standard RAG", "HyDE"],
         },
         "summary": summary,      # ← Metrik agregat
         "results": all_results,  # raw results tetap ada

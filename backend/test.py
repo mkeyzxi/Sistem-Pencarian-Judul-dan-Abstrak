@@ -1,8 +1,8 @@
 import re
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 
 file_path = "data/pdf/2016_RIFALDY_RAMADHAN_L.pdf"
-loader = PyPDFLoader(file_path)
+loader = PyMuPDFLoader(file_path)
 pages = loader.load()
 raw_text = pages[0].page_content
 

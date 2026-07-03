@@ -1,0 +1,62 @@
+[
+    {
+        "tema": "Keamanan Siber (Cybersecurity)",
+        "query": "sistem deteksi serangan ddos pada jaringan kampus",
+        "prompt_1": {
+            "hypothetical_document": "",
+            "latency_sec": 0.71
+        },
+        "prompt_2": {
+            "hypothetical_document": "",
+            "latency_sec": 0.64
+        }
+    },
+    {
+        "tema": "Kecerdasan Buatan (Machine Learning)",
+        "query": "analisis sentimen tanggapan masyarakat terhadap vaksin pakai naive bayes",
+        "prompt_1": {
+            "hypothetical_document": "Abstrak: Penelitian ini mengatasi masalah kurangnya pemahaman tentang persepsi masyarakat terhadap vaksin COVID‑19, yang dapat mempengaruhi efektivitas program imunisasi; untuk itu, kami mengembangkan sistem analisis sentimen berbasis algoritma Naïve Bayes yang memproses data tanggapan publik dari platform media sosial, meliputi tahap pra‑proses (tokenisasi,",
+            "latency_sec": 0.69
+        },
+        "prompt_2": {
+            "hypothetical_document": "",
+            "latency_sec": 0.79
+        }
+    },
+    {
+        "tema": "Internet of Things (IoT)",
+        "query": "alat pemberi pakan ikan lele otomatis terhubung wifi",
+        "prompt_1": {
+            "hypothetical_document": "Masalah: Pemberian pakan ikan lele secara manual sering menimbulkan ketidakteraturan jadwal, pemborosan pakan, dan beban kerja petern",
+            "latency_sec": 0.67
+        },
+        "prompt_2": {
+            "hypothetical_document": "",
+            "latency_sec": 0.7
+        }
+    },
+    {
+        "tema": "Sistem Informasi",
+        "query": "bikin web sistem informasi akademik buat sekolah dasar",
+        "prompt_1": {
+            "hypothetical_document": "Masalah: Sekolah dasar sering menghadapi kesulitan dalam mengelola data",
+            "latency_sec": 0.92
+        },
+        "prompt_2": {
+            "hypothetical_document": "",
+            "latency_sec": 0.64
+        }
+    },
+    {
+        "tema": "Pengolahan Citra Digital (Computer Vision)",
+        "query": "klasifikasi gambar penyakit pada daun tomat menggunakan cnn",
+        "prompt_1": {
+            "hypothetical_document": "Masalah: Penyakit pada daun tomat seringkali sulit dideteksi secara dini oleh petani, sehingga menurunkan produktivitas dan kualitas hasil panen; penelitian ini bert",
+            "latency_sec": 0.63
+        },
+        "prompt_2": {
+            "hypothetical_document": "",
+            "latency_sec": 0.77
+        }
+    }
+]
