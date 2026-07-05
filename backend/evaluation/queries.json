@@ -3,7 +3,7 @@
     "ID": "Q01",
     "Tipe": "Leksikal Tematik",
     "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "sistem pendukung keputusan metode",
+    "Query_Text": "metode sistem pendukung keputusan",
     "Ground_Truth_File": null
   },
   {
@@ -108,70 +108,70 @@
     "ID": "Q16",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "cara otomatis pisahin telur bagus",
+    "Query_Text": "pencuri sapi",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q17",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "alat biar motor tidak hilang",
+    "Query_Text": "motor anti maling",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q18",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "aplikasi donasi untuk daerah pelosok",
+    "Query_Text": "suara jadi tulisan",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q19",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "aplikasi hafalan quran santri",
+    "Query_Text": "bantu orang bisu",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q20",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "siram bawang otomatis pakai sensor",
+    "Query_Text": "deteksi ngantuk",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q21",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "website untuk cari info kos",
+    "Query_Text": "cari berita palsu",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q22",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "alat biar sapi tidak dicuri",
+    "Query_Text": "wajah orang stres",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q23",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "bantu tunanetra tahu nominal uang",
+    "Query_Text": "rumah hemat listrik",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q24",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "aplikasi lapor fasilitas publik rusak",
+    "Query_Text": "nilai mahasiswa pintar",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q25",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "cara cek plagiat tugas akhir",
+    "Query_Text": "banjir lebih cepat",
     "Ground_Truth_File": null
   },
   {
@@ -283,70 +283,70 @@
     "ID": "Q41",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "sistem pakar android 2018",
+    "Query_Text": "prediksi diabetes xgboost 2026",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q42",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "internet of things 2024",
+    "Query_Text": "game edukasi aksara lontara 2025",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q43",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "augmented reality 2017",
+    "Query_Text": "game edukasi kebersihan anak 2021",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q44",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "sistem pendukung keputusan 2020",
+    "Query_Text": "sistem pakar kecanduan game 2019",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q45",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "convolutional neural network 2025",
+    "Query_Text": "marketplace rental kendaraan web 2023",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q46",
-    "Tipe": "Kasual",
-    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
-    "Query_Text": "skripsi android yang terbaru dong",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
+    "Query_Text": "pemasaran produk ornamen android 2023",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q47",
-    "Tipe": "Kasual",
-    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
-    "Query_Text": "mau cari tentang machine learning",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
+    "Query_Text": "aplikasi tilang elektronik web 2022",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q48",
-    "Tipe": "Kasual",
-    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
-    "Query_Text": "ada skripsi iot gaa",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
+    "Query_Text": "sistem antrian pelabuhan rfid 2018",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q49",
-    "Tipe": "Kasual",
-    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
-    "Query_Text": "rekomendasi judul sistem pendukung keputusan",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
+    "Query_Text": "transportasi logika fuzzy evolusi 2017",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q50",
-    "Tipe": "Kasual",
-    "Deskripsi_Tipe": "Menguji query percakapan informal yang biasa digunakan dalam pencarian sehari-hari.",
-    "Query_Text": "info skripsi sistem pakar terbaru",
+    "Tipe": "Metadata",
+    "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
+    "Query_Text": "klasifikasi penyakit daun tomat 2025",
     "Ground_Truth_File": null
   }
 ]

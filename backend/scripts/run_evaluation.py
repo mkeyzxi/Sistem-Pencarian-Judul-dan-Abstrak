@@ -89,7 +89,7 @@ def run_hyde(
     Latency mencakup waktu generate hypothetical doc + retrieval.
     """
     t0 = time.perf_counter()
-    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt1")
+    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt3")
     latency_ms = (time.perf_counter() - t0) * 1000
 
     hypothetical_doc = hyde_response.get("hypothetical_document", "")

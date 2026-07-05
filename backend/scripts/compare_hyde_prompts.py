@@ -19,11 +19,11 @@ def main():
     
     # 5 Tema, masing-masing 1 query
     test_cases = [
-        {"tema": "Keamanan Siber (Cybersecurity)", "query": "sistem deteksi serangan ddos pada jaringan kampus"},
-        {"tema": "Kecerdasan Buatan (Machine Learning)", "query": "analisis sentimen tanggapan masyarakat terhadap vaksin pakai naive bayes"},
-        {"tema": "Internet of Things (IoT)", "query": "alat pemberi pakan ikan lele otomatis terhubung wifi"},
-        {"tema": "Sistem Informasi", "query": "bikin web sistem informasi akademik buat sekolah dasar"},
-        {"tema": "Pengolahan Citra Digital (Computer Vision)", "query": "klasifikasi gambar penyakit pada daun tomat menggunakan cnn"}
+        {"tema": "Sistem Pendukung Keputusan", "query": "sistem pendukung keputusan metode"},
+        {"tema": "Otomatisasi/IoT", "query": "cara otomatis pisahin telur bagus"},
+        {"tema": "Computer Vision", "query": "klasifikasi kematangan buah cabai cnn"},
+        {"tema": "Umum", "query": "frameowrk"},
+        {"tema": "Sistem Pendukung Keputusan", "query": "sistem pendukung keputusan 2020"}
     ]
     
     results = []
@@ -51,14 +51,24 @@ def main():
         res_prompt_2 = rag.hyde_rag(query=query, k=1, is_eval=True, prompt_type="prompt2")
         time_2 = time.time() - start
         
+        # Eksekusi Prompt 3
+        print("⏳ Menjalankan Prompt 3 (Structured Instructions)...")
+        start = time.time()
+        res_prompt_3 = rag.hyde_rag(query=query, k=1, is_eval=True, prompt_type="prompt3")
+        time_3 = time.time() - start
+        
         hyp_1 = res_prompt_1.get("hypothetical_document", "")
         hyp_2 = res_prompt_2.get("hypothetical_document", "")
+        hyp_3 = res_prompt_3.get("hypothetical_document", "")
         
         print("\n🔹 Hasil Prompt 1:")
         print(f"{hyp_1}\n(Waktu: {time_1:.2f}s)")
         
         print("\n🔹 Hasil Prompt 2:")
         print(f"{hyp_2}\n(Waktu: {time_2:.2f}s)")
+        
+        print("\n🔹 Hasil Prompt 3:")
+        print(f"{hyp_3}\n(Waktu: {time_3:.2f}s)")
         
         # Simpan dalam dict
         results.append({
@@ -71,6 +81,10 @@ def main():
             "prompt_2": {
                 "hypothetical_document": hyp_2,
                 "latency_sec": round(time_2, 2)
+            },
+            "prompt_3": {
+                "hypothetical_document": hyp_3,
+                "latency_sec": round(time_3, 2)
             }
         })
         
