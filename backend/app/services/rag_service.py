@@ -7,7 +7,7 @@ Prompt HyDE dipertahankan murni dari spesifikasi user.
 
 import threading
 from langchain_community.vectorstores import Chroma
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from app.core.config import settings
 from app.services.embedding_service import embedding_service
 
@@ -35,21 +35,21 @@ class RAGService:
             self._distance_metric = "cosine"
         print(f"📐 Distance metric: {self._distance_metric}")
 
-        print("🔄 Initializing Groq LLM...")
-        self.llm_standard = ChatGroq(
-            model=settings.GROQ_MODEL,
+        print("🔄 Initializing Gemini LLM...")
+        self.llm_standard = ChatGoogleGenerativeAI(
+            model=settings.GEMINI_MODEL,
             temperature=getattr(settings, "LLM_TEMPERATURE_STANDARD", 0.0),
-            max_tokens=settings.LLM_MAX_TOKENS,
-            groq_api_key=settings.GROQ_API_KEY,
+            max_output_tokens=settings.LLM_MAX_TOKENS,
+            google_api_key=settings.GEMINI_API_KEY,
         )
         
-        self.llm_hyde = ChatGroq(
-            model=settings.GROQ_MODEL,
+        self.llm_hyde = ChatGoogleGenerativeAI(
+            model=settings.GEMINI_MODEL,
             temperature=getattr(settings, "LLM_TEMPERATURE_HYDE", 0.4),
-            max_tokens=settings.LLM_MAX_TOKENS,
-            groq_api_key=settings.GROQ_API_KEY,
+            max_output_tokens=settings.LLM_MAX_TOKENS,
+            google_api_key=settings.GEMINI_API_KEY,
         )
-        print("✅ Groq LLM initialized")
+        print("✅ Gemini LLM initialized")
 
         # Prompt 1: Strict Abstract Components (masalah, metode, hasil)
         self.prompt_1 = (
@@ -297,7 +297,15 @@ class RAGService:
             prompt = self.prompt_2.format(query=query.strip())
 
         try:
-            hypothetical_doc = self.llm_hyde.invoke(prompt).content.strip()
+            content = self.llm_hyde.invoke(prompt).content
+            if isinstance(content, list):
+                hypothetical_doc = "".join(
+                    block.get("text", "") for block in content if isinstance(block, dict) and block.get("type") == "text"
+                )
+            else:
+                hypothetical_doc = str(content)
+                
+            hypothetical_doc = hypothetical_doc.strip()
             hypothetical_doc = " ".join(hypothetical_doc.split())
             
             # Validasi: jika LLM mengembalikan string kosong, fallback ke query

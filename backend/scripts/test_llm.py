@@ -2,16 +2,16 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from app.core.config import settings
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-print(f"Model: {settings.GROQ_MODEL}")
+print(f"Model: {settings.GEMINI_MODEL}")
 print(f"Max Tokens: {settings.LLM_MAX_TOKENS}")
 
-llm = ChatGroq(
-    model=settings.GROQ_MODEL,
-    temperature=settings.LLM_TEMPERATURE,
-    max_tokens=settings.LLM_MAX_TOKENS,
-    groq_api_key=settings.GROQ_API_KEY,
+llm = ChatGoogleGenerativeAI(
+    model=settings.GEMINI_MODEL,
+    temperature=0.0,
+    max_output_tokens=settings.LLM_MAX_TOKENS,
+    google_api_key=settings.GEMINI_API_KEY,
 )
 
 print("\nTesting Prompt 1:")

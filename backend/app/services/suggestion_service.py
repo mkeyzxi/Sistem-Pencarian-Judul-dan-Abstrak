@@ -3,7 +3,7 @@ Suggestion Service
 Menangani saran akademik berdasarkan judul dan abstrak yang ditemukan.
 """
 
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 from app.core.config import settings
 
 
@@ -12,10 +12,10 @@ class SuggestionService:
     
     def __init__(self):
         """Initialize LLM untuk saran akademik."""
-        self.llm = ChatGroq(
-            model=settings.GROQ_MODEL,
+        self.llm = ChatGoogleGenerativeAI(
+            model=settings.GEMINI_MODEL,
             temperature=0.3,  # Sedikit lebih tinggi untuk kreatifitas
-            groq_api_key=settings.GROQ_API_KEY,
+            google_api_key=settings.GEMINI_API_KEY,
         )
     
     def generate_suggestion(self, user_title: str, found_documents: list) -> str:
@@ -72,8 +72,14 @@ Berikan hanya JSON sebagai output tanpa tambahan teks.
 """
 
         try:
-            suggestion = self.llm.invoke(prompt).content.strip()
-            return suggestion
+            content = self.llm.invoke(prompt).content
+            if isinstance(content, list):
+                suggestion = "".join(
+                    block.get("text", "") for block in content if isinstance(block, dict) and block.get("type") == "text"
+                )
+            else:
+                suggestion = str(content)
+            return suggestion.strip()
         except Exception as e:
             return f"Maaf, tidak bisa generate saran saat ini: {str(e)}"
     
@@ -119,8 +125,14 @@ Gunakan bahasa Indonesia yang baik.
 """
 
         try:
-            response = self.llm.invoke(prompt).content.strip()
-            return response
+            content = self.llm.invoke(prompt).content
+            if isinstance(content, list):
+                response = "".join(
+                    block.get("text", "") for block in content if isinstance(block, dict) and block.get("type") == "text"
+                )
+            else:
+                response = str(content)
+            return response.strip()
         except Exception as e:
             return f"Maaf, terjadi error dalam memproses pertanyaan Anda: {str(e)}"
 

@@ -36,9 +36,10 @@ class Settings:
     K_RETRIEVAL = 5  # Jumlah dokumen yang diambil
     FETCH_K = 20    # Jumlah dokumen untuk filtering awal
     
-    # LLM Configuration (Groq)
-    GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-    GROQ_MODEL = "openai/gpt-oss-20b"  # Model yang digunakan
+    # LLM Configuration (Gemini)
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_MODEL = "gemini-flash-latest" # Model Gemini untuk Standard RAG dan HyDE
+    
     LLM_TEMPERATURE_STANDARD = 0.0
     LLM_TEMPERATURE_HYDE = 0.3
     LLM_TOP_P = 1.0

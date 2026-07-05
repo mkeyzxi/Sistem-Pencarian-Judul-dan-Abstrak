@@ -89,7 +89,7 @@ def run_hyde(
     Latency mencakup waktu generate hypothetical doc + retrieval.
     """
     t0 = time.perf_counter()
-    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt3")
+    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt2")
     latency_ms = (time.perf_counter() - t0) * 1000
 
     hypothetical_doc = hyde_response.get("hypothetical_document", "")
@@ -321,7 +321,7 @@ def main():
             "timestamp": datetime.now().isoformat(),
             "top_k": TOP_K,
             "embedding_model": "intfloat/multilingual-e5-small",
-            "llm_model": settings.GROQ_MODEL,
+            "llm_model": settings.GEMINI_MODEL,
             "chroma_collection": "skripsi_docs",
             "total_queries": len(queries),
             "methods": ["Standard RAG", "HyDE"],
