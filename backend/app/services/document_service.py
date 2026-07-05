@@ -7,7 +7,7 @@ Implementasi 100% Rule-Based Pipeline (Tanpa LLM/API).
 import os
 import re
 from typing import Optional, List
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_core.documents import Document
 import wordninja
 
@@ -298,7 +298,7 @@ class DocumentService:
             try:
                 print(f"\n⏳ Memproses [{idx}/{len(file_paths)}]: {file}")
 
-                loader = PyPDFLoader(file_path)
+                loader = PyMuPDFLoader(file_path)
                 pages = loader.load()
 
                 if len(pages) < 1:

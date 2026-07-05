@@ -28,6 +28,7 @@ class ChatResponse(BaseModel):
     mode: str
     documents: list = []
     suggestion: Optional[str] = None
+    hypothetical_document: Optional[str] = None
 
 
 @router.post("/chat", response_model=ChatResponse)
@@ -96,7 +97,8 @@ async def chat(request: ChatRequest):
             query=request.message,
             mode=request.mode,
             documents=result["documents"],
-            suggestion=suggestion
+            suggestion=suggestion,
+            hypothetical_document=result.get("hypothetical_document")
         )
     
     except HTTPException:

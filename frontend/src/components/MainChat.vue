@@ -128,6 +128,19 @@ const submitMessage = (message) => {
             <!-- Bot Message Content -->
             <div
               class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden flex-1">
+              
+              <!-- HyDE Hypothesis Document (jika ada) -->
+              <details v-if="msg.hypothetical_document" class="hyde-hypothesis mb-3">
+                <summary class="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-primary hover:opacity-80 transition-opacity">
+                  <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                  <span>Hipotesis Dokumen (HyDE)</span>
+                  <span class="material-symbols-outlined text-xs hyde-chevron">expand_more</span>
+                </summary>
+                <div class="mt-2 p-3 bg-bg-elevated rounded-lg border border-border-subtle text-xs sm:text-sm text-text-subdued leading-relaxed">
+                  {{ msg.hypothetical_document }}
+                </div>
+              </details>
+
               <!-- Chat message markdown text -->
               <div class="prose-chat text-sm sm:text-base leading-relaxed" v-html="renderMarkdown(msg.content)"></div>
 
@@ -299,5 +312,22 @@ const submitMessage = (message) => {
   margin: 0.5rem 0;
   color: #b3b3b3;
   font-style: italic;
+}
+
+/* HyDE Hypothesis collapsible */
+.hyde-hypothesis summary {
+  list-style: none;
+}
+
+.hyde-hypothesis summary::-webkit-details-marker {
+  display: none;
+}
+
+.hyde-hypothesis .hyde-chevron {
+  transition: transform 0.2s ease;
+}
+
+.hyde-hypothesis[open] .hyde-chevron {
+  transform: rotate(180deg);
 }
 </style>
