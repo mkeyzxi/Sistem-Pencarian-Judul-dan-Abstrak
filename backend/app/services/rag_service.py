@@ -18,13 +18,13 @@ class RAGService:
     def __init__(self):
         self.embedding = embedding_service.get_embedding_function()
 
-        print("🔄 Initializing ChromaDB vectorstore...")
+        print("-> Initializing ChromaDB vectorstore...")
         self.vectorstore = Chroma(
             embedding_function=self.embedding,
             persist_directory=settings.CHROMA_PERSIST_DIR,
             collection_metadata={"hnsw:space": "cosine"}
         )
-        print("✅ ChromaDB loaded")
+        print("[OK] ChromaDB loaded")
 
         # Deteksi distance metric collection (cosine vs l2 vs ip)
         # Agar _distance_to_score tidak salah hitung
@@ -81,6 +81,40 @@ class RAGService:
             "tanda kutip pembuka/penutup.\n\n"
             "Topik: {query}"
         )
+
+        self.prompt_3 = (
+          #   "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam Bahasa Indonesia "
+          #   "berdasarkan topik yang diberikan.\n\n"
+          #   "Instruksi Pembuatan (Wajib diikuti):\n"
+          #   "1. Struktur Isi: Paragraf harus memuat 3 elemen secara mengalir: Masalah yang diselesaikan, "
+          #   "Metode/Teknologi yang digunakan, dan Hasil akhir penelitian.\n"
+          #   "2. Penanganan Metode: Jika topik tidak menyebutkan metode, gunakan metode standar "
+          #   "atau teknologi paling umum dalam Teknik Informatika yang paling logis untuk topik tersebut.\n"
+          #   "3. Bahasa Akademis: Ubah istilah sehari-hari menjadi bahasa akademis formal "
+          #   "(contoh: 'aplikasi absensi pakai muka' menjadi 'sistem presensi berbasis pengenalan wajah'). "
+          #   "Perbaiki otomatis setiap kesalahan ketik (typo) ke istilah baku IT.\n"
+          #   "4. Format Output: Hasilkan tepat 2 hingga 3 kalimat. Berikan HANYA teks abstrak "
+          #   "tanpa label, tanpa awalan, tanpa akhiran, dan tanpa tanda baca tambahan.\n\n"
+          #  "Topik: {query}"
+
+         "Tugas: Tulis dokumen hipotetis yang menyerupai abstrak "
+    "skripsi Teknik Informatika.\n\n"
+
+    "Aturan:\n"
+    "- Gunakan informasi yang eksplisit dari topik.\n"
+    "- Jika metode tidak disebutkan, jangan menambahkan "
+    "algoritma spesifik.\n"
+    "- Jika informasi terlalu sedikit, perluas dengan "
+    "konteks umum, tujuan, objek penelitian, atau "
+    "manfaat yang relevan.\n"
+    "- Jangan mengarang teknologi spesifik.\n"
+    "- Panjang 3–5 kalimat.\n"
+    "- Hanya hasilkan teks.\n\n"
+
+    "Topik: {query}"
+
+    
+)
 
     def get_vector_count(self) -> int:
         try:
@@ -240,7 +274,7 @@ class RAGService:
         k: int = None,
         min_score: float = None,
         is_eval: bool = False,
-        prompt_type: str = "prompt2",
+        prompt_type: str = "prompt3",
     ) -> dict:
         """
         HyDE (Hypothetical Document Embeddings) RAG.
@@ -257,6 +291,8 @@ class RAGService:
         # Pilih template prompt berdasarkan parameter
         if prompt_type == "prompt1":
             prompt = self.prompt_1.format(query=query.strip())
+        elif prompt_type == "prompt3":
+            prompt = self.prompt_3.format(query=query.strip())
         else:
             prompt = self.prompt_2.format(query=query.strip())
 

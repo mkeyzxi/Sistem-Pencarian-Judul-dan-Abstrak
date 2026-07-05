@@ -1,62 +1,82 @@
 [
     {
-        "tema": "Keamanan Siber (Cybersecurity)",
-        "query": "sistem deteksi serangan ddos pada jaringan kampus",
+        "tema": "Sistem Pendukung Keputusan",
+        "query": "sistem pendukung keputusan metode",
         "prompt_1": {
-            "hypothetical_document": "",
-            "latency_sec": 0.71
+            "hypothetical_document": "Masalah: Pengambilan keputusan di organisasi modern sering kali terhambat oleh volume data yang besar, ketidakpastian informasi, dan kompleksitas kriteria yang harus dipertimbangkan, sehingga menghasilkan keputusan yang lambat dan kurang akurat. Metode: Penelitian ini mengembangkan sistem pendukung keputusan (Decision Support System, DSS) berbasis metode Multi‑Criteria Decision Making (MCDM) dengan algoritma Analytic Hierarchy Process (AHP) yang diintegrasikan ke dalam platform berbasis web menggunakan framework Django dan database PostgreSQL; sistem ini memanfaatkan modul visualisasi interaktif (Plotly) untuk memudahkan analisis sensitivitas dan simulasi skenario. Hasil: Implementasi DSS ini terbukti meningkatkan efisiensi proses pengambilan keputusan sebesar 35 % dan akurasi rekomendasi keputusan hingga 92 % dibandingkan dengan metode manual, serta memfasilitasi kolaborasi tim melalui antarmuka berbasis cloud, sehingga organisasi dapat merespons perubahan lingkungan bisnis dengan lebih cepat dan tepat.",
+            "latency_sec": 1.21
         },
         "prompt_2": {
-            "hypothetical_document": "",
-            "latency_sec": 0.64
+            "hypothetical_document": "sistem pendukung keputusan metode",
+            "latency_sec": 1.67
+        },
+        "prompt_3": {
+            "hypothetical_document": "Pengambilan keputusan dalam lingkungan bisnis yang kompleks seringkali terhambat oleh ketidakpastian dan data yang tidak lengkap, sehingga memerlukan sistem pendukung keputusan yang dapat menafsirkan informasi secara adaptif. Penelitian ini mengimplementasikan sistem pendukung keputusan berbasis logika fuzzy, menggunakan model inferensi Mamdani dengan basis aturan yang dikembangkan melalui analisis data historis dan konsultasi domain. Hasilnya menunjukkan peningkatan akurasi keputusan sebesar 15 % dibandingkan dengan metode tradisional serta pengurangan waktu proses evaluasi keputusan hingga 30 %.",
+            "latency_sec": 0.96
         }
     },
     {
-        "tema": "Kecerdasan Buatan (Machine Learning)",
-        "query": "analisis sentimen tanggapan masyarakat terhadap vaksin pakai naive bayes",
+        "tema": "Otomatisasi/IoT",
+        "query": "cara otomatis pisahin telur bagus",
         "prompt_1": {
-            "hypothetical_document": "Abstrak: Penelitian ini mengatasi masalah kurangnya pemahaman tentang persepsi masyarakat terhadap vaksin COVID‑19, yang dapat mempengaruhi efektivitas program imunisasi; untuk itu, kami mengembangkan sistem analisis sentimen berbasis algoritma Naïve Bayes yang memproses data tanggapan publik dari platform media sosial, meliputi tahap pra‑proses (tokenisasi,",
-            "latency_sec": 0.69
+            "hypothetical_document": "cara otomatis pisahin telur bagus",
+            "latency_sec": 1.04
         },
         "prompt_2": {
-            "hypothetical_document": "",
+            "hypothetical_document": "cara otomatis pisahin telur bagus",
+            "latency_sec": 0.97
+        },
+        "prompt_3": {
+            "hypothetical_document": "Penelitian ini mengatasi masalah identifikasi telur unggul secara otomatis, yang penting bagi industri peternakan untuk meningkatkan efisiensi produksi. Metode yang digunakan melibatkan sistem pengolahan citra berbasis jaringan saraf konvolusional yang memproses gambar telur untuk menilai kualitasnya. Hasil penelitian menunjukkan bahwa sistem dapat memisahkan telur bagus dengan akurasi mencapai 94,5 % dan mengurangi biaya inspeksi manual secara signifikan.",
             "latency_sec": 0.79
         }
     },
     {
-        "tema": "Internet of Things (IoT)",
-        "query": "alat pemberi pakan ikan lele otomatis terhubung wifi",
+        "tema": "Computer Vision",
+        "query": "klasifikasi kematangan buah cabai cnn",
         "prompt_1": {
-            "hypothetical_document": "Masalah: Pemberian pakan ikan lele secara manual sering menimbulkan ketidakteraturan jadwal, pemborosan pakan, dan beban kerja petern",
-            "latency_sec": 0.67
+            "hypothetical_document": "Abstrak: Penelitian ini mengatasi masalah identifikasi kematangan buah cabai secara otomatis, yang penting bagi petani dan industri pengolahan buah untuk menentukan waktu panen optimal namun sering kali masih dilakukan secara manual dan subjektif. Metode yang digunakan adalah penerapan model Convolutional Neural Network (CNN) dengan arsitektur ResNet-50 yang dilatih pada dataset 3.200 gambar buah cabai dalam tiga kategori kematangan (imun, semi, matang), termasuk preprocessing augmentasi data dan normalisasi, serta evaluasi menggunakan cross‑validation 5‑fold. Hasilnya, model CNN mencapai akurasi 94,7 % dan F1‑score 0,95 pada data uji, menunjukkan peningkatan signifikan dibandingkan metode klasifikasi berbasis fitur tradisional, sehingga dapat diterapkan untuk sistem monitoring kematangan buah cabai secara real‑time di lapangan.",
+            "latency_sec": 0.78
         },
         "prompt_2": {
-            "hypothetical_document": "",
-            "latency_sec": 0.7
+            "hypothetical_document": "Penelitian ini mengembangkan model klasifikasi kematangan buah cabai menggunakan jaringan saraf konvolusional (CNN) dengan dataset citra buah cabai yang diberi label berdasarkan tingkat kematangan. Model CNN dilatih menggunakan teknik augmentasi data dan validasi silang untuk memaksimalkan generalisasi. Hasil evaluasi menunjukkan akurasi klasifikasi mencapai nilai tinggi, menunjukkan potensi aplikasi sistem otomatisasi pemilihan buah cabai berdasarkan kematangan.",
+            "latency_sec": 0.85
+        },
+        "prompt_3": {
+            "hypothetical_document": "Penelitian ini bertujuan mengatasi keterbatasan metode manual dalam menilai kematangan buah cabai, dengan mengembangkan sistem klasifikasi berbasis Convolutional Neural Network (CNN) yang memanfaatkan citra digital. Metode CNN dilatih pada dataset gambar cabai beragam tingkat kematangan, menggunakan arsitektur ResNet‑50 dan augmentasi data untuk meningkatkan generalisasi. Hasil evaluasi menunjukkan model mencapai akurasi 94,2 % dalam mengklasifikasikan lima kelas kematangan, menunjukkan potensi penerapan sistem otomatis dalam industri pertanian.",
+            "latency_sec": 0.65
         }
     },
     {
-        "tema": "Sistem Informasi",
-        "query": "bikin web sistem informasi akademik buat sekolah dasar",
+        "tema": "Umum",
+        "query": "frameowrk",
         "prompt_1": {
-            "hypothetical_document": "Masalah: Sekolah dasar sering menghadapi kesulitan dalam mengelola data",
-            "latency_sec": 0.92
+            "hypothetical_document": "Masalah: Pengembangan aplikasi perangkat lunak sering kali terhambat oleh kebutuhan konfigurasi manual, integrasi modul yang rumit, dan ketergantungan pada arsitektur yang kaku, sehingga menurunkan produktivitas tim dan memperpanjang siklus pengembangan. Metode: Penelitian ini merancang dan mengimplementasikan sebuah framework modular berbasis microservices menggunakan Spring Boot, Docker, dan Kubernetes, dengan arsitektur plugin yang memudahkan penambahan fitur serta API Gateway untuk manajemen layanan, dan menyediakan adaptor khusus untuk integrasi dengan sistem legacy. Hasil: Framework yang dikembangkan berhasil meningkatkan efisiensi pengembangan sebesar 35 % dan mengurangi waktu deployment hingga 55 %, sekaligus memungkinkan integrasi mulus dengan aplikasi lama melalui adaptor, sehingga memfasilitasi transisi digital yang lebih cepat dan aman bagi organisasi.",
+            "latency_sec": 0.86
         },
         "prompt_2": {
-            "hypothetical_document": "",
-            "latency_sec": 0.64
+            "hypothetical_document": "frameowrk",
+            "latency_sec": 0.95
+        },
+        "prompt_3": {
+            "hypothetical_document": "Penelitian ini mengatasi tantangan pengembangan aplikasi web yang memerlukan kecepatan dan skalabilitas tinggi dengan memanfaatkan framework Spring Boot sebagai platform pengembangan. Metode yang diterapkan melibatkan arsitektur berbasis MVC, integrasi database MySQL, serta penerapan RESTful API untuk komunikasi antar layanan. Hasil penelitian menunjukkan peningkatan produktivitas pengembangan sebesar 30 % dan pengurangan waktu pemeliharaan aplikasi hingga 25 % dibandingkan dengan pendekatan tradisional.",
+            "latency_sec": 2.04
         }
     },
     {
-        "tema": "Pengolahan Citra Digital (Computer Vision)",
-        "query": "klasifikasi gambar penyakit pada daun tomat menggunakan cnn",
+        "tema": "Sistem Pendukung Keputusan",
+        "query": "sistem pendukung keputusan 2020",
         "prompt_1": {
-            "hypothetical_document": "Masalah: Penyakit pada daun tomat seringkali sulit dideteksi secara dini oleh petani, sehingga menurunkan produktivitas dan kualitas hasil panen; penelitian ini bert",
-            "latency_sec": 0.63
+            "hypothetical_document": "Masalah: Penelitian ini mengatasi keterbatasan dalam pengambilan keputusan strategis di sektor publik pada tahun 2020, di mana data real-time dan variabel kompleks seringkali tidak terintegrasi secara efisien, sehingga menyebabkan ketidakpastian dan keterlambatan dalam pembuatan kebijakan. Metode: Penelitian ini mengembangkan sistem pendukung keputusan berbasis web yang memanfaatkan arsitektur microservices, algoritma machine learning (Random Forest dan Gradient Boosting) untuk prediksi, serta visualisasi data interaktif menggunakan D3.js, sehingga mampu mengolah dan menyajikan data multidimensi secara real-time. Hasil: Sistem yang dikembangkan berhasil meningkatkan akurasi prediksi kebijakan sebesar 18 % dibandingkan metode tradisional, mempercepat proses pengambilan keputusan hingga 35 % waktu, dan memperoleh tingkat kepuasan pengguna (stakeholder) sebesar 92 % dalam uji coba lapangan di beberapa lembaga pemerintah.",
+            "latency_sec": 3.95
         },
         "prompt_2": {
-            "hypothetical_document": "",
-            "latency_sec": 0.77
+            "hypothetical_document": "sistem pendukung keputusan 2020",
+            "latency_sec": 5.05
+        },
+        "prompt_3": {
+            "hypothetical_document": "Sistem pendukung keputusan 2020 dirancang untuk mengatasi keterbatasan organisasi dalam mengambil keputusan strategis secara cepat dan akurat akibat kurangnya integrasi data real‑time. Metode yang digunakan melibatkan data mining dan analisis statistik dengan platform R serta database SQL, yang memproses dan memvisualisasikan data operasional secara interaktif. Hasil penelitian menunjukkan peningkatan akurasi keputusan sebesar 15 % dan pengurangan waktu evaluasi strategi hingga 30 %.",
+            "latency_sec": 3.94
         }
     }
 ]

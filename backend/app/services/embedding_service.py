@@ -23,7 +23,7 @@ class EmbeddingService:
         if self._initialized:
             return
         
-        print(f"🔄 Loading embedding model: {settings.EMBEDDING_MODEL}")
+        print("-> Loading embedding model: " + settings.EMBEDDING_MODEL)
         
         self.embedding = HuggingFaceEmbeddings(
             model_name=settings.EMBEDDING_MODEL,
@@ -32,7 +32,7 @@ class EmbeddingService:
         )
         
         self._initialized = True
-        print("✅ Embedding model loaded successfully")
+        print("[OK] Embedding model loaded successfully")
     
     def get_embedding_function(self):
         """Return embedding function untuk digunakan di RAG."""
