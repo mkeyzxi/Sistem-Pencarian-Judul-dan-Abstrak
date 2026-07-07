@@ -1,4 +1,6 @@
 
+# q49, q44, q39, q25,  
+
 """
 run_evaluation.py — Evaluasi otomatis Standard RAG vs HyDE
 Jalankan dari folder backend/:
@@ -89,7 +91,7 @@ def run_hyde(
     Latency mencakup waktu generate hypothetical doc + retrieval.
     """
     t0 = time.perf_counter()
-    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt3")
+    hyde_response = service.hyde_rag(query_text, k=top_k, is_eval=True, prompt_type="prompt2")
     latency_ms = (time.perf_counter() - t0) * 1000
 
     hypothetical_doc = hyde_response.get("hypothetical_document", "")
@@ -262,17 +264,53 @@ def main():
 
         print(f"\n[{i}/{total}] {qid} | {tipe} | \"{query_text}\"")
 
+        # Helper fungsi untuk retry
+        def execute_with_retry(method_name, func, max_retries=3):
+            for attempt in range(1, max_retries + 1):
+                try:
+                    res, lat = func(service, query_text, TOP_K)
+                    res = compute_ir_metrics(res, ground_truth_file)
+                    print(f"OK | {lat:.0f}ms | {len(res)} docs | "
+                          f"Hit={res[0]['Hit_GT'] if res else 'N/A'} "
+                          f"RR={res[0]['RR'] if res else 'N/A'}")
+                    return res, lat
+                except Exception as e:
+                    if attempt < max_retries:
+                        print(f"[Error: {e}. Retry {attempt}/{max_retries} in 5s...] ", end="", flush=True)
+                        time.sleep(5.0)
+                    else:
+                        print(f"ERROR: {e}")
+                        # Fallback jika gagal total agar tidak hilang
+                        fallback = [{
+                            "Metode": method_name,
+                            "Rank": 1,
+                            "Skor_Similarity": 0.0,
+                            "File_Source": "ERROR",
+                            "File_Source_Basename": "ERROR",
+                            "Tahun": "",
+                            "Judul_Skripsi": "ERROR",
+                            "Abstrak": str(e),
+                            "Dokumen_Hipotetikal_LLM": None if method_name == "Standard RAG" else "ERROR",
+                            "Latency_ms": 0.0,
+                            "Hit_GT": None,
+                            "Rank_GT": None,
+                            "RR": 0.0
+                        }]
+                        return fallback, 0.0
+
         # — Standard RAG —
         print(f"  → Standard RAG ...", end=" ", flush=True)
-        try:
-            rag_results, rag_latency = run_standard_rag(service, query_text, TOP_K)
-            rag_results = compute_ir_metrics(rag_results, ground_truth_file)
-            print(f"OK | {rag_latency:.0f}ms | {len(rag_results)} docs | "
-                  f"Hit={rag_results[0]['Hit_GT'] if rag_results else 'N/A'} "
-                  f"RR={rag_results[0]['RR'] if rag_results else 'N/A'}")
-        except Exception as e:
-            print(f"ERROR: {e}")
-            rag_results = []
+        rag_results, _ = execute_with_retry("Standard RAG", run_standard_rag)
+        
+        # Jika hasil kosong (tidak ada dokumen dari chroma), tambahkan fallback kosong
+        if not rag_results:
+            rag_results = [{
+                "Metode": "Standard RAG", "Rank": 1, "Skor_Similarity": 0.0,
+                "File_Source": "EMPTY", "File_Source_Basename": "EMPTY", "Tahun": "",
+                "Judul_Skripsi": "EMPTY", "Abstrak": "No documents found",
+                "Dokumen_Hipotetikal_LLM": None, "Latency_ms": 0.0,
+                "Hit_GT": None, "Rank_GT": None, "RR": 0.0
+            }]
 
         for r in rag_results:
             all_results.append({"ID": qid, "Tipe": tipe,
@@ -281,15 +319,17 @@ def main():
 
         # — HyDE —
         print(f"  → HyDE ...", end=" ", flush=True)
-        try:
-            hyde_results, hyde_latency = run_hyde(service, query_text, TOP_K)
-            hyde_results = compute_ir_metrics(hyde_results, ground_truth_file)
-            print(f"OK | {hyde_latency:.0f}ms | {len(hyde_results)} docs | "
-                  f"Hit={hyde_results[0]['Hit_GT'] if hyde_results else 'N/A'} "
-                  f"RR={hyde_results[0]['RR'] if hyde_results else 'N/A'}")
-        except Exception as e:
-            print(f"ERROR: {e}")
-            hyde_results = []
+        hyde_results, _ = execute_with_retry("HyDE", run_hyde)
+        
+        # Jika hasil kosong (tidak ada dokumen dari chroma), tambahkan fallback kosong
+        if not hyde_results:
+            hyde_results = [{
+                "Metode": "HyDE", "Rank": 1, "Skor_Similarity": 0.0,
+                "File_Source": "EMPTY", "File_Source_Basename": "EMPTY", "Tahun": "",
+                "Judul_Skripsi": "EMPTY", "Abstrak": "No documents found",
+                "Dokumen_Hipotetikal_LLM": "", "Latency_ms": 0.0,
+                "Hit_GT": None, "Rank_GT": None, "RR": 0.0
+            }]
 
         for r in hyde_results:
             all_results.append({"ID": qid, "Tipe": tipe,
