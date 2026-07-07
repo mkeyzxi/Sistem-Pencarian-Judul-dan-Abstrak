@@ -72,43 +72,75 @@
   {
     "ID": "Q11",
     "Tipe": "Leksikal Tematik",
-    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "sistem pakar forward chaining",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Menguji pencocokan keyword eksak untuk metode klasifikasi sentimen.",
+    "Query_Text": "algoritma analisis sentimen",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "INTEGRASI WORD EMBEDDING DAN LARGE LANGUAGE MODELS UNTUK ANALISIS SENTIMEN TENTANG RESISTANSI ANTIBIOTIK DI INDONESIA",
+      "ANALISIS SENTIMEN PENGGUNA TWITTER TERHADAP OBJEK PARIWISATA DI INDONESIA MENGGUNAKAN ALGORITMA PENGOLAHAN DEEP NATURAL LANGUAGE DARI IBM INSIGHTS UNTUK TWITTER",
+      "ANALISIS SENTIMEN MASYARAKAT TERHADAP PEMBATASAN SOSIAL BERSKALA BESAR MENGGUNAKAN ALGORITMA NA\u00cfVE BAYES",
+      "PERBANDINGAN ANALISIS SENTIMEN ALGORITMA SUPPORT VECTOR MACHINE DAN NA\u00cfVE BAYES TERHADAP TANGGAPAN PUBLIK TENTANG PEMBELAJARAN ONLINE DI MASA PANDEMI COVID-19",
+      "ANALISIS SENTIMEN PUBLIK TERHADAP PELAKSANAAN PERSIAPAN PEMILU TAHUN 2024 MENGGUNAKAN METODE MAXIMUM ENTROPY (MAXENT)"
+    ]
   },
   {
     "ID": "Q12",
     "Tipe": "Leksikal Tematik",
-    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "keamanan jaringan wireless security",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Kueri terminologi eksak untuk melihat kemampuan sistem memanggil judul berbasis Deep Learning.",
+    "Query_Text": "convolutional neural network",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "IDENTIFIKASI NOMINAL MATA UANG RUPIAH BAGI PENYANDANG TUNANETRA DENGAN ALGORITMA CONVOLUTIONAL NEURAL NETWORK BERBASIS ANDROID",
+      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
+      "KLASIFIKASI PENYAKIT PADA DAUN TOMAT MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK",
+      "KLASIFIKASI PENYAKIT PADA TANAMAN KUBIS MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK DAN OPTIMASI PARTICLE SWARM OPTIMIZATION"
+    ]
   },
   {
     "ID": "Q13",
     "Tipe": "Leksikal Tematik",
-    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "kriptografi aes enkripsi data",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Memiliki kata kunci pasti (Augmented Reality, Android) dengan ejaan teknis yang benar.",
+    "Query_Text": "teknologi augmented reality android",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "SISTEM PEMANDU WISATA BERBASIS AUGMENTED REALITY MARKERLESS MEMANFAATKAN GPS BASED TRACKING DENGAN PLATFORM ANDROID (Studi Kasus : Lokasi Wisata di Kota Makassar)",
+      "IMPLEMENTASI AUGMENTED REALITY BERBASIS CLOUD COMPUTING PADA BUKU PELAJARAN BIOLOGI SMU",
+      "APLIKASI MEDIA PEMBELAJARAN PENCAMPURAN ZAT KIMIA BERBASIS AUGMENTED REALITY MENGGUNAKAN PLATFORM ANDROID",
+      "RANCANG BANGUN APLIKASI PENGENALAN BUKU DENGAN TEKNOLOGI AUGMENTED REALITY BERBASIS ANDROID",
+      "RANCANG BANGUN APLIKASI MEDIA INFORMASI KOLEKSI MUSEUM BALLA LOMPOA BERBASIS ANDROID MEMANFAATKAN AUGMENTED REALITY"
+    ]
   },
   {
     "ID": "Q14",
     "Tipe": "Leksikal Tematik",
-    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "pengenalan pola citra digital",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Kueri spesifik berisikan terminologi sistem pakar dan diagnosa.",
+    "Query_Text": "aplikasi sistem pakar diagnosa",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
+      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
+    ]
   },
   {
     "ID": "Q15",
     "Tipe": "Leksikal Tematik",
-    "Deskripsi_Tipe": "Menguji keyword bias. Menargetkan sekumpulan dokumen umum.",
-    "Query_Text": "klasifikasi data menggunakan naive bayes",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Nama metode pengambilan keputusan eksak untuk menguji presisi leksikal.",
+    "Query_Text": "metode analytical hierarchy process",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "RANCANG BANGUN SISTEM PENDUKUNG KEPUTUSAN DISTRIBUSI TENAGA MEDIS PUSKESMAS DI SULAWESI SELATAN DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS (STUDI KASUS KABUPATEN MAROS)",
+      "IMPLEMENTASI ANALYTICAL HIERARCHY PROCESS MULTIKRITERIA DALAM SISTEM PENDUKUNG KEPUTUSAN PENENTUAN LULUSAN TERBAIK TINGKAT FAKULTAS PADA UNIVERSITAS ISLAM NEGERI ALAUDDIN MAKASSAR",
+      "SISTEM PENUNJANG KEPUTUSAN DALAM PEMILIHAN JENIS BUKU PADA CV GUNADARMA ILMU SAMATA DENGAN METODE ANALITYCAL HIERARCHY PROCESS (AHP) BERBASIS WEBSITE",
+      "RANCANG BANGUN WEBSITE E-COMMERCE OPTIK DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS"
+    ]
   },
   {
     "ID": "Q16",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "pencuri sapi",
+    "Query_Text": "cara otomatis pisahin telur bagus",
     "Ground_Truth_File": null
   },
   {
@@ -121,37 +153,67 @@
   {
     "ID": "Q18",
     "Tipe": "Semantic Gap",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "suara jadi tulisan",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Kueri fungsional awam yang semantiknya merujuk pada Sistem Pakar Diagnosa.",
+    "Query_Text": "bagaimana cara mengetahui jenis penyakit",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
+      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
+    ]
   },
   {
     "ID": "Q19",
     "Tipe": "Semantic Gap",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "bantu orang bisu",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Tanpa menyebut IoT, Mikrokontroler maupun jenis hewan secara eksak.",
+    "Query_Text": "alat pemberi makan hewan",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "RANCANG BANGUN PROTOTYPE SMART FEEDER DAN WATER QUALITY CONTROL PADA KOLAM IKAN BIOFLOK NILA BERBASIS IoT",
+      "SIMULASI ROBOT PENEBAR PAKAN DAN RACUN OTOMATIS PADA TAMBAK DI PULAU TARAKAN",
+      "RANCANG BANGUN SISTEM PEMBERIAN PAKAN TERNAK (SAPI) DAN PENGADUKANNYA SECARA OTOMATIS BERBASIS MIKROKONTROLER",
+      "IMPLEMENTASI SISTEM INTERNET OF THINGS (IOT) PADA PROSES PEMBERIAN PAKAN OTOMATIS UNTUK BUDIDAYA IKAN LELE BERBASIS ANDROID"
+    ]
   },
   {
     "ID": "Q20",
     "Tipe": "Semantic Gap",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "deteksi ngantuk",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Mewakili klaster analisis sentimen dengan gaya bahasa berita/awam.",
+    "Query_Text": "opini masyarakat di media sosial",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "ANALISIS SENTIMEN PENGGUNA TWITTER TERHADAP OBJEK PARIWISATA DI INDONESIA MENGGUNAKAN ALGORITMA PENGOLAHAN DEEP NATURAL LANGUAGE DARI IBM INSIGHTS UNTUK TWITTER",
+      "ANALISIS SENTIMEN MASYARAKAT TERHADAP PEMBATASAN SOSIAL BERSKALA BESAR MENGGUNAKAN ALGORITMA NA\u00cfVE BAYES",
+      "PERBANDINGAN ANALISIS SENTIMEN ALGORITMA SUPPORT VECTOR MACHINE DAN NA\u00cfVE BAYES TERHADAP TANGGAPAN PUBLIK TENTANG PEMBELAJARAN ONLINE DI MASA PANDEMI COVID-19",
+      "ANALISIS SENTIMEN PUBLIK TERHADAP PELAKSANAAN PERSIAPAN PEMILU TAHUN 2024 MENGGUNAKAN METODE MAXIMUM ENTROPY (MAXENT)"
+    ]
   },
   {
     "ID": "Q21",
     "Tipe": "Semantic Gap",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "cari berita palsu",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Deskripsi awam untuk Pengolahan Citra / Convolutional Neural Network.",
+    "Query_Text": "mengenali benda melalui gambar",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "IDENTIFIKASI NOMINAL MATA UANG RUPIAH BAGI PENYANDANG TUNANETRA DENGAN ALGORITMA CONVOLUTIONAL NEURAL NETWORK BERBASIS ANDROID",
+      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
+      "IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID",
+      "Sistem Identifikasi Artefak UPT Museum Daerah Sumbawa Berbasis Android Dengan Metode YOLO"
+    ]
   },
   {
     "ID": "Q22",
     "Tipe": "Semantic Gap",
-    "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "wajah orang stres",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Kueri dari kacamata user untuk klaster Sistem Pendukung Keputusan.",
+    "Query_Text": "sistem rekomendasi pilihan terbaik",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "RANCANG BANGUN SISTEM PENDUKUNG KEPUTUSAN DISTRIBUSI TENAGA MEDIS PUSKESMAS DI SULAWESI SELATAN DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS (STUDI KASUS KABUPATEN MAROS)",
+      "SISTEM PENDUKUNG KEPUTUSAN DALAM PEMILIHAN PROGRAM STUDI DI PERGURUAN TINGGI UNTUK SISWA MADRASAH DAN PESANTREN BERBASIS ANDROID",
+      "SISTEM PENDUKUNG KEPUTUSAN PENENTUAN VARIETAS BAWANG MERAH PADA LAHAN BERBATU (LITOSOL) MENGGUNAKAN METODE SAW (SIMPLE ADDITIVE WEIGHTING) DI KAB. ENREKANG",
+      "SISTEM PENDUKUNG KEPUTUSAN KECOCOKAN MAHASISWA DENGAN JURUSAN TEKNIK INFORMATIKA DAN JURUSAN SISTEM INFORMASI UIN ALAUDDIN MAKASSAR MENGGUNAKAN METODE SIMPLE ADDITIVE WEIGHTING (SAW) BERBASIS WEB"
+    ]
   },
   {
     "ID": "Q23",
@@ -171,7 +233,7 @@
     "ID": "Q25",
     "Tipe": "Semantic Gap",
     "Deskripsi_Tipe": "Menguji pemahaman intensi pencarian (search intent) di mana terdapat perbedaan istilah query dengan dokumen.",
-    "Query_Text": "banjir lebih cepat",
+    "Query_Text": "banjir lebih cepat surut",
     "Ground_Truth_File": null
   },
   {
@@ -247,71 +309,101 @@
   {
     "ID": "Q36",
     "Tipe": "Typo/Noisy",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
-    "Query_Text": "klasifiaksi",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Typo 1 karakter: tombol a tertekan menjadi s pada kata virtual.",
+    "Query_Text": "virtusl reality",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "APLIKASI PEMODELAN 3D VIRTUAL REALITY MASJIDIL HARAM BERBASIS ANDROID",
+      "PEMANFAATAN TEKNOLOGI VIRTUAL REALITY SEBAGAI MEDIA PEMBELAJARAN INTERAKTIF UNTUK SISTEM TATA SURYA BERBASIS ANDROID",
+      "APLIKASI PEMODELAN 3D VIRTUAL REALITY ANATOMI KERANGKA MANUSIA BERBASIS ANDROID",
+      "RANCANG BANGUN APLIKASI INTERAKTIF PROSES PERSALINAN NORMAL MENGGUNAKAN VIRTUAL REALITY UNTUK CALON BIDAN ( STUDI KASUS: AKBID SYEKH YUSUF GOWA)"
+    ]
   },
   {
     "ID": "Q37",
     "Tipe": "Typo/Noisy",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
-    "Query_Text": "mikrokntroler",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Typo 1 kata (a bergeser ke s) pada klaster IoT Water Monitoring.",
+    "Query_Text": "kualitss air",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "RANCANG BANGUN PROTOTYPE SMART FEEDER DAN WATER QUALITY CONTROL PADA KOLAM IKAN BIOFLOK NILA BERBASIS IoT",
+      "SISTEM MONITORING KUALITAS AIR EMPANG BERBASIS MIKROKONTROLER",
+      "SISTEM PEMANTAUAN KUALITAS AIR AKUARIUM IKAN HIAS DENGAN ARDUINO",
+      "PENGEMBANGAN SISTEM IOT UNTUK MONITORING KUALITAS AIR KOLAM TERNAK LELE"
+    ]
   },
   {
     "ID": "Q38",
     "Tipe": "Typo/Noisy",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
-    "Query_Text": "yolo",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Typo pada 2 kata (t bergeser y dan a bergeser s).",
+    "Query_Text": "sisyem pendukung keputusan mshasiswa",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "SISTEM PENDUKUNG KEPUTUSAN DALAM PEMILIHAN PROGRAM STUDI DI PERGURUAN TINGGI UNTUK SISWA MADRASAH DAN PESANTREN BERBASIS ANDROID",
+      "SISTEM PENDUKUNG KEPUTUSAN KECOCOKAN MAHASISWA DENGAN JURUSAN TEKNIK INFORMATIKA DAN JURUSAN SISTEM INFORMASI UIN ALAUDDIN MAKASSAR MENGGUNAKAN METODE SIMPLE ADDITIVE WEIGHTING (SAW) BERBASIS WEB",
+      "SISTEM PENDUKUNG KEPUTUSAN PEMILIHAN SISWA BERPRESTASI MENGGUNAKAN ALGORITMA ITERATIVE DICHOTOMISER TREE DAN METODE SIMPLE ADDITIVE WEIGHTING PADA SMA NEGERI 3 GOWA",
+      "IMPLEMENTASI DATA MINING UNTUK MEMPREDIKSI KELULUSAN MAHASISWA TEPAT WAKTU MENGGUNAKAN RANDOM FOREST"
+    ]
   },
   {
     "ID": "Q39",
     "Tipe": "Typo/Noisy",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
-    "Query_Text": "androdi",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Typo 1 kata (tombol n menjadi m) untuk target klaster Image Processing.",
+    "Query_Text": "pemgolahan citra",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "APLIKASI PENGENALAN KOMPONEN ELEKTRONIKA DENGAN AUGMENTED REALITY BERBASIS ANDROID BERDASARKAN KURIKULUM MATA KULIAH ELEKTRONIKA PERGURUAN TINGGI",
+      "SISTEM PENGATUR LAMPU LALU LINTAS MENGGUNAKAN IMAGE PROCESSING",
+      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
+      "IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID"
+    ]
   },
   {
     "ID": "Q40",
     "Tipe": "Typo/Noisy",
-    "Deskripsi_Tipe": "Menguji ketahanan vector space terhadap noise penulisan (salah ketik).",
-    "Query_Text": "algorimta",
-    "Ground_Truth_File": null
+    "Deskripsi_Tipe": "Typo 2 kata (huruf t jadi y, dan huruf n jadi m) pada kueri Sistem Pakar Diagnosa Penyakit.",
+    "Query_Text": "sisyem pakar diagnosa pemyakit",
+    "Ground_Truth_File": null,
+    "Expected_Targets": [
+      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
+      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
+      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
+    ]
   },
   {
     "ID": "Q41",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "prediksi diabetes xgboost 2026",
+    "Query_Text": "penerapan data mining 2026",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q42",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "game edukasi aksara lontara 2025",
+    "Query_Text": "aplikasi game edukasi 2025",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q43",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "game edukasi kebersihan anak 2021",
+    "Query_Text": "aplikasi media pembelajaran 2021",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q44",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "sistem pakar kecanduan game 2019",
+    "Query_Text": "sistem pakar diagnosa tahun 2019",
     "Ground_Truth_File": null
   },
   {
     "ID": "Q45",
     "Tipe": "Metadata",
     "Deskripsi_Tipe": "Menguji pemisahan konteks topik dari angka tahun absolut pada metadata dokumen.",
-    "Query_Text": "marketplace rental kendaraan web 2023",
+    "Query_Text": "sistem informasi e-commerce 2023",
     "Ground_Truth_File": null
   },
   {

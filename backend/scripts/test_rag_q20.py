@@ -1,6 +1,8 @@
 import sys
 import json
 import time
+from langchain_groq import ChatGroq
+from langchain_huggingface import HuggingFaceEmbeddings
 from pathlib import Path
 
 # Tambahkan direktori backend ke path agar bisa import app
