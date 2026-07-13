@@ -69,7 +69,15 @@ const getField = (doc, key, fallback = '') => {
 
 /** Helper untuk ambil isi abstrak dari doc. */
 const getContent = (doc) => {
-  return doc.page_content || doc.full_content || doc.content || ''
+  const raw = doc.page_content || doc.full_content || doc.content || ''
+  // Hapus bagian "Judul: ..." agar hanya abstrak yang tampil.
+  // Cari posisi "Abstrak:" (case-insensitive) lalu ambil sisanya.
+  const abstrakMatch = raw.match(/Abstrak\s*:\s*/i)
+  if (abstrakMatch) {
+    return raw.substring(abstrakMatch.index + abstrakMatch[0].length).trim()
+  }
+  // Fallback: jika ada baris "Judul: ...", hapus baris tersebut
+  return raw.replace(/^Judul\s*:.*[\r\n]*/i, '').trim()
 }
 </script>
 
