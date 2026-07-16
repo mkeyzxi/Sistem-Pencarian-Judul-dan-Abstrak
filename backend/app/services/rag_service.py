@@ -33,7 +33,7 @@ class RAGService:
             self._distance_metric = meta.get("hnsw:space", "cosine")
         except Exception:
             self._distance_metric = "cosine"
-        print(f"📐 Distance metric: {self._distance_metric}")
+        print(f"Distance metric: {self._distance_metric}")
 
         print("🔄 Initializing Groq LLM...")
         self.llm_standard = ChatGroq(
@@ -354,6 +354,97 @@ class RAGService:
             "hypothetical_document": hypothetical_doc,
             "docs_count": len(documents),
             "documents": documents,
+        }
+
+    def hybrid_rag(
+        self,
+        query: str,
+        k: int = None,
+        min_score: float = None,
+        is_eval: bool = False,
+    ) -> dict:
+        """
+        Hybrid RAG retrieval dengan filter metadata tahun dan BM25 fusion.
+        """
+        from app.services.hybrid_utils import parse_query_metadata, SimpleBM25, hybrid_search_fusion
+        
+        if k is None:
+            k = settings.K_RETRIEVAL
+            
+        if is_eval:
+            min_score = 0.0
+        elif min_score is None:
+            min_score = getattr(settings, "MIN_SIMILARITY_SCORE", 30.0)
+
+        # 1. Parse Query & Metadata
+        parsed = parse_query_metadata(query)
+        clean_query = parsed["clean_query"]
+        if not clean_query:
+            clean_query = query
+        
+        # 2. Setup Where Filter untuk ChromaDB
+        where_filter = None
+        if parsed["tahun_spesifik"]:
+            where_filter = {"tahun": str(parsed["tahun_spesifik"])}
+        elif parsed["tahun_awal"] and parsed["tahun_akhir"]:
+            where_filter = {
+                "$and": [
+                    {"tahun": {"$gte": str(parsed["tahun_awal"])}},
+                    {"tahun": {"$lte": str(parsed["tahun_akhir"])}}
+                ]
+            }
+            
+        # PREFIX E5 WAJIB
+        query_repr = f"query: {clean_query}"
+        
+        # 3. Dense Search (ChromaDB)
+        # Ambil SEMUA dokumen agar pencarian nama penulis oleh BM25 (leksikal) dapat mencakup seluruh koleksi.
+        # Jika hanya mengambil k*4, dokumen dengan nama penulis yang dicari mungkin terlempar duluan karena skor semantiknya rendah.
+        pool_size = self.get_vector_count()
+        if pool_size == 0:
+             return {
+                "mode": "hybrid",
+                "query": query,
+                "clean_query": clean_query,
+                "docs_count": 0,
+                "documents": [],
+            }
+            
+        dense_results = self.vectorstore.similarity_search_with_score(
+            query_repr, k=pool_size, filter=where_filter
+        )
+        
+        if not is_eval:
+            dense_results = self._apply_threshold(dense_results, min_score)
+            dense_results = self._deduplicate(dense_results)
+            
+        dense_results = dense_results[:pool_size]
+        
+        if not dense_results:
+             return {
+                "mode": "hybrid",
+                "query": query,
+                "clean_query": clean_query,
+                "docs_count": 0,
+                "documents": [],
+            }
+        
+        # 4. Sparse Search (BM25)
+        documents_for_bm25 = [doc for doc, _ in dense_results]
+        bm25 = SimpleBM25(documents_for_bm25)
+        bm25_scores = bm25.get_scores(clean_query)
+        
+        # 5. Fusion
+        fused_documents = hybrid_search_fusion(dense_results, bm25_scores, alpha=0.5)
+        final_documents = fused_documents[:k]
+        
+        return {
+            "mode": "hybrid",
+            "query": query,
+            "clean_query": clean_query,
+            "filter_applied": where_filter,
+            "docs_count": len(final_documents),
+            "documents": final_documents,
         }
 
 

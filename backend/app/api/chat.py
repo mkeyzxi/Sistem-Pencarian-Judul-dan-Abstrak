@@ -16,7 +16,7 @@ router = APIRouter(prefix="/api", tags=["chat"])
 class ChatRequest(BaseModel):
     """Model untuk request chat."""
     message: str
-    mode: Optional[str] = "rag"  # "rag" atau "hyde"
+    mode: Optional[str] = "rag"  # "rag", "hyde", atau "hybrid"
     chat_history: list = []  # Riwayat percakapan untuk konteks follow-up
 
 
@@ -43,6 +43,7 @@ async def chat(request: ChatRequest):
     Mode:
     - "rag": Standard RAG
     - "hyde": HyDE RAG
+    - "hybrid": Hybrid Search (BM25 + ChromaDB + Metadata Filter)
     """
     
     try:
@@ -59,6 +60,8 @@ async def chat(request: ChatRequest):
         # Retrieve dokumen berdasarkan mode
         if request.mode == "hyde":
             result = rag.hyde_rag(request.message)
+        elif request.mode == "hybrid":
+            result = rag.hybrid_rag(request.message)
         else:
             result = rag.standard_rag(request.message)
         
@@ -145,7 +148,7 @@ async def get_info():
             "version": "1.0.0",
             "embedding_model": "intfloat/multilingual-e5-small",
             "llm_model": "meta-llama/llama-3-70b-versatile",
-            "retrieval_modes": ["rag", "hyde"],
+            "retrieval_modes": ["rag", "hyde", "hybrid"],
             "vector_database": {
                 "type": "ChromaDB",
                 "vectors_count": rag.get_vector_count()

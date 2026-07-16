@@ -101,6 +101,23 @@ console.log(searchMode)
             <span v-if="searchMode === 'hyde'"
               class="material-symbols-outlined text-primary text-base">check_circle</span>
           </label>
+
+          <label class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
+            :class="searchMode === 'hybrid'
+              ? 'bg-bg-highlight border border-primary/30'
+              : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
+              ">
+            <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors" 
+                 :class="searchMode === 'hybrid' ? 'border-primary' : 'border-border-bright'">
+              <div v-if="searchMode === 'hybrid'" class="w-2 h-2 rounded-full bg-primary"></div>
+            </div>
+            <input v-model="searchMode" @click="setMode('hybrid')" type="radio" value="hybrid" class="sr-only" />
+            <div class="flex-1 min-w-0">
+              <span class="text-sm font-bold text-text-base">Hybrid Mode</span>
+              <p class="text-[10px] text-text-subdued mt-0.5">Filter metadata & BM25</p>
+            </div>
+            <span v-if="searchMode === 'hybrid'" class="material-symbols-outlined text-primary text-base">check_circle</span>
+          </label>
         </div>
       </section>
 
