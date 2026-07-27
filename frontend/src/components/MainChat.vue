@@ -69,7 +69,8 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Example Prompt Chips — Mode Pencarian -->
-      <div v-if="!isChatbotMode" class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up" style="animation-delay: 200ms">
+      <div v-if="!isChatbotMode" class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
+        style="animation-delay: 200ms">
         <button @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
           class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
           <div class="flex items-start gap-3 !p-2">
@@ -106,7 +107,8 @@ const submitMessage = (message) => {
       </div>
 
       <!-- Example Prompt Chips — Mode Chatbot -->
-      <div v-else class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up" style="animation-delay: 200ms">
+      <div v-else class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
+        style="animation-delay: 200ms">
         <button @click="submitMessage('Rekomendasikan judul skripsi tentang machine learning untuk bidang kesehatan')"
           class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
           <div class="flex items-start gap-3 !p-2">
@@ -163,7 +165,11 @@ const submitMessage = (message) => {
       <div class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium !mt-5"
         style="animation-delay: 300ms">
         <span class="material-symbols-outlined text-sm flex-shrink-0 ">lightbulb</span>
-        <span>{{ isChatbotMode ? 'Tanyakan apa saja seputar skripsi — saya siap membantu!' : 'Ketik kata kunci atau tanyakan topik skripsi' }}</span>
+        <span>{{ isChatbotMode
+          ? 'Tanyakan apa saja seputar skripsi — saya siap membantu!'
+          : `Ketik kata kunci atau
+          tanyakan topik skripsi`
+        }}</span>
       </div>
     </div>
 
@@ -174,7 +180,7 @@ const submitMessage = (message) => {
         <div v-if="msg.role === 'user'" class="flex justify-end animate-fade-up">
           <div
             class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium">
-            <p class="text-sm sm:text-base font-medium leading-relaxed !p-2">{{ msg.content }}</p>
+            <p class="text-sm sm:text-base font-medium leading-relaxed !p-2 !pl-8 !pr-2">{{ msg.content }}</p>
           </div>
         </div>
 
@@ -190,15 +196,17 @@ const submitMessage = (message) => {
             <!-- Bot Message Content -->
             <div
               class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden flex-1">
-              
+
               <!-- HyDE Hypothesis Document (jika ada) -->
               <details v-if="msg.hypothetical_document" class="hyde-hypothesis mb-3">
-                <summary class="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-primary hover:opacity-80 transition-opacity">
+                <summary
+                  class="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-primary hover:opacity-80 transition-opacity">
                   <span class="material-symbols-outlined text-sm">auto_awesome</span>
                   <span>Hipotesis Dokumen (HyDE)</span>
                   <span class="material-symbols-outlined text-xs hyde-chevron">expand_more</span>
                 </summary>
-                <div class="mt-2 p-3 bg-bg-elevated rounded-lg border border-border-subtle text-xs sm:text-sm text-text-subdued leading-relaxed">
+                <div
+                  class="mt-2 p-3 bg-bg-elevated rounded-lg border border-border-subtle text-xs sm:text-sm text-text-subdued leading-relaxed">
                   {{ msg.hypothetical_document }}
                 </div>
               </details>

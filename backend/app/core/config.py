@@ -50,7 +50,7 @@ class Settings:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
     GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-latest")  # Model default dengan context window 1M tokens
     LLM_TEMPERATURE_CHATBOT = 0.4   # Keseimbangan objektivitas & kreativitas
-    CHATBOT_MAX_TOKENS = 2048       # Ruang cukup untuk narasi research gap setelah tool calling
+    CHATBOT_MAX_TOKENS = 4096       # Ruang cukup untuk narasi research gap setelah tool calling
     CHATBOT_HISTORY_LIMIT = 8       # Sliding window riwayat percakapan
     
     # Server Configuration
