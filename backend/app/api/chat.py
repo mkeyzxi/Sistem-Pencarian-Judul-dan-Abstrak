@@ -1,6 +1,6 @@
 """
-Chat Endpoint
-API endpoint untuk chatbot pencarian skripsi.
+Chat & Chatbot Endpoints
+API endpoint untuk pencarian skripsi (RAG/HyDE/Hybrid) dan chatbot interaktif.
 """
 
 from fastapi import APIRouter, HTTPException
@@ -113,6 +113,68 @@ async def chat(request: ChatRequest):
         )
 
 
+# ─── Chatbot Mode (Mode ke-4: Asisten Interaktif) ────────────────────────────
+
+class ChatbotRequest(BaseModel):
+    """Model untuk request chatbot interaktif."""
+    message: str
+    chat_history: list = []  # Riwayat percakapan (sliding window, max 8)
+
+
+class ChatbotResponse(BaseModel):
+    """Model untuk response chatbot interaktif (tanpa documents[])."""
+    success: bool
+    message: str
+    mode: str = "chatbot"
+
+
+@router.post("/chatbot", response_model=ChatbotResponse)
+async def chatbot_endpoint(request: ChatbotRequest):
+    """
+    Endpoint untuk mode Chatbot Interaktif (Mode ke-4).
+    
+    Berbeda dari /api/chat yang mengembalikan dokumen hasil pencarian,
+    endpoint ini berfungsi sebagai asisten interaktif yang:
+    - Menjawab pertanyaan umum seputar skripsi
+    - Merekomendasikan judul baru (via Agentic RAG + Tool Calling)
+    - Menganalisis research gap
+    - Mendiskusikan ide penelitian
+    
+    Response TIDAK mengandung field 'documents' — hanya teks narasi markdown.
+    """
+    try:
+        # Validasi input
+        if not request.message or len(request.message.strip()) < 3:
+            raise HTTPException(
+                status_code=400,
+                detail="Pesan terlalu pendek. Minimal 3 karakter."
+            )
+        
+        # Lazy import untuk menghindari overhead saat startup
+        from app.services.chatbot_service import get_chatbot_service
+        chatbot_svc = get_chatbot_service()
+        
+        # Generate response (Agentic RAG with Tool Calling)
+        response_text = chatbot_svc.generate_response(
+            request.message,
+            request.chat_history
+        )
+        
+        return ChatbotResponse(
+            success=True,
+            message=response_text,
+            mode="chatbot"
+        )
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error saat memproses pertanyaan chatbot: {str(e)}"
+        )
+
+
 @router.get("/health")
 async def health_check():
     """Health check endpoint."""
@@ -142,13 +204,15 @@ async def health_check():
 async def get_info():
     """Get system info."""
     try:
+        from app.core.config import settings
         rag = get_rag_service()
         return {
             "app_name": "Chatbot Pencarian Skripsi",
             "version": "1.0.0",
             "embedding_model": "intfloat/multilingual-e5-small",
-            "llm_model": "meta-llama/llama-3-70b-versatile",
-            "retrieval_modes": ["rag", "hyde", "hybrid"],
+            "llm_model": "meta-llama/llama-3-70b-versatile (Groq untuk RAG/HyDE/Hybrid)",
+            "chatbot_llm_model": f"{settings.GEMINI_MODEL} (Gemini API untuk Chatbot Mode)",
+            "retrieval_modes": ["rag", "hyde", "hybrid", "chatbot"],
             "vector_database": {
                 "type": "ChromaDB",
                 "vectors_count": rag.get_vector_count()

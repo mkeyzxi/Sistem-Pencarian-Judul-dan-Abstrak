@@ -46,6 +46,13 @@ class Settings:
     LLM_FREQUENCY_PENALTY = 0.0
     LLM_PRESENCE_PENALTY = 0.0
     
+    # Chatbot Mode Configuration (Mode ke-4: Asisten Interaktif dengan Gemini API)
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-latest")  # Model default dengan context window 1M tokens
+    LLM_TEMPERATURE_CHATBOT = 0.4   # Keseimbangan objektivitas & kreativitas
+    CHATBOT_MAX_TOKENS = 2048       # Ruang cukup untuk narasi research gap setelah tool calling
+    CHATBOT_HISTORY_LIMIT = 8       # Sliding window riwayat percakapan
+    
     # Server Configuration
     HOST = "0.0.0.0"
     PORT = 8000

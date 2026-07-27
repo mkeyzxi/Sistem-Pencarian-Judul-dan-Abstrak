@@ -15,6 +15,7 @@ export default {
         "text-base": "var(--app-text-base)",
         "text-subdued": "var(--app-text-subdued)",
         "text-muted": "var(--app-text-muted)",
+        "text-accent": "var(--app-text-accent)",
         "border-default": "var(--app-border-default)",
         "border-subtle": "var(--app-border-subtle)",
         "border-bright": "var(--app-border-bright)",

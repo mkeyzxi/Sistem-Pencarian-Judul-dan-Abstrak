@@ -16,6 +16,7 @@
   --color-text-subdued: var(--app-text-subdued);
   --color-text-muted: var(--app-text-muted);
   --color-text-bright: var(--app-text-bright);
+  --color-text-accent: var(--app-text-accent);
 
   --color-border-default: var(--app-border-default);
   --color-border-subtle: var(--app-border-subtle);
@@ -51,6 +52,9 @@
   --app-text-subdued: #4b5563;
   --app-text-muted: #6b7280;
   --app-text-bright: #111827;
+  --app-text-accent: #15803d;
+  --app-table-header-bg: #15803d;
+  --app-table-header-color: #ffffff;
 
   --app-border-default: #d1d5db;
   --app-border-subtle: #e5e7eb;
@@ -69,6 +73,9 @@
   --app-text-subdued: #b3b3b3;
   --app-text-muted: #6a6a6a;
   --app-text-bright: #fdfdfd;
+  --app-text-accent: #1ed760;
+  --app-table-header-bg: #1ed760;
+  --app-table-header-color: #000000;
 
   --app-border-default: #4d4d4d;
   --app-border-subtle: #282828;

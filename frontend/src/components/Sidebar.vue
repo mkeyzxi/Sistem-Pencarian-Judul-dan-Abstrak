@@ -121,6 +121,34 @@ console.log(searchMode)
         </div>
       </section>
 
+      <!-- Divider: Memisahkan mode pencarian dari mode asisten -->
+      <div class="border-t border-border-subtle"></div>
+
+      <!-- Mode Asisten -->
+      <section>
+        <h3 class="text-[10px] font-bold text-text-subdued uppercase tracking-[0.15em] !mb-3 !px-1">
+          Mode Asisten
+        </h3>
+        <div class="space-y-2 flex flex-col gap-2">
+          <label class="flex items-center gap-3 px-3.5 py-3 rounded-lg cursor-pointer transition-all duration-200 !px-2"
+            :class="searchMode === 'chatbot'
+              ? 'bg-bg-highlight border border-primary/30'
+              : 'bg-bg-elevated hover:bg-bg-highlight border border-transparent'
+              ">
+            <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
+                 :class="searchMode === 'chatbot' ? 'border-primary' : 'border-border-bright'">
+              <div v-if="searchMode === 'chatbot'" class="w-2 h-2 rounded-full bg-primary"></div>
+            </div>
+            <input v-model="searchMode" @click="setMode('chatbot')" type="radio" value="chatbot" class="sr-only" />
+            <div class="flex-1 min-w-0">
+              <span class="text-sm font-bold text-text-base">Chatbot Mode</span>
+              <p class="text-[10px] text-text-subdued mt-0.5">Asisten interaktif skripsi</p>
+            </div>
+            <span v-if="searchMode === 'chatbot'" class="material-symbols-outlined text-primary text-base">check_circle</span>
+          </label>
+        </div>
+      </section>
+
       <!-- Divider -->
       <div class="border-t border-border-subtle"></div>
 
