@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from typing import Optional
 from app.services.rag_service import get_rag_service
 from app.services.suggestion_service import suggestion_service
+from app.core.config import settings
 
 # Create router
 router = APIRouter(prefix="/api", tags=["chat"])
@@ -143,8 +144,8 @@ async def get_info():
         return {
             "app_name": "Chatbot Pencarian Skripsi",
             "version": "1.0.0",
-            "embedding_model": "intfloat/multilingual-e5-small",
-            "llm_model": "meta-llama/llama-3-70b-versatile",
+            "embedding_model": settings.EMBEDDING_MODEL,
+            "llm_model": settings.GROQ_MODEL,
             "retrieval_modes": ["rag", "hyde"],
             "vector_database": {
                 "type": "ChromaDB",
