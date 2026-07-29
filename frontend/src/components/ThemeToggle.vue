@@ -26,7 +26,7 @@ const toggle = () => setTheme(!isDark.value)
 </script>
 
 <template>
-  <button @click="toggle" aria-label="Toggle theme" class="w-9 h-9 border  rounded-full flex items-center justify-center
+  <button @click="toggle" aria-label="Toggle theme" class="w-9 h-9   rounded-full flex items-center justify-center
            transition-all duration-200
            hover:scale-105
            hover:bg-green-100

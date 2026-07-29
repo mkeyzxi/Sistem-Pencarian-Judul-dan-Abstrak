@@ -65,7 +65,7 @@ class RAGService:
         # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
         self.prompt_2 = (
             "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
-            "Bahasa Indonesia berdasarkan topik berikut.\n\n"
+             "Bahasa Indonesia berdasarkan topik berikut.\n\n"
             "Aturan ketat:\n"
             "- Panjang: 2–3 kalimat saja.\n"
             "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "

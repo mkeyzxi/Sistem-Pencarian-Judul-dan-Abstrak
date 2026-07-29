@@ -24,22 +24,18 @@ console.log(searchMode)
 
 <template>
   <!-- Mobile Backdrop Overlay -->
-  <div 
-    v-if="isOpen" 
-    class="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
-    @click="emit('close')"
-  ></div>
+  <div v-if="isOpen" class="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity" @click="emit('close')"></div>
 
   <aside
     class="fixed lg:sticky top-0 left-0 z-50 flex flex-col w-[280px] h-screen bg-bg-base border-r border-border-subtle overflow-y-auto hide-scrollbar shrink-0 !p-2 transition-transform duration-300 ease-in-out lg:translate-x-0"
-    :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
-  >
+    :class="isOpen ? 'translate-x-0' : '-translate-x-full'">
     <!-- Brand Header -->
     <div class="p-5 pb-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full flex items-center justify-center shadow-spotify-medium shrink-0">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0">
+          <!-- shadow-spotify-medium -->
           <!-- <span class="material-symbols-outlined text-black text-lg">school</span> -->
-          <img src="/logo-pencarian.png" alt="Logo Pencarian" class="w-full h-full object-contain">
+          <img src="/logo-pencarian.png" alt="Logo Pencarian" class="w-full h-full drop-shadow-sm object-contain">
         </div>
         <div>
           <h2 class="text-base font-bold text-text-base leading-tight">
@@ -51,10 +47,9 @@ console.log(searchMode)
         </div>
       </div>
       <!-- Mobile Close Button -->
-      <button 
-        class="lg:hidden p-2 text-text-subdued hover:text-text-base rounded-full hover:bg-bg-elevated transition-colors" 
-        @click="emit('close')"
-      >
+      <button
+        class="lg:hidden p-2 text-text-subdued hover:text-text-base rounded-full hover:bg-bg-elevated transition-colors"
+        @click="emit('close')">
         <span class="material-symbols-outlined text-lg">close</span>
       </button>
     </div>
