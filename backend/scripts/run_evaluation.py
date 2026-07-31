@@ -35,7 +35,7 @@ from app.core.config import settings
 # ─── Konfigurasi ──────────────────────────────────────────────────────────────
 
 TOP_K = 5
-QUERIES_FILE = Path(__file__).parent.parent / "evaluation" / "queries.json"
+QUERIES_FILE = Path(__file__).parent.parent / "evaluation" / "queries_new.json"
 OUTPUT_DIR = Path(__file__).parent.parent / "evaluation" / "results"
 DELAY_BETWEEN_QUERIES = 5.0  # detik; hindari rate-limit Groq untuk HyDE (dinaikkan agar tidak gagal)
 

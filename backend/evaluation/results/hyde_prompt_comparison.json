@@ -1,82 +1,138 @@
 [
     {
-        "tema": "Sistem Pendukung Keputusan",
-        "query": "sistem pendukung keputusan metode",
+        "tema": "Kueri Konseptual/Sinonim (Semantic Gap)",
+        "query": "petani rugi wabah daun",
         "prompt_1": {
-            "hypothetical_document": "Masalah: Pengambilan keputusan di organisasi modern sering kali terhambat oleh volume data yang besar, ketidakpastian informasi, dan kompleksitas kriteria yang harus dipertimbangkan, sehingga menghasilkan keputusan yang lambat dan kurang akurat. Metode: Penelitian ini mengembangkan sistem pendukung keputusan (Decision Support System, DSS) berbasis metode Multi‑Criteria Decision Making (MCDM) dengan algoritma Analytic Hierarchy Process (AHP) yang diintegrasikan ke dalam platform berbasis web menggunakan framework Django dan database PostgreSQL; sistem ini memanfaatkan modul visualisasi interaktif (Plotly) untuk memudahkan analisis sensitivitas dan simulasi skenario. Hasil: Implementasi DSS ini terbukti meningkatkan efisiensi proses pengambilan keputusan sebesar 35 % dan akurasi rekomendasi keputusan hingga 92 % dibandingkan dengan metode manual, serta memfasilitasi kolaborasi tim melalui antarmuka berbasis cloud, sehingga organisasi dapat merespons perubahan lingkungan bisnis dengan lebih cepat dan tepat.",
-            "latency_sec": 1.21
+            "hypothetical_document": "Penggunaan Teknologi Informasi untuk Mengatasi Kerugian Petani Akibat Wabah Daun. Masalah penelitian ini adalah banyaknya petani yang mengalami kerugian akibat wabah daun yang menyerang tanaman mereka, sehingga mengurangi hasil panen dan pendapatan. Untuk mengatasi masalah ini, penelitian ini menggunakan metode pengembangan sistem pendukung keputusan berbasis web yang mengintegrasikan teknologi penginderaan jauh dan machine learning untuk mendeteksi dan memantau wabah daun secara dini. Hasil dari penelitian ini adalah sistem yang dapat membantu petani dalam mendeteksi dan mengatasi wabah daun secara efektif, sehingga dapat mengurangi kerugian dan meningkatkan hasil panen, serta membantu meningkatkan kesejahteraan petani.",
+            "latency_sec": 1.4,
+            "documents": [
+                {
+                    "page_content": "Judul: SISTEM PENDUKUNG KEPUTUSAN PENENTUAN VARIETAS BAWANG MERAH PADA LAHAN BERBATU (LITOSOL) MENGGUNAKAN METODE SAW (SIMPLE ADDITIVE WEIGHTING) DI KAB. ENREKANG\n\nAbstrak:\nPertanian merupakan salah satu sumber mata pencaharian terbesar di Indonesia, yaitu kegiatan pemanfaatan sumber daya hayati terkhususnya dalam pembudidayaan tanaman untuk menghasilkan bahan pangan, obat-obatan dll. Salah satu tanaman yang sering dimanfaatkan dalam bidang pertanian yaitu tanaman bawang merah. Kabupaten Enrekang merupakan salah satu kabupaten yang dikembangkan sebagai sentra produksi terbesar bawang merah. Tetapi masih banyak petani yang memiliki lahan yang tidak produktif seperti lahan berbatu sehingga masih menjadi kendala dalam memproduksi bawang merah yang berkualitas. Hal ini menjadi suatu hambatan bagi petani yang memiliki lahan berbatu untuk memilih variteas bawang merah yang cocok untuk di tanam di lahan tersebut disebabkan kurang dan terbatasanya pengetahuan petani sehingga perlu adanya media bantu berupa sistem pendukung keputusan yang dapat membantu memilih varietas yang baik untuk lahan berbatu. Penelitian ini membangun sebuah perangkat lunak sistem pendukung keputusan berbasis web mengenai penentuan varietas bawang merah yang cocok untuk di tanam di lahan berbatu dengan metode simple additive weighting . Sebuah metode yang akan mencari solusi kesimpulan berdasarkan penjumalahan terbobot dari suatu rating kinerja setiap atribut. Jenis penelitian yang digunakan pada penelitian ini metode penelitian korelasi. Metode pengumpulan data yang digunakan berupa observasi,waawancara dan dokumentasi. Metode pengembangan sistem yang diguanakan adalah waterfall dan teknik pengujian sistem yang diguankan adalah Black Box. Penelitian yang dilakukan menghasilkan perangkat lunak sistem yang berguna sebagai media konsultasi mengenai penetuan varietas bawang merah yang cocok dan baik di tanam di lahan berbatu pertanian. Informasi yang dihasilkan berbasi pada kriteria lahan yang ada dengan kriteria lahan bawang merah, sehingga keputusan yang dibuat oleh sistem untuk jenis varietas bawang mengacu pada kriteria lahan tersebut. Hasil uji coba menunjukkan bahwa aplikasi layak dan dapat digunakan.",
+                    "metadata": {
+                        "source": "2018_IKKE_INTAN_PRATAMI.pdf",
+                        "judul": "SISTEM PENDUKUNG KEPUTUSAN PENENTUAN VARIETAS BAWANG MERAH PADA LAHAN BERBATU (LITOSOL) MENGGUNAKAN METODE SAW (SIMPLE ADDITIVE WEIGHTING) DI KAB. ENREKANG",
+                        "nama": "Ikke Intan Pratami",
+                        "nim": "60200114046",
+                        "pembimbing": "",
+                        "tahun": "2018",
+                        "similarity_score": 94.58
+                    }
+                },
+                {
+                    "page_content": "Judul: SISTEM PENGUSIR HAMA BURUNG PADA LAHAN PERTANIAN DENGAN MULTI SENSOR GERAK BERBASIS IOT\n\nAbstrak:\nHama burung pipit merupakan elemen yang sangat signifikan dalam pertanian padi karena bisa berdampak secara negatif pada hasil panen, menyebabkan kerugian bagi petani. Dalam lima tahun terakhir, serangan oleh burung pipit telah menjadi masalah yang sangat mengganggu, terutama pada bulan Agustus dan September setiap tahunnya ketika tanaman padi mulai berbuah. Para petani menghadapi serangan hama utama yang berasal dari burung pipit. Tipe penelitian yang diterapkan dalam penelitian ini adalah penelitian kualitatif yang digunakan. Metode penelitian kualitatif dikenal sebagai metode inovatif karena telah kehilangan popularitasnya selama beberapa waktu dan disebut post-positivis karena berlandaskan pada filosofi post-positivis. Metode ini juga dikenal sebagai metode seni karena lebih mudah dipahami karena materi penelitian lebih terkait dengan interpretasi terhadap data yang ditemukan di lokasi. Hasil analisis yang diperoleh dari observasi lapangan serta wawancara dengan para petani, dapat disimpulkan bahwa dalam upaya mengatasi permasalahan hama burung pada lahan pertanian, para petani sebelumnya telah menerapkan metode manual yang melibatkan strategi kreatif seperti penggunaan orang-orangan sawah dan perangkat berbasis kaleng bekas yang dihubungkan dengan tali sebagai upaya pengusiran burung-burung yang berpotensi merusak tanaman. Berdasarkan perancangan sistem dan hasil pengujian dapat disimpulkan bahwa sistem deteksi wabah burung yang dibangun dengan ESP8266 (NodeMCU), ESP32-CAM, RWCL-0516 dan Sensor PIR, dapat dideteksi oleh sensor PIR berdasarkan pengujian. . hasil . gerakan dalam jarak 1-5 meter, berbunyi sebagai alarm ketika sensor mendeteksi gerakan dan LED sebagai indikator deteksi, serta ESP8266 (NodeMCU) harus terhubung ke Internet untuk mengirimkan hasil deteksi ke website ketika sensor mendeteksi gerakan.",
+                    "metadata": {
+                        "source": "2023_ALIM_SRI_NUGRAHA.pdf",
+                        "judul": "SISTEM PENGUSIR HAMA BURUNG PADA LAHAN PERTANIAN DENGAN MULTI SENSOR GERAK BERBASIS IOT",
+                        "nama": "Alim Sri Nugraha",
+                        "nim": "60200116009",
+                        "pembimbing": "",
+                        "tahun": "2023",
+                        "similarity_score": 94.16
+                    }
+                },
+                {
+                    "page_content": "Judul: RANCANG BANGUN APLIKASI SISTEM PEMELIHARAAN HEWAN TERNAK BERBASIS ANDROID\n\nAbstrak:\nPengembangan industri peternakan merupakan bagian dari pembangunan sektor pertanian dan memiliki nilai strategis dalam memenuhi permintaan pakan ternak yang terus meningkat akibat jumlah penduduk Indonesia yang terus bertambah. Penelitian ini dilatar belakangi oleh banyaknya peternak yang masih minim pengetahuan dalam hal melakukan pemeliharaan terhadap hewan ternaknya, hal ini menyebabkan banyak peternak yang melakukan pemeliharaan pada ternaknya hanya berdasarkan pengalaman saja karena kurangnya informasi atau pengetahuan yang bisa didapatkan. Metode penelitian yang digunakan dalam penelitian ini adalah metode penelitian kualitatif dengan pendekatan eksperimen untuk metode pemrogramannya menggunakan metode waterfall. Adapun sumber data didapatkan dari beberapa buku, jurnal, skripsi, e-book, website, dan pengumpulan datanya dilakukan dengan melakukan obsevasi dan wawancara kepada pegawai Dinas Peternakan dan Kesehata Hewan Kab. Sinjai serta peternak yang bersangkutan. Hasil dari penelitian ini berupa Aplikasi Sistem Pemeliharaan Hewan Ternak Berbasi Android yang dapat digunakan untuk memperoleh informasi terkait pemeliharaan hewan ternak, juga dapat dijadikan sebagai wadah untuk mengetahui jenis perawatan dan diagnosa penyakit dalam melakukan pemeliharaan terhadap hewan ternak. Selain itu, sistem ini juga memberikan kemudahan bagi Dinas Peternakan dan Keshatan Hewan dalam memberikan informasi perkembangan seputar pemeliharaan ternak tanpa harus terus-menerus turun ke lapangan.",
+                    "metadata": {
+                        "source": "2021_SYAHRAENI.pdf",
+                        "judul": "RANCANG BANGUN APLIKASI SISTEM PEMELIHARAAN HEWAN TERNAK BERBASIS ANDROID",
+                        "nama": "Syahraeni",
+                        "nim": "60200116069",
+                        "pembimbing": "",
+                        "tahun": "2021",
+                        "similarity_score": 94.14
+                    }
+                },
+                {
+                    "page_content": "Judul: MEMPREDIKSI PENYAKIT TANAMAN HIDROPONIK SELADA MENGGUNAKAN METODE RECURRENT NEURAL NETWORK\n\nAbstrak:\nHidroponik selada merupakan suatu sayuran yang paling banyak disukai oleh khalayak umum. Selada juga mempunyai beberapa suatu penyakit yang sangat sulit di ketahui oleh para petani, walaupun itu penyakit selada umum terjadi tetapi masih banyak petani yang belum mengenal inti permasalahan dari penyakit tersebut. Maka dari itu, dapat difungsikan sistem dalam hal mendiagnosa sebuah penyakit tanaman hidroponik selada memanfaatkan metode Recurrent Neural Network. Berdasarkan dari suatu permasalahan yang sering terjadi maka dari itu penelitian ini mengangkat judul “memprediksi penyakit tanaman hidroponik selada menggunakan metode Recurrent Neural Network” dalam hal mengatasi ketidaktahuan seorang petani dalam mendeteksi sebuah penyakit hidroponik selada dengan masukkan berbagai macam ciri-ciri yang tertera pada suatu sistem berdasarkan kondisi tanaman, maka dari itu sistem akan memberikan sebuah insight berdasarkan dari ciri yang ada dengan memakai algoritma Recurrent Neural Network dan memberikan penangan obat atau pestisida untuk menangani penyakit tanaman hidroponik selada. Penelitian ini memanfaatkan penelitian yang bersifat kualitatif dengan cara mengumpulkan beberapa data melalui tahapan wawancara, mengambil secara manual dan kuesioner. Perancangan sistem ini menggunakan Prototype dan sistem ini akan diuji berdasarkan pengujian Confusion Matrix. Berdasarkan hasil dari proses penelitian dari berbagai tempat lokasi pengambilan dataset yang dilakukan penulis dengan beberapa penyakit hidroponik selada dengan total data terdiri dari 1.000 dataset. Maka sebab itu, temuan studi ini ialah terciptanya sebuah sistem website yang dapat meramal penyakit secara akurat.",
+                    "metadata": {
+                        "source": "2023_MUH._FAUSAN.pdf",
+                        "judul": "MEMPREDIKSI PENYAKIT TANAMAN HIDROPONIK SELADA MENGGUNAKAN METODE RECURRENT NEURAL NETWORK",
+                        "nama": "Muh. Fausan",
+                        "nim": "60200117065",
+                        "pembimbing": "",
+                        "tahun": "2023",
+                        "similarity_score": 94.1
+                    }
+                },
+                {
+                    "page_content": "Judul: SISTEM INFORMASI PENDISTRIBUSIAN PUPUK DI KABUPATEN SINJAI BERBASIS WEB MENGGUNAKAN PROGRESSIVE WEB APPS (PWA) DAN BOOTSTRAP\n\nAbstrak:\nPengembangan teknologi di bidang pertanian menjadi salah satu bentuk inovasi terbaru dalam peningkatan kualitas sistem pertanian. Pendistribusian pupuk oleh distributor ke petani yang tidak merata menjadi salah satu titik permasalahan sentral dibidang pertanian, khususnya di Kabupaten Sinjai. Salah satu langkah alternatif yang dilakukan yaitu pengembangan sistem informasi pendistribusian pupuk berbasis web menggunakan PWA dan Bootstrap. Tujuan dibuatnya sistem ini untuk mengatasi persoalan distribusi pupuk yang tidak tepat sasaran dan memonitoring pendistribusian pupuk dari distributor ke petani berbasis web. Hal ini menjadi langkah strategis dalam mengembangkan sistem pertanian dari model konvensional menjadi sistem digitalisasi. Metode pengelolaan data dalam penelitian ini adalah reduksi data dan pengkodean. Perancangan sistem pada penelitian ini menggunakan Progressive Web Apps (PWA) dan Bootstrap. Hasil yang diperoleh dari penelitian ini yaitu pengujian blackbox sebagai tampilan halaman utama dari website dan SUS sebagai parameter Tingkat kepuasan user pengujian secara SUS skor diperoleh nilai skor rata-rata 80 (excellent) dari total user berjumlah 5 orang (4 petani dan 1 distributor) dengan tingkat kepuasan bagus sekali (excellent) dan nilai load response masing-masing web sebesar 2636 ms. Walaupun penelitian ini berhasil mendapatkan nilai skor rata-rata 80 (excellent), sistem pendistribusian pupuk berbasis PWA diharapkan dapat dikembangkan pada skala daerah yang lebih besar, misalnya skala provinsi bahkan nasional.",
+                    "metadata": {
+                        "source": "2024_FADLI.pdf",
+                        "judul": "SISTEM INFORMASI PENDISTRIBUSIAN PUPUK DI KABUPATEN SINJAI BERBASIS WEB MENGGUNAKAN PROGRESSIVE WEB APPS (PWA) DAN BOOTSTRAP",
+                        "nama": "Fadli",
+                        "nim": "60200118057",
+                        "pembimbing": "",
+                        "tahun": "2024",
+                        "similarity_score": 94.09
+                    }
+                }
+            ]
         },
         "prompt_2": {
-            "hypothetical_document": "sistem pendukung keputusan metode",
-            "latency_sec": 1.67
-        },
-        "prompt_3": {
-            "hypothetical_document": "Pengambilan keputusan dalam lingkungan bisnis yang kompleks seringkali terhambat oleh ketidakpastian dan data yang tidak lengkap, sehingga memerlukan sistem pendukung keputusan yang dapat menafsirkan informasi secara adaptif. Penelitian ini mengimplementasikan sistem pendukung keputusan berbasis logika fuzzy, menggunakan model inferensi Mamdani dengan basis aturan yang dikembangkan melalui analisis data historis dan konsultasi domain. Hasilnya menunjukkan peningkatan akurasi keputusan sebesar 15 % dibandingkan dengan metode tradisional serta pengurangan waktu proses evaluasi keputusan hingga 30 %.",
-            "latency_sec": 0.96
-        }
-    },
-    {
-        "tema": "Otomatisasi/IoT",
-        "query": "cara otomatis pisahin telur bagus",
-        "prompt_1": {
-            "hypothetical_document": "cara otomatis pisahin telur bagus",
-            "latency_sec": 1.04
-        },
-        "prompt_2": {
-            "hypothetical_document": "cara otomatis pisahin telur bagus",
-            "latency_sec": 0.97
-        },
-        "prompt_3": {
-            "hypothetical_document": "Penelitian ini mengatasi masalah identifikasi telur unggul secara otomatis, yang penting bagi industri peternakan untuk meningkatkan efisiensi produksi. Metode yang digunakan melibatkan sistem pengolahan citra berbasis jaringan saraf konvolusional yang memproses gambar telur untuk menilai kualitasnya. Hasil penelitian menunjukkan bahwa sistem dapat memisahkan telur bagus dengan akurasi mencapai 94,5 % dan mengurangi biaya inspeksi manual secara signifikan.",
-            "latency_sec": 0.79
-        }
-    },
-    {
-        "tema": "Computer Vision",
-        "query": "klasifikasi kematangan buah cabai cnn",
-        "prompt_1": {
-            "hypothetical_document": "Abstrak: Penelitian ini mengatasi masalah identifikasi kematangan buah cabai secara otomatis, yang penting bagi petani dan industri pengolahan buah untuk menentukan waktu panen optimal namun sering kali masih dilakukan secara manual dan subjektif. Metode yang digunakan adalah penerapan model Convolutional Neural Network (CNN) dengan arsitektur ResNet-50 yang dilatih pada dataset 3.200 gambar buah cabai dalam tiga kategori kematangan (imun, semi, matang), termasuk preprocessing augmentasi data dan normalisasi, serta evaluasi menggunakan cross‑validation 5‑fold. Hasilnya, model CNN mencapai akurasi 94,7 % dan F1‑score 0,95 pada data uji, menunjukkan peningkatan signifikan dibandingkan metode klasifikasi berbasis fitur tradisional, sehingga dapat diterapkan untuk sistem monitoring kematangan buah cabai secara real‑time di lapangan.",
-            "latency_sec": 0.78
-        },
-        "prompt_2": {
-            "hypothetical_document": "Penelitian ini mengembangkan model klasifikasi kematangan buah cabai menggunakan jaringan saraf konvolusional (CNN) dengan dataset citra buah cabai yang diberi label berdasarkan tingkat kematangan. Model CNN dilatih menggunakan teknik augmentasi data dan validasi silang untuk memaksimalkan generalisasi. Hasil evaluasi menunjukkan akurasi klasifikasi mencapai nilai tinggi, menunjukkan potensi aplikasi sistem otomatisasi pemilihan buah cabai berdasarkan kematangan.",
-            "latency_sec": 0.85
-        },
-        "prompt_3": {
-            "hypothetical_document": "Penelitian ini bertujuan mengatasi keterbatasan metode manual dalam menilai kematangan buah cabai, dengan mengembangkan sistem klasifikasi berbasis Convolutional Neural Network (CNN) yang memanfaatkan citra digital. Metode CNN dilatih pada dataset gambar cabai beragam tingkat kematangan, menggunakan arsitektur ResNet‑50 dan augmentasi data untuk meningkatkan generalisasi. Hasil evaluasi menunjukkan model mencapai akurasi 94,2 % dalam mengklasifikasikan lima kelas kematangan, menunjukkan potensi penerapan sistem otomatis dalam industri pertanian.",
-            "latency_sec": 0.65
-        }
-    },
-    {
-        "tema": "Umum",
-        "query": "frameowrk",
-        "prompt_1": {
-            "hypothetical_document": "Masalah: Pengembangan aplikasi perangkat lunak sering kali terhambat oleh kebutuhan konfigurasi manual, integrasi modul yang rumit, dan ketergantungan pada arsitektur yang kaku, sehingga menurunkan produktivitas tim dan memperpanjang siklus pengembangan. Metode: Penelitian ini merancang dan mengimplementasikan sebuah framework modular berbasis microservices menggunakan Spring Boot, Docker, dan Kubernetes, dengan arsitektur plugin yang memudahkan penambahan fitur serta API Gateway untuk manajemen layanan, dan menyediakan adaptor khusus untuk integrasi dengan sistem legacy. Hasil: Framework yang dikembangkan berhasil meningkatkan efisiensi pengembangan sebesar 35 % dan mengurangi waktu deployment hingga 55 %, sekaligus memungkinkan integrasi mulus dengan aplikasi lama melalui adaptor, sehingga memfasilitasi transisi digital yang lebih cepat dan aman bagi organisasi.",
-            "latency_sec": 0.86
-        },
-        "prompt_2": {
-            "hypothetical_document": "frameowrk",
-            "latency_sec": 0.95
-        },
-        "prompt_3": {
-            "hypothetical_document": "Penelitian ini mengatasi tantangan pengembangan aplikasi web yang memerlukan kecepatan dan skalabilitas tinggi dengan memanfaatkan framework Spring Boot sebagai platform pengembangan. Metode yang diterapkan melibatkan arsitektur berbasis MVC, integrasi database MySQL, serta penerapan RESTful API untuk komunikasi antar layanan. Hasil penelitian menunjukkan peningkatan produktivitas pengembangan sebesar 30 % dan pengurangan waktu pemeliharaan aplikasi hingga 25 % dibandingkan dengan pendekatan tradisional.",
-            "latency_sec": 2.04
-        }
-    },
-    {
-        "tema": "Sistem Pendukung Keputusan",
-        "query": "sistem pendukung keputusan 2020",
-        "prompt_1": {
-            "hypothetical_document": "Masalah: Penelitian ini mengatasi keterbatasan dalam pengambilan keputusan strategis di sektor publik pada tahun 2020, di mana data real-time dan variabel kompleks seringkali tidak terintegrasi secara efisien, sehingga menyebabkan ketidakpastian dan keterlambatan dalam pembuatan kebijakan. Metode: Penelitian ini mengembangkan sistem pendukung keputusan berbasis web yang memanfaatkan arsitektur microservices, algoritma machine learning (Random Forest dan Gradient Boosting) untuk prediksi, serta visualisasi data interaktif menggunakan D3.js, sehingga mampu mengolah dan menyajikan data multidimensi secara real-time. Hasil: Sistem yang dikembangkan berhasil meningkatkan akurasi prediksi kebijakan sebesar 18 % dibandingkan metode tradisional, mempercepat proses pengambilan keputusan hingga 35 % waktu, dan memperoleh tingkat kepuasan pengguna (stakeholder) sebesar 92 % dalam uji coba lapangan di beberapa lembaga pemerintah.",
-            "latency_sec": 3.95
-        },
-        "prompt_2": {
-            "hypothetical_document": "sistem pendukung keputusan 2020",
-            "latency_sec": 5.05
-        },
-        "prompt_3": {
-            "hypothetical_document": "Sistem pendukung keputusan 2020 dirancang untuk mengatasi keterbatasan organisasi dalam mengambil keputusan strategis secara cepat dan akurat akibat kurangnya integrasi data real‑time. Metode yang digunakan melibatkan data mining dan analisis statistik dengan platform R serta database SQL, yang memproses dan memvisualisasikan data operasional secara interaktif. Hasil penelitian menunjukkan peningkatan akurasi keputusan sebesar 15 % dan pengurangan waktu evaluasi strategi hingga 30 %.",
-            "latency_sec": 3.94
+            "hypothetical_document": "Menganalisis dampak wabah penyakit daun pada tanaman terhadap kerugian ekonomi petani.",
+            "latency_sec": 0.45,
+            "documents": [
+                {
+                    "page_content": "Judul: i SISTEM PAKAR DIAGNOSA PENYAKIT PADA TANAMAN CENGKEH MENGGUNAKAN MOBILENET BERBASIS WEB SAMPUL\n\nAbstrak:\nCengkeh merupakan tanaman yang rentan terserang penyakit sehingga perawatannya pun harus diperhatikan. Cengkeh memiliki berbagai macam penyakit sehingga diperlukan pula tindak penanganan yang berbeda-beda, namun di berbagai situasi petani tidak paham mengenai penyakit dan solusi yang harus diambil untuk menyelamatkan tanaman cengkeh tersebut. Convolutional Neural Network (CNN) merupakan kelas arsitektur yang telah banyak digunakan dalam pembelajaran mendalam. CNN bekerja mirip dengan jaringan syaraf tiruan, kecuali mereka awalnya memiliki sejumlah lapisan konvolusi. CNN biasanya diperuntukkan dalam perintah pendeteksian visual contohnya klasifikasi gambar, pengenalan objek, serta suara. Penelitian ini dilakukan secara kuantitatif bertujuan menguraikan masalah dari data yang diperoleh dengan teknik statistic dengan menerapkan metode yang dapat menyelesaikan suatu masalah. Untuk mengatasi masalah penyakit yang ada pada tanaman cengkeh di daerah kabupaten Luwu maka sangat tepat jika ada solusi yang dilakukan untuk mengatasi permasalahan yang dialami petani. Untuk membantu permasalahan ini penelitian ini mengusulkan arsitektur MobileNet CNN untuk melakukan klasifikasi daun tanaman cengkeh. Penelitian ini menggunakan gambar penyakit daun tanaman cengkeh, dalam tiga kategori yaitu cacar daun cengkeh, embun jelaga dan kutu daun. Dari hasil data testing yang telah di uji dengan 30 data, objek menghasilkan rata-rata nilai akurasi 76%.",
+                    "metadata": {
+                        "source": "2023_RINI_AMALIAH.pdf",
+                        "judul": "i SISTEM PAKAR DIAGNOSA PENYAKIT PADA TANAMAN CENGKEH MENGGUNAKAN MOBILENET BERBASIS WEB SAMPUL",
+                        "nama": "Rini Amaliah",
+                        "nim": "60200118038",
+                        "pembimbing": "",
+                        "tahun": "2023",
+                        "similarity_score": 92.71
+                    }
+                },
+                {
+                    "page_content": "Judul: i IDENTIFIKASI PENYAKIT DAUN TEH BERDASARKAN CITRA DAUN MENGGUNAKAN ARSITEKTUR EFFICIENTNET-B7\n\nAbstrak:\nPenelitian ini bertujuan untuk mengembangkan model deep learning menggunakan arsitektur EfficientNet-B7 untuk mengklasifikasikan penyakit daun teh. Dataset gambar daun teh yang terdiri dari enam kelas yaitu bercak alga (algal spot), layu coklat (brown blight), layu abu-abu (gray blight), daun sehat (healthy), helopeltis sp (helopeltis), bercak merah (red spot), digunakan dalam pelatihan model. Model dilatih menggunakan teknik augmentasi data guna meningkatkan generalisasi dan dievaluasi dengan metrik akurasi, presisi, recall, dan F1-Score. Untuk meningkatkan performa, dan penyesuaian parameter dilakukan selama proses pelatihan. Hasil penelitian menunjukkan bahwa model EfficientNet-B7 mampu mencapai akurasi sebesar 99% dalam mendeteksi berbagai penyakit daun teh. Selain itu, metrik presisi, recall, dan F1-Score yang tinggi menunjukkan bahwa model ini dapat secara andal membedakan antara daun sehat dan yang terkena penyakit. Dengan akurasi yang sangat tinggi, model ini berpotensi untuk digunakan dalam sistem monitoring tanaman otomatis yang dapat membantu petani dalam mengidentifikasi penyakit daun teh lebih cepat dan lebih akurat.",
+                    "metadata": {
+                        "source": "2025_THEDDY_DZIKRULLAH_SYAHPUTRA.pdf",
+                        "judul": "i IDENTIFIKASI PENYAKIT DAUN TEH BERDASARKAN CITRA DAUN MENGGUNAKAN ARSITEKTUR EFFICIENTNET-B7",
+                        "nama": "Theddy Dzikrullah Syahputra",
+                        "nim": "60200119008",
+                        "pembimbing": "",
+                        "tahun": "2025",
+                        "similarity_score": 92.55
+                    }
+                },
+                {
+                    "page_content": "Judul: IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID\n\nAbstrak:\nPenyakit yang terdapat pada tanaman jeruk khususnya pada daunnya umumnya didiagnosis dengan cara melihat gejala yang muncul pada tanaman, proses ini dilakukan di laboratorium oleh seorang ahli patologi tumbuhan. Dalam proses diagnosis tersebut dapat membantu petani untuk mengetahui kondisi daun pada tanaman jeruk, tetapi terdapat beberapa hambatan yang dialami oleh petani untuk menggunakan perlengkapan laboratorium khususnya pada petani yang tinggal di desa. Pengelompokan penyakit pada daun jeruk erutama petani yang berada dipedesaan. Metode pengolahan gambar atau citra bisa digunakan dalam pengelompokan penyakit pada daun jeruk sehingga dapat menghasilkan acuan diagnose yang akurat dan cepat. Deep Learning merupakan salah satu model yang berkembang cukup pesat beberapa tahun terakhir dikarenakan model ini memiliki kemampuan dalam mempelajari representasi data yang selanjutnya digunakan untuk klasifikasi atau deteksi. Pengklasifikasian dataset gambar dapat dianalisis menggunakan beberapa model salah satu model untuk menganalisis Deep Learning ialah CNN atau Convolutional Neural Network. Penelitian ini mengusulkan arsitektur Mobilenet Convolutional Neural Network (CNN) dalam melakukan suatu pengklasifikasian. Pada penelitian ini dilakukan evaluasi pada gambar daun jeruk yang terserang penyakit dengan mengambil sampel 377 gambar dan dibagi menjadi 3 kategori yakni normal, Canker dan Black Spot. Hasil uji coba dari klasifikasi citra objek menghasilkan rata-rata nilai akurasi 87%.",
+                    "metadata": {
+                        "source": "2022_IBNAH_IKRIMAH_M._TH.pdf",
+                        "judul": "IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID",
+                        "nama": "Ibnah Ikrimah M. Th",
+                        "nim": "60200117024",
+                        "pembimbing": "",
+                        "tahun": "2022",
+                        "similarity_score": 92.49
+                    }
+                },
+                {
+                    "page_content": "Judul: KLASIFIKASI PENYAKIT PADA DAUN TOMAT MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK\n\nAbstrak:\nPenelitian ini menggunakan Convolutional Neural Network (CNN) dengan arsitektur Inception v3 untuk mengidentifikasi penyakit pada daun tomat. Peneliti menggunakan pendekatan penelitian kualitatif dan metode Cross-Industry Standard Process for Data Mining (CRISP-DM) untuk membantu peneliti mencapai tahap yang jelas dan terstruktur untuk model klasifikasi yang akurat dan andal. CRISP-DM mempunyai enam tahapan kerangka yakni Business Understanding, Data Understanding, Data Preparation, Modeling, Evaluation, dan Deployment. Data publik yang diperoleh dari Kaggle dengan jumlah 5.000 gambar yang diklasifikasikan menjadi lima kelas penyakit: Tomato Septoria Leaf Spot, Tomato Mosaic Virus, Tomato Yellow Curl Virus, Tomato Late Blight, dan Tomato Leaf Mold. Data dibagi menjadi 80% untuk data pelatihan, 10% untuk data pengujian, dan 10% untuk data validasi. Hasil penelitian menunjukkan bahwa model memiliki akurasi sebesar 96,30% dalam menemukan penyakit tomat.",
+                    "metadata": {
+                        "source": "2025_MUH._RAFLI_AMMAR.pdf",
+                        "judul": "KLASIFIKASI PENYAKIT PADA DAUN TOMAT MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK",
+                        "nama": "Muh. Rafli Ammar",
+                        "nim": "60200120130",
+                        "pembimbing": "",
+                        "tahun": "2025",
+                        "similarity_score": 92.39
+                    }
+                },
+                {
+                    "page_content": "Judul: KLASIFIKASI PENYAKIT PADA TANAMAN KUBIS MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK DAN OPTIMASI PARTICLE SWARM OPTIMIZATION\n\nAbstrak:\nsalah satu komoditas pertanian yang memiliki nilai ekonomi penting. Kubis memiliki beberapa jenis penyakit yang dapat mengancam produksinya, seperti penyakit busuk hitam dan bercak daun. Identifikasi dan pengendalian penyakit pada tanaman kubis sangat penting untuk menjaga hasil panen dan kualitas produk yang dihasilkan dalam mendukung keberlanjutan pertanian. Penelitian ini bertujuan untuk mengembangkan dan mengimplementasikan teknologi deep learning dengan algoritma Convolution Neural Network (CNN) dan optimasi Particle Swarm Optimization (PSO) dalam mengotomatisasi identifikasi penyakit tanaman kubis tersebut. Dataset dikumpulkan dengan memastikan keragaman dan representasi yang baik dari gejala-gejala visual pada daun tanaman kubis dari berbagai kondisi lingkungan dan tahap pertumbuhan kubis. Pengembangan model dilakukan dengan metode Cross Industry Standard Process for Data Mining (CRISP-DM) yang meliputi tahap pemahaman bisnis, pemahaman data, persiapan data, pemodelan, evaluasi, dan penerapan. Hasil pengujian menunjukkan bahwa model CNN dengan arsitektur MobileNet V2 yang dikembangkan mampu mengenali penyakit tanaman kubis dengan tingkat akurasi 94% dan akurasi sistem yang dibangun sebesar 96%. Implementasi ini menunjukkan bahwa teknologi deep learning dengan algoritma CNN efektif dalam identifikasi penyakit tanaman kubis.",
+                    "metadata": {
+                        "source": "2025_NIRWANA_SAMRIN.pdf",
+                        "judul": "KLASIFIKASI PENYAKIT PADA TANAMAN KUBIS MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK DAN OPTIMASI PARTICLE SWARM OPTIMIZATION",
+                        "nama": "Nirwana Samrin",
+                        "nim": "60200120017",
+                        "pembimbing": "",
+                        "tahun": "2025",
+                        "similarity_score": 92.33
+                    }
+                }
+            ]
         }
     }
 ]

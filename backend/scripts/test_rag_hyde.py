@@ -45,26 +45,30 @@ def compute_ir_metrics(results: list[dict], ground_truth_file: str | None) -> li
 def main():
     service = get_rag_service()
     
-    # Path ke file queries.json
-    queries_path = Path(__file__).parent.parent / "evaluation" / "queries.json"
+    # Path ke file queries_new.json
+    queries_path = Path(__file__).parent.parent / "evaluation" / "queries_new.json"
     
+    if not queries_path.exists():
+        print(f"[ERROR] File query tidak ditemukan: {queries_path}")
+        return
+
     with open(queries_path, "r", encoding="utf-8") as f:
         all_queries = json.load(f)
         
-    # target_ids = ["Q17", "Q37", "Q39", "Q46"]
-    target_ids = ["Q29"]
+    # Daftar ID query yang akan diuji (Standard RAG & HyDE)
+    target_ids = ["Q07"]
     
-    # Filter query bersumber dari queries.json
-    queries = [q for q in all_queries if q.get("ID") in target_ids]
+    # Filter query bersumber dari queries_new.json (case-insensitive)
+    queries = [q for q in all_queries if q.get("ID", "").upper() in [tid.upper() for tid in target_ids]]
     
     if not queries:
-        print(f"Tidak ada query yang cocok dengan ID {target_ids} di queries.json")
+        print(f"Tidak ada query yang cocok dengan ID {target_ids} di {queries_path.name}")
         return
         
     all_results = []
     
     for i, query in enumerate(queries):
-        print(f"\n[INFO] Testing {query['ID']} (Standard RAG vs HyDE)...")
+        print(f"\n[{i+1}/{len(queries)}] Testing {query['ID']} | {query.get('Tipe', '')} | \"{query['Query_Text']}\" (Standard RAG vs HyDE)...")
         
         # --------------------------------------------------------------------------
         # 1. Standard RAG
@@ -155,14 +159,18 @@ def main():
             time.sleep(5)
 
     # --------------------------------------------------------------------------
-    # Menyimpan Output
+    # Menyimpan dan Menampilkan Output
     # --------------------------------------------------------------------------
-    output_path = Path(__file__).parent.parent / "evaluation" / "results" / "eval_q29_test.json"
+    output_path = Path(__file__).parent.parent / "evaluation" / "results" / "eval_rag_hyde_selected_queries.json"
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(all_results, f, indent=2, ensure_ascii=False)
         
+    print("\n" + "=" * 60)
+    print("HASIL PENGUJIAN QUERY TERPILIH (STANDARD RAG & HYDE)")
+    print("=" * 60)
+    print(json.dumps(all_results, indent=2, ensure_ascii=False))
     print(f"\n[DONE] Hasil json evaluasi lengkap telah disimpan di:\n{output_path}")
 
 if __name__ == "__main__":

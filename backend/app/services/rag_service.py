@@ -38,14 +38,14 @@ class RAGService:
         print("🔄 Initializing Groq LLM...")
         self.llm_standard = ChatGroq(
             model=settings.GROQ_MODEL,
-            temperature=getattr(settings, "LLM_TEMPERATURE_STANDARD", 0.0),
+            temperature=settings.LLM_TEMPERATURE_STANDARD,
             max_tokens=settings.LLM_MAX_TOKENS,
             groq_api_key=settings.GROQ_API_KEY,
         )
         
         self.llm_hyde = ChatGroq(
             model=settings.GROQ_MODEL,
-            temperature=getattr(settings, "LLM_TEMPERATURE_HYDE", 0.4),
+            temperature=settings.LLM_TEMPERATURE_HYDE,
             max_tokens=settings.LLM_MAX_TOKENS,
             groq_api_key=settings.GROQ_API_KEY,
         )
@@ -63,77 +63,141 @@ class RAGService:
         )
 
         # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
-        self.prompt_2 = (
-            "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
-            "Bahasa Indonesia berdasarkan topik berikut.\n\n"
-            "Aturan ketat:\n"
-            "- Panjang: 2–3 kalimat saja.\n"
-            "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
-            "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari topik. "
-            "Jangan tambahkan metode lain untuk mengurangi ambiguitas dan halusinasi.\n"
-            "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi "
-            "absensi pakai muka'), terjemahkan ke istilah akademis yang tepat "
-            "(misal: 'Penelitian ini membangun sistem absensi berbasis "
-            "pengenalan wajah...').\n"
-            "- Jika ada typo, koreksi otomatis ke istilah baku yang paling "
-            "mendekati dalam bidang Teknik Informatika.\n"
-            "- Output hanya teks abstrak. Tanpa salam, tanpa label, tanpa "
-            "tanda kutip pembuka/penutup.\n\n"
-            "Topik: {query}"
-        )
-
-        # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
         # self.prompt_2 = (
         #     "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
         #     "Bahasa Indonesia berdasarkan topik berikut.\n\n"
         #     "Aturan ketat:\n"
-        #     "- Panjang: 2–3 kalimat saja.\n"
-        #     "- Jika topik HANYA berisi metode atau algoritma tanpa konteks masalah, "
-        #     "Anda DIIZINKAN merumuskan objek penelitian atau tujuan umum agar menjadi kalimat utuh.\n"
-        #     "- DILARANG KERAS menambahkan, mengarang, atau menyebutkan nama metode, "
-        #     "algoritma, atau teknologi spesifik lain di luar yang ada pada topik "
-        #     "(contoh: jangan menambahkan 'Fuzzy Logic' jika topik hanya 'Sistem Pendukung Keputusan').\n"
-        #     "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi absensi pakai muka'), "
-        #     "terjemahkan ke istilah akademis formal Teknik Informatika.\n"
-        #     "- Jika ada typo, koreksi otomatis ke istilah baku yang paling mendekati.\n"
-        #     "- Wajib HANYA menghasilkan teks abstrak. Dilarang memberikan salam, label, "
-        #     "tanda kutip, atau mengembalikan output kosong (empty string).\n\n"
+        #     "- Panjang: 1–3 kalimat saja.\n"
+        #     "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
+        #     "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari topik. "
+        #     "Jangan tambahkan metode lain untuk mengurangi ambiguitas dan halusinasi.\n"
+        #     "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi "
+        #     "absensi pakai muka'), terjemahkan ke istilah akademis yang tepat "
+        #     "(misal: 'Penelitian ini membangun sistem absensi berbasis "
+        #     "pengenalan wajah...').\n"
+        #     "- Jika ada typo, koreksi otomatis ke istilah baku yang paling "
+        #     "mendekati dalam bidang Teknik Informatika.\n"
+        #     "- Output hanya teks abstrak. Tanpa salam, tanpa label, tanpa "
+        #     "tanda kutip pembuka/penutup.\n\n"
         #     "Topik: {query}"
         # )
+        # self.prompt_2 = (
+        #     "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+        #     "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+        #     "Aturan ketat:\n"
+        #     "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+        #     "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+        #     "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
+        #     "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari kueri. "
+        #     "Jangan menebak atau menambahkan metode eksternal.\n"
+        #     "- Jika kueri menggunakan bahasa awam (misal: 'aplikasi "
+        #     "absensi pakai muka'), terjemahkan ke terminologi akademis murni "
+        #     "(misal: 'Penelitian ini mengembangkan sistem absensi berbasis pengenalan wajah').\n"
+        #     "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+        #     "- Output murni teks kalimat. Tanpa salam, tanpa label judul, tanpa "
+        #     "tanda kutip pembuka/penutup.\n\n"
+        #     "Kueri: {query}"
+        # )
+        # self.prompt_2 = (
+        #     "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+        #     "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+        #     "Aturan ketat:\n"
+        #     "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+        #     "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+        #     "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
+        #     "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari kueri. Jangan menebak metode eksternal.\n"
+        #     "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu menggunakan kata 'mengembangkan' atau 'membangun'. "
+        #     "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+        #     "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Menguji).\n"
+        #     "- Jika kueri menggunakan bahasa awam (misal: 'cek daun sakit cnn'), terjemahkan ke "
+        #     "terminologi akademis murni (misal: 'Penelitian ini mengimplementasikan algoritma Convolutional "
+        #     "Neural Network untuk klasifikasi penyakit daun').\n"
+        #     "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+        #     "- Output murni teks kalimat. Tanpa salam, tanpa label judul, tanpa tanda kutip pembuka/penutup.\n\n"
+        #     "Kueri: {query}"
+        # )
 
+        # self.prompt_2 = (
+        #     "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+        #     "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+        #     "Aturan ketat (ZERO HALLUCINATION):\n"
+        #     "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+        #     "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+        #     "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
+        #     "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi/analisis masalah tersebut.\n"
+        #     "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
+        #     "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
+        #     "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu menggunakan kata 'mengembangkan' atau 'membangun'. "
+        #     "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+        #     "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
+        #     "- Terjemahkan bahasa awam ke terminologi akademis murni (misal: 'cek daun sakit cnn' -> "
+        #     "'Penelitian ini mengimplementasikan algoritma Convolutional Neural Network untuk klasifikasi penyakit daun').\n"
+        #     "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+        #     "- Output murni teks kalimat. Tanpa salam, tanpa label judul, tanpa tanda kutip pembuka/penutup.\n\n"
+        #     "Kueri: {query}"
+        # )
+
+        self.prompt_2 = (
+            "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+            "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+            "Aturan ketat (ZERO HALLUCINATION):\n"
+            "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+            "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+            "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
+            "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi, penanganan, atau analisis masalah tersebut.\n"
+            "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
+            "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
+            "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu memaksakan kata 'mengembangkan' atau 'membangun'. "
+            "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+            "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
+            "- TRANSLASI KOSAKATA BAKU (WAJIB): Terjemahkan seluruh bahasa awam, kata benda kasual, atau istilah pasaran ke dalam terminologi akademis murni yang paling lazim digunakan dalam skripsi Teknik Informatika. (Contoh: 'hape' -> 'perangkat mobile/smartphone', 'tong sampah' -> 'tempat sampah', 'bikin web' -> 'sistem informasi berbasis web').\n"
+            "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+            "- Output murni teks kalimat. Tanpa kata pengantar, tanpa label, tanpa tanda kutip pembuka/penutup.\n\n"
+            "Kueri: {query}"
+        )
+
+        # self.prompt_3 = (
+        #     "Tugas: Hasilkan representasi dokumen akademis (judul dan kata kunci) "
+        #     "untuk memperluas kueri pencarian berikut ke dalam ruang vektor pencarian.\n\n"
+        #     "Aturan ketat (HARD RULES):\n"
+        #     "- BILINGUAL WAJIB: Pertahankan istilah teknis, nama algoritma, dan konsep IT murni "
+        #     "dalam Bahasa Inggris (contoh: 'Computer Vision', 'Deep Learning', 'Internet of Things'). "
+        #     "DILARANG KERAS menerjemahkannya ke Bahasa Indonesia.\n"
+        #     "- JANGAN gunakan kalimat pembuka/penutup (seperti 'Penelitian ini...', 'Abstrak:').\n"
+        #     "- HANYA tuliskan Judul Hipotetikal (1 kalimat) dan 5-7 Kata Kunci teknis spesifik (campuran ID & EN sesuai kelaziman IT).\n"
+        #     "- Jika kueri adalah bahasa kasual/typo, langsung terjemahkan ke bentuk akademis dwibahasa yang paling tepat.\n"
+        #     "- Output HANYA berupa teks langsung. Tanpa format tambahan.\n\n"
+        #     "Topik: {query}"
+        # )
+        # self.prompt_3 = (
+        #    "Tugas: Ekstrak dan perluas kueri berikut menjadi 7-10 kata kunci teknis, "
+        #     "objek, dan metode spesifik dalam domain Teknik Informatika.\n\n"
+        #     "Aturan ketat (HARD RULES):\n"
+        #     "- HANYA hasilkan daftar kata kunci yang dipisahkan dengan koma.\n"
+        #     "- DILARANG KERAS membuat kalimat, frasa panjang, atau judul.\n"
+        #     "- DILARANG KERAS menggunakan kata-kata generik akademis (seperti: 'Sistem', "
+        #     "'Aplikasi', 'Pengembangan', 'Analisis', 'Perancangan', 'Pemantauan', 'Penerapan').\n"
+        #     "- BILINGUAL WAJIB: Istilah algoritma dan konsep IT harus murni dalam Bahasa Inggris "
+        #     "(misal: 'Deep Learning', 'Computer Vision', 'Internet of Things').\n"
+        #     "- Jika kueri berupa masalah (misal: daun membusuk), ubah menjadi kata kunci teknis "
+        #     "(misal: Plant Disease Detection, Penyakit Daun).\n"
+        #     "- Output HANYA teks daftar kata kunci. Tanpa label, awalan, atau kutipan.\n\n"
+        #     "Kueri: {query}"
+        # )
         self.prompt_3 = (
-          #   "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam Bahasa Indonesia "
-          #   "berdasarkan topik yang diberikan.\n\n"
-          #   "Instruksi Pembuatan (Wajib diikuti):\n"
-          #   "1. Struktur Isi: Paragraf harus memuat 3 elemen secara mengalir: Masalah yang diselesaikan, "
-          #   "Metode/Teknologi yang digunakan, dan Hasil akhir penelitian.\n"
-          #   "2. Penanganan Metode: Jika topik tidak menyebutkan metode, gunakan metode standar "
-          #   "atau teknologi paling umum dalam Teknik Informatika yang paling logis untuk topik tersebut.\n"
-          #   "3. Bahasa Akademis: Ubah istilah sehari-hari menjadi bahasa akademis formal "
-          #   "(contoh: 'aplikasi absensi pakai muka' menjadi 'sistem presensi berbasis pengenalan wajah'). "
-          #   "Perbaiki otomatis setiap kesalahan ketik (typo) ke istilah baku IT.\n"
-          #   "4. Format Output: Hasilkan tepat 2 hingga 3 kalimat. Berikan HANYA teks abstrak "
-          #   "tanpa label, tanpa awalan, tanpa akhiran, dan tanpa tanda baca tambahan.\n\n"
-          #  "Topik: {query}"
-
-         "Tugas: Tulis dokumen hipotetis yang menyerupai abstrak "
-    "skripsi Teknik Informatika.\n\n"
-
-    "Aturan:\n"
-    "- Gunakan informasi yang eksplisit dari topik.\n"
-    "- Jika metode tidak disebutkan, jangan menambahkan "
-    "algoritma spesifik.\n"
-    "- Jika informasi terlalu sedikit, perluas dengan "
-    "konteks umum, tujuan, objek penelitian, atau "
-    "manfaat yang relevan.\n"
-    "- Jangan mengarang teknologi spesifik.\n"
-    "- Panjang 3–5 kalimat.\n"
-    "- Hanya hasilkan teks.\n\n"
-
-    "Topik: {query}"
-
-    
-)
+            "Tugas: Ekstrak dan perluas kueri berikut menjadi 7-10 kata kunci spesifik "
+            "untuk pencarian dokumen skripsi Teknik Informatika.\n\n"
+            "Aturan ketat (HARD RULES):\n"
+            "- HANYA hasilkan daftar kata kunci yang dipisahkan dengan koma. Tanpa awalan, kalimat, atau judul.\n"
+            "- PEMISAHAN BAHASA WAJIB:\n"
+            "  1. Objek masalah, subjek penelitian, dan tempat (misal: daun tomat, sampah laut, penyakit kulit) WAJIB menggunakan Bahasa Indonesia.\n"
+            "  2. Metode, algoritma, dan teknologi IT (misal: Computer Vision, Deep Learning, Random Forest) WAJIB menggunakan Bahasa Inggris.\n"
+            "- JIKA kueri berupa masalah awam (misal: 'petani rugi daun membusuk'), ubah menjadi kata kunci teknis campuran (misal: Penyakit Daun, Plant Disease Detection, Computer Vision).\n"
+            "- JANGAN gunakan kata generik seperti: 'Sistem', 'Aplikasi', 'Pengembangan', 'Analisis'.\n\n"
+            "Kueri: {query}"
+        )
+        # Kelebihan komentar prompt lama tidak lagi ditabur ulang:
+        # Prompt lama 2 & 3 telah diganti/dihilangkan duplikasinya di atas.
 
     def get_vector_count(self) -> int:
         try:
@@ -307,13 +371,13 @@ class RAGService:
         elif min_score is None:
             min_score = getattr(settings, "MIN_SIMILARITY_SCORE", 30.0)
 
-        # Pilih template prompt berdasarkan parameter
+        # Pilih template prompt berdasarkan parameter (Default utama: Prompt 3)
         if prompt_type == "prompt1":
             prompt = self.prompt_1.format(query=query.strip())
-        elif prompt_type == "prompt3":
-            prompt = self.prompt_3.format(query=query.strip())
-        else:
+        elif prompt_type == "prompt2":
             prompt = self.prompt_2.format(query=query.strip())
+        else:
+            prompt = self.prompt_3.format(query=query.strip())
 
         try:
             hypothetical_doc = self.llm_hyde.invoke(prompt).content.strip()

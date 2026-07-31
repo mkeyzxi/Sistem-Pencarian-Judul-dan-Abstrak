@@ -1,184 +1,352 @@
 [
   {
-    "query_id": "Q01",
-    "query_text": "algoritma analisis sentimen",
-    "category": "Leksikal Tematik",
-    "expected_document_targets": [
-      "INTEGRASI WORD EMBEDDING DAN LARGE LANGUAGE MODELS UNTUK ANALISIS SENTIMEN TENTANG RESISTANSI ANTIBIOTIK DI INDONESIA",
-      "ANALISIS SENTIMEN PENGGUNA TWITTER TERHADAP OBJEK PARIWISATA DI INDONESIA MENGGUNAKAN ALGORITMA PENGOLAHAN DEEP NATURAL LANGUAGE DARI IBM INSIGHTS UNTUK TWITTER",
-      "ANALISIS SENTIMEN MASYARAKAT TERHADAP PEMBATASAN SOSIAL BERSKALA BESAR MENGGUNAKAN ALGORITMA NA\u00cfVE BAYES",
-      "PERBANDINGAN ANALISIS SENTIMEN ALGORITMA SUPPORT VECTOR MACHINE DAN NA\u00cfVE BAYES TERHADAP TANGGAPAN PUBLIK TENTANG PEMBELAJARAN ONLINE DI MASA PANDEMI COVID-19",
-      "ANALISIS SENTIMEN PUBLIK TERHADAP PELAKSANAAN PERSIAPAN PEMILU TAHUN 2024 MENGGUNAKAN METODE MAXIMUM ENTROPY (MAXENT)"
-    ],
-    "rationale": "Menguji pencocokan keyword eksak untuk metode klasifikasi sentimen."
+    "ID": "Q01",
+    "Query_Text": "program hape buat atur uang",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q02",
-    "query_text": "convolutional neural network",
-    "category": "Leksikal Tematik",
-    "expected_document_targets": [
-      "IDENTIFIKASI NOMINAL MATA UANG RUPIAH BAGI PENYANDANG TUNANETRA DENGAN ALGORITMA CONVOLUTIONAL NEURAL NETWORK BERBASIS ANDROID",
-      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
-      "KLASIFIKASI PENYAKIT PADA DAUN TOMAT MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK",
-      "KLASIFIKASI PENYAKIT PADA TANAMAN KUBIS MENGGUNAKAN CONVOLUTIONAL NEURAL NETWORK DAN OPTIMASI PARTICLE SWARM OPTIMIZATION"
-    ],
-    "rationale": "Kueri terminologi eksak untuk melihat kemampuan sistem memanggil judul berbasis Deep Learning."
+    "ID": "Q02",
+    "Query_Text": "bikin web urus data desa",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q03",
-    "query_text": "teknologi augmented reality android",
-    "category": "Leksikal Tematik",
-    "expected_document_targets": [
-      "SISTEM PEMANDU WISATA BERBASIS AUGMENTED REALITY MARKERLESS MEMANFAATKAN GPS BASED TRACKING DENGAN PLATFORM ANDROID (Studi Kasus : Lokasi Wisata di Kota Makassar)",
-      "IMPLEMENTASI AUGMENTED REALITY BERBASIS CLOUD COMPUTING PADA BUKU PELAJARAN BIOLOGI SMU",
-      "APLIKASI MEDIA PEMBELAJARAN PENCAMPURAN ZAT KIMIA BERBASIS AUGMENTED REALITY MENGGUNAKAN PLATFORM ANDROID",
-      "RANCANG BANGUN APLIKASI PENGENALAN BUKU DENGAN TEKNOLOGI AUGMENTED REALITY BERBASIS ANDROID",
-      "RANCANG BANGUN APLIKASI MEDIA INFORMASI KOLEKSI MUSEUM BALLA LOMPOA BERBASIS ANDROID MEMANFAATKAN AUGMENTED REALITY"
-    ],
-    "rationale": "Memiliki kata kunci pasti (Augmented Reality, Android) dengan ejaan teknis yang benar."
+    "ID": "Q03",
+    "Query_Text": "foto daun buat cek hama",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q04",
-    "query_text": "aplikasi sistem pakar diagnosa",
-    "category": "Leksikal Tematik",
-    "expected_document_targets": [
-      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
-      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
-    ],
-    "rationale": "Kueri spesifik berisikan terminologi 'sistem pakar' dan 'diagnosa'."
+    "ID": "Q04",
+    "Query_Text": "kontrol air akuarium dari jauh",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q05",
-    "query_text": "metode analytical hierarchy process",
-    "category": "Leksikal Tematik",
-    "expected_document_targets": [
-      "RANCANG BANGUN SISTEM PENDUKUNG KEPUTUSAN DISTRIBUSI TENAGA MEDIS PUSKESMAS DI SULAWESI SELATAN DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS (STUDI KASUS KABUPATEN MAROS)",
-      "IMPLEMENTASI ANALYTICAL HIERARCHY PROCESS MULTIKRITERIA DALAM SISTEM PENDUKUNG KEPUTUSAN PENENTUAN LULUSAN TERBAIK TINGKAT FAKULTAS PADA UNIVERSITAS ISLAM NEGERI ALAUDDIN MAKASSAR",
-      "SISTEM PENUNJANG KEPUTUSAN DALAM PEMILIHAN JENIS BUKU PADA CV GUNADARMA ILMU SAMATA DENGAN METODE ANALITYCAL HIERARCHY PROCESS (AHP) BERBASIS WEBSITE",
-      "RANCANG BANGUN WEBSITE E-COMMERCE OPTIK DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS"
-    ],
-    "rationale": "Nama metode pengambilan keputusan eksak untuk menguji presisi leksikal."
+    "ID": "Q05",
+    "Query_Text": "ukur bau kotoran hewan",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q06",
-    "query_text": "bagaimana cara mengetahui jenis penyakit",
-    "category": "Semantic Gap",
-    "expected_document_targets": [
-      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
-      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
-    ],
-    "rationale": "Kueri fungsional awam yang semantiknya merujuk pada Sistem Pakar Diagnosa."
+    "ID": "Q06",
+    "Query_Text": "cek respon netizen di twitter",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q07",
-    "query_text": "alat pemberi makan hewan",
-    "category": "Semantic Gap",
-    "expected_document_targets": [
-      "RANCANG BANGUN PROTOTYPE SMART FEEDER DAN WATER QUALITY CONTROL PADA KOLAM IKAN BIOFLOK NILA BERBASIS IoT",
-      "SIMULASI ROBOT PENEBAR PAKAN DAN RACUN OTOMATIS PADA TAMBAK DI PULAU TARAKAN",
-      "RANCANG BANGUN SISTEM PEMBERIAN PAKAN TERNAK (SAPI) DAN PENGADUKANNYA SECARA OTOMATIS BERBASIS MIKROKONTROLER",
-      "IMPLEMENTASI SISTEM INTERNET OF THINGS (IOT) PADA PROSES PEMBERIAN PAKAN OTOMATIS UNTUK BUDIDAYA IKAN LELE BERBASIS ANDROID"
-    ],
-    "rationale": "Tanpa menyebut 'IoT', 'Mikrokontroler' maupun jenis hewan secara eksak (sapi/ikan/lele)."
+    "ID": "Q07",
+    "Query_Text": "apk tebak sakit di hape",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q08",
-    "query_text": "opini publik di media sosial",
-    "category": "Semantic Gap",
-    "expected_document_targets": [
-      "ANALISIS SENTIMEN PENGGUNA TWITTER TERHADAP OBJEK PARIWISATA DI INDONESIA MENGGUNAKAN ALGORITMA PENGOLAHAN DEEP NATURAL LANGUAGE DARI IBM INSIGHTS UNTUK TWITTER",
-      "ANALISIS SENTIMEN MASYARAKAT TERHADAP PEMBATASAN SOSIAL BERSKALA BESAR MENGGUNAKAN ALGORITMA NA\u00cfVE BAYES",
-      "PERBANDINGAN ANALISIS SENTIMEN ALGORITMA SUPPORT VECTOR MACHINE DAN NA\u00cfVE BAYES TERHADAP TANGGAPAN PUBLIK TENTANG PEMBELAJARAN ONLINE DI MASA PANDEMI COVID-19",
-      "ANALISIS SENTIMEN PUBLIK TERHADAP PELAKSANAAN PERSIAPAN PEMILU TAHUN 2024 MENGGUNAKAN METODE MAXIMUM ENTROPY (MAXENT)"
-    ],
-    "rationale": "Mewakili klaster analisis sentimen dengan gaya bahasa berita/awam."
+    "ID": "Q08",
+    "Query_Text": "tong sampah bisa buka sendiri",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q09",
-    "query_text": "aplikasi deteksi menggunakan kamera",
-    "category": "Semantic Gap",
-    "expected_document_targets": [
-      "IDENTIFIKASI NOMINAL MATA UANG RUPIAH BAGI PENYANDANG TUNANETRA DENGAN ALGORITMA CONVOLUTIONAL NEURAL NETWORK BERBASIS ANDROID",
-      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
-      "IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID",
-      "Sistem Identifikasi Artefak UPT Museum Daerah Sumbawa Berbasis Android Dengan Metode YOLO"
-    ],
-    "rationale": "Deskripsi awam untuk Pengolahan Citra / Convolutional Neural Network."
+    "ID": "Q09",
+    "Query_Text": "nentuin siapa yang dapat bansos",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q10",
-    "query_text": "sistem rekomendasi pilihan terbaik",
-    "category": "Semantic Gap",
-    "expected_document_targets": [
-      "RANCANG BANGUN SISTEM PENDUKUNG KEPUTUSAN DISTRIBUSI TENAGA MEDIS PUSKESMAS DI SULAWESI SELATAN DENGAN MENGGUNAKAN METODE ANALYTICAL HIERARCHY PROCESS (STUDI KASUS KABUPATEN MAROS)",
-      "SISTEM PENDUKUNG KEPUTUSAN DALAM PEMILIHAN PROGRAM STUDI DI PERGURUAN TINGGI UNTUK SISWA MADRASAH DAN PESANTREN BERBASIS ANDROID",
-      "SISTEM PENDUKUNG KEPUTUSAN PENENTUAN VARIETAS BAWANG MERAH PADA LAHAN BERBATU (LITOSOL) MENGGUNAKAN METODE SAW (SIMPLE ADDITIVE WEIGHTING) DI KAB. ENREKANG",
-      "SISTEM PENDUKUNG KEPUTUSAN KECOCOKAN MAHASISWA DENGAN JURUSAN TEKNIK INFORMATIKA DAN JURUSAN SISTEM INFORMASI UIN ALAUDDIN MAKASSAR MENGGUNAKAN METODE SIMPLE ADDITIVE WEIGHTING (SAW) BERBASIS WEB"
-    ],
-    "rationale": "Kueri dari kacamata user untuk klaster Sistem Pendukung Keputusan (DSS)."
+    "ID": "Q10",
+    "Query_Text": "absen kelas pake foto muka",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Bahasa Kasual (Vocabulary Mismatch)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q11",
-    "query_text": "virtusl reality",
-    "category": "Typo / Noisy",
-    "expected_document_targets": [
-      "APLIKASI PEMODELAN 3D VIRTUAL REALITY MASJIDIL HARAM BERBASIS ANDROID",
-      "PEMANFAATAN TEKNOLOGI VIRTUAL REALITY SEBAGAI MEDIA PEMBELAJARAN INTERAKTIF UNTUK SISTEM TATA SURYA BERBASIS ANDROID",
-      "APLIKASI PEMODELAN 3D VIRTUAL REALITY ANATOMI KERANGKA MANUSIA BERBASIS ANDROID",
-      "RANCANG BANGUN APLIKASI INTERAKTIF PROSES PERSALINAN NORMAL MENGGUNAKAN VIRTUAL REALITY UNTUK CALON BIDAN ( STUDI KASUS: AKBID SYEKH YUSUF GOWA)"
-    ],
-    "rationale": "Typo 1 karakter: tombol 'a' tertekan menjadi 's' pada kata virtual."
+    "ID": "Q11",
+    "Query_Text": "inspeksi anomali vegetatif hortikultura",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q12",
-    "query_text": "kualitss air",
-    "category": "Typo / Noisy",
-    "expected_document_targets": [
-      "RANCANG BANGUN PROTOTYPE SMART FEEDER DAN WATER QUALITY CONTROL PADA KOLAM IKAN BIOFLOK NILA BERBASIS IoT",
-      "SISTEM MONITORING KUALITAS AIR EMPANG BERBASIS MIKROKONTROLER",
-      "SISTEM PEMANTAUAN KUALITAS AIR AKUARIUM IKAN HIAS DENGAN ARDUINO",
-      "PENGEMBANGAN SISTEM IOT UNTUK MONITORING KUALITAS AIR KOLAM TERNAK LELE"
-    ],
-    "rationale": "Typo 1 kata ('a' bergeser ke 's') pada klaster IoT Water Monitoring."
+    "ID": "Q12",
+    "Query_Text": "identifikasi residu anorganik bahari",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q13",
-    "query_text": "sisyem pendukung keputusan mshasiswa",
-    "category": "Typo / Noisy",
-    "expected_document_targets": [
-      "SISTEM PENDUKUNG KEPUTUSAN DALAM PEMILIHAN PROGRAM STUDI DI PERGURUAN TINGGI UNTUK SISWA MADRASAH DAN PESANTREN BERBASIS ANDROID",
-      "SISTEM PENDUKUNG KEPUTUSAN KECOCOKAN MAHASISWA DENGAN JURUSAN TEKNIK INFORMATIKA DAN JURUSAN SISTEM INFORMASI UIN ALAUDDIN MAKASSAR MENGGUNAKAN METODE SIMPLE ADDITIVE WEIGHTING (SAW) BERBASIS WEB",
-      "SISTEM PENDUKUNG KEPUTUSAN PEMILIHAN SISWA BERPRESTASI MENGGUNAKAN ALGORITMA ITERATIVE DICHOTOMISER TREE DAN METODE SIMPLE ADDITIVE WEIGHTING PADA SMA NEGERI 3 GOWA",
-      "IMPLEMENTASI DATA MINING UNTUK MEMPREDIKSI KELULUSAN MAHASISWA TEPAT WAKTU MENGGUNAKAN RANDOM FOREST"
-    ],
-    "rationale": "Typo pada 2 kata ('t' bergeser 'y' dan 'a' bergeser 's') dari kueri panjang 4 kata."
+    "ID": "Q13",
+    "Query_Text": "kategorisasi patogen flora seduh",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q14",
-    "query_text": "pemgolahan citra",
-    "category": "Typo / Noisy",
-    "expected_document_targets": [
-      "APLIKASI PENGENALAN KOMPONEN ELEKTRONIKA DENGAN AUGMENTED REALITY BERBASIS ANDROID BERDASARKAN KURIKULUM MATA KULIAH ELEKTRONIKA PERGURUAN TINGGI",
-      "SISTEM PENGATUR LAMPU LALU LINTAS MENGGUNAKAN IMAGE PROCESSING",
-      "IMPLEMENTASI PENGOLAHAN CITRA MENGGUNAKAN CONVOLUTION NEURAL NETWORK DENGAN ARSITEKTUR VGG16 UNTUK MENENTUKAN KUALITAS SARANG BURUNG WALET",
-      "IMPLEMENTASI STRUKTUR MOBILENET DALAM MELAKUKAN KLASIFIKASI PENYAKIT DAUN JERUK BERBASIS ANDROID"
-    ],
-    "rationale": "Typo 1 kata (tombol 'n' menjadi 'm') untuk target klaster Image Processing / Deteksi objek."
+    "ID": "Q14",
+    "Query_Text": "pengawasan derajat keasaman akuakultur",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
   },
   {
-    "query_id": "Q15",
-    "query_text": "sisyem pakar diagnosa pemyakit",
-    "category": "Typo / Noisy",
-    "expected_document_targets": [
-      "SISTEM PAKAR DIAGNOSA PENYAKIT DAN RELASIONALITAS OBAT APOTEK AMOR",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT ANEMIA DENGAN METODE FORWARD CHAINING BERBASIS ANDROID",
-      "RANCANG BANGUN SISTEM PAKAR PENDIAGNOSA INFERTILITAS PADA PRIA DAN WANITA BERBASIS ANDROID",
-      "RANCANG BANGUN APLIKASI SISTEM PAKAR DIAGNOSA PENYAKIT INFEKSI SALURAN PERNAPASAN AKUT (ISPA) DENGAN METODE FORWARD CHAINING"
-    ],
-    "rationale": "Typo 2 kata (huruf t jadi y, dan huruf n jadi m) pada kueri Sistem Pakar Diagnosa Penyakit."
+    "ID": "Q15",
+    "Query_Text": "pemantauan kelembapan ruang penangkaran",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q16",
+    "Query_Text": "logika samar pengendalian suhu",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q17",
+    "Query_Text": "klasifikasi mutu komoditas unggas",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q18",
+    "Query_Text": "penganalisisan kondisi psikologis jaringan",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q19",
+    "Query_Text": "deteksi pencemaran atmosferik peternakan",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q20",
+    "Query_Text": "estimasi tingkat kejenuhan emosi",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Konseptual/Sinonim (Semantic Gap)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q21",
+    "Query_Text": "petani rugi wabah daun",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q22",
+    "Query_Text": "tangkapan ikan turun karena kotoran",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q23",
+    "Query_Text": "solusi kebun rempah mati",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q24",
+    "Query_Text": "solusi amonia tinggi pada kandang",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q25",
+    "Query_Text": "cara cegah telur busuk terdistribusi",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q26",
+    "Query_Text": "kendala suhu ruang walet berubah",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q27",
+    "Query_Text": "deteksi dini stres pekerja lapangan",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q28",
+    "Query_Text": "mengatasi kematian bibit ikan lele",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q29",
+    "Query_Text": "optimasi pemberian pakan ternak otomatis",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q30",
+    "Query_Text": "mengurangi kebingungan wisatawan lokal",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Berbasis Masalah (Implicit Intent)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q31",
+    "Query_Text": "deteksi penyakit tomat fitur glcm",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q32",
+    "Query_Text": "deteksi sampah perairan algoritma yolov8",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q33",
+    "Query_Text": "klasifikasi penyakit kubis cnn pso",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q34",
+    "Query_Text": "Fuzzy Mamdani berbasis IoT",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q35",
+    "Query_Text": "Fuzzy Tsukamoto ruang walet",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q36",
+    "Query_Text": "pemilahan kualitas telur ayam",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q37",
+    "Query_Text": "kesehatan mental berbasis IoT",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q38",
+    "Query_Text": "Long Short Term Memory",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q39",
+    "Query_Text": "kontrol pH kolam lele",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q40",
+    "Query_Text": "Arduino dan Firebase Android",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Leksikal Spesifik (Exact Match)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q41",
+    "Query_Text": "detedsi pnyakit daaun tomtat",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q42",
+    "Query_Text": "klasofikasi pnyakit kubbis algortima ccn",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q43",
+    "Query_Text": "identifkasi patogenn teh eficientnett",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q44",
+    "Query_Text": "fuziy mamdani iot",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q45",
+    "Query_Text": "sistem monitorig kualtas udara",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q46",
+    "Query_Text": "kontrool ph kolam lele",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q47",
+    "Query_Text": "pemilahan telor ayam ras",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q48",
+    "Query_Text": "kesihatan mental iot lstm",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q49",
+    "Query_Text": "androif firebase suhu walet",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
+  },
+  {
+    "ID": "Q50",
+    "Query_Text": "fuzzy ttsukamoto sarang walet",
+    "Ground_Truth_File": null,
+    "Tipe": "Kueri Tipografi (Typo)",
+    "Expected_Targets": null
   }
 ]

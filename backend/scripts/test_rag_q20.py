@@ -1,9 +1,10 @@
 import sys
 import json
 import time
-from langchain_groq import ChatGroq
-from langchain_huggingface import HuggingFaceEmbeddings
 from pathlib import Path
+
+# Fix encoding issue for Windows
+sys.stdout.reconfigure(encoding='utf-8')
 
 # Tambahkan direktori backend ke path agar bisa import app
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -16,47 +17,112 @@ def extract_year_from_filename(filename: str) -> str:
         return parts[0]
     return ""
 
+def compute_ir_metrics(results: list[dict], ground_truth_file: str | None) -> list[dict]:
+    """Menghitung metrik evaluasi Hit_GT, Rank_GT, dan RR."""
+    if not ground_truth_file:
+        for r in results:
+            r.update({"Hit_GT": None, "Rank_GT": None, "RR": None})
+        return results
+
+    gt_basename = Path(ground_truth_file).name
+
+    rank_gt = None
+    for r in results:
+        if r.get("File_Source_Basename", "") == gt_basename:
+            rank_gt = r["Rank"]
+            break
+
+    rr = (1.0 / rank_gt) if rank_gt is not None else 0.0
+    hit = rank_gt is not None
+
+    for r in results:
+        r["Hit_GT"] = hit
+        r["Rank_GT"] = rank_gt
+        r["RR"] = round(rr, 4)
+
+    return results
+
 def main():
     service = get_rag_service()
     
-    query_text = "siram bawang otomatis pakai sensor"
+    # Path ke file queries_new.json
+    queries_path = Path(__file__).parent.parent / "evaluation" / "queries_new.json"
     
-    try:
-        t0 = time.perf_counter()
-        response = service.standard_rag(query_text, k=5, is_eval=True)
-        latency_ms = (time.perf_counter() - t0) * 1000
+    if not queries_path.exists():
+        print(f"[ERROR] File query tidak ditemukan: {queries_path}")
+        return
+
+    with open(queries_path, "r", encoding="utf-8") as f:
+        all_queries = json.load(f)
         
-        results = []
-        for idx, doc in enumerate(response.get("documents", []), start=1):
-            meta = doc.get("metadata", {})
-            file_source = meta.get("source", "unknown.pdf")
-            basename = Path(file_source).name if file_source else ""
-            tahun = meta.get("tahun") or extract_year_from_filename(file_source)
+    # Daftar ID query yang akan diuji
+    target_ids = ["Q03", "Q04", "Q06", "Q07", "Q08", "Q13", "Q15"]
+    
+    # Filter query bersumber dari queries_new.json (case-insensitive)
+    queries = [q for q in all_queries if q.get("ID", "").upper() in [tid.upper() for tid in target_ids]]
+    
+    if not queries:
+        print(f"Tidak ada query yang cocok dengan ID {target_ids} di {queries_path.name}")
+        return
+        
+    all_results = []
+    
+    for i, query in enumerate(queries, start=1):
+        print(f"\n[{i}/{len(queries)}] Testing {query['ID']} | {query.get('Tipe', '')} | \"{query['Query_Text']}\"")
+        print("  → Menjalankan Standard RAG...", end=" ", flush=True)
+        
+        try:
+            t0 = time.perf_counter()
+            response = service.standard_rag(query["Query_Text"], k=5, is_eval=True)
+            latency_ms = (time.perf_counter() - t0) * 1000
             
-            results.append({
-                "ID": "Q20",
-                "Tipe": "Semantic Gap",
-                "Query_Text": query_text,
-                "Ground_Truth_File": None,
-                "Metode": "Standard RAG",
-                "Rank": idx,
-                "Skor_Similarity": round(meta.get("similarity_score", 0), 4),
-                "File_Source": file_source,
-                "File_Source_Basename": basename,
-                "Tahun": tahun,
-                "Judul_Skripsi": meta.get("judul", ""),
-                "Abstrak": doc.get("page_content", ""),
-                "Dokumen_Hipotetikal_LLM": None,
-                "Latency_ms": round(latency_ms, 1),
-                "Hit_GT": None,
-                "Rank_GT": None,
-                "RR": None
-            })
+            rag_results = []
+            for idx, doc in enumerate(response.get("documents", []), start=1):
+                meta = doc.get("metadata", {})
+                file_source = meta.get("source", "unknown.pdf")
+                basename = Path(file_source).name if file_source else ""
+                tahun = meta.get("tahun") or extract_year_from_filename(file_source)
+                
+                rag_results.append({
+                    "ID": query["ID"],
+                    "Tipe": query.get("Tipe", ""),
+                    "Query_Text": query["Query_Text"],
+                    "Ground_Truth_File": query.get("Ground_Truth_File"),
+                    "Metode": "Standard RAG",
+                    "Rank": idx,
+                    "Skor_Similarity": round(meta.get("similarity_score", 0), 4),
+                    "File_Source": file_source,
+                    "File_Source_Basename": basename,
+                    "Tahun": tahun,
+                    "Judul_Skripsi": meta.get("judul", ""),
+                    "Abstrak": doc.get("page_content", ""),
+                    "Dokumen_Hipotetikal_LLM": None,
+                    "Latency_ms": round(latency_ms, 1),
+                })
             
-        print(json.dumps(results, indent=2, ensure_ascii=False))
-            
-    except Exception as e:
-        print(f"Error saat menjalankan Standard RAG: {e}")
+            # Hitung metrics IR (Hit, Rank, RR)
+            rag_results = compute_ir_metrics(rag_results, query.get("Ground_Truth_File"))
+            all_results.extend(rag_results)
+            print("Selesai.")
+                
+        except Exception as e:
+            print(f"Error saat menjalankan Standard RAG: {e}")
+
+    # --------------------------------------------------------------------------
+    # Menyimpan dan Menampilkan Output
+    # --------------------------------------------------------------------------
+    output_path = Path(__file__).parent.parent / "evaluation" / "results" / "eval_rag_selected_queries.json"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(all_results, f, indent=2, ensure_ascii=False)
+        
+    print("\n" + "=" * 60)
+    print("HASIL PENGUJIAN QUERY TERPILIH (STANDARD RAG)")
+    print("=" * 60)
+    print(json.dumps(all_results, indent=2, ensure_ascii=False))
+    print(f"\n[DONE] Hasil json evaluasi lengkap telah disimpan di:\n{output_path}")
+
 
 if __name__ == "__main__":
     main()

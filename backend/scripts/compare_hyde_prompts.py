@@ -1,4 +1,6 @@
 import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 import os
 import json
 import time
@@ -19,56 +21,58 @@ def main():
     
     # 5 Tema, masing-masing 1 query
     test_cases = [
-        {"tema": "Sistem Pendukung Keputusan", "query": "sistem pendukung keputusan metode"},
-        {"tema": "Otomatisasi/IoT", "query": "cara otomatis pisahin telur bagus"},
-        {"tema": "Computer Vision", "query": "klasifikasi kematangan buah cabai cnn"},
-        {"tema": "Umum", "query": "frameowrk"},
-        {"tema": "Sistem Pendukung Keputusan", "query": "sistem pendukung keputusan 2020"}
+        {"tema": "Kueri Konseptual/Sinonim (Semantic Gap)", "query": "petani rugi wabah daun"},
+
     ]
     
+    TOP_K = 5  # Jumlah dokumen retrieved yang ingin ditampilkan dan dibandingkan
     results = []
     
-    print("\n🚀 Memulai Perbandingan Prompt HyDE...")
+    print("\n🚀 Memulai Perbandingan Prompt HyDE (Prompt 1 vs Prompt 2)...")
     
     for case in test_cases:
         tema = case["tema"]
         query = case["query"]
-        print(f"\n{'='*50}")
+        print(f"\n{'='*60}")
         print(f"Tema  : {tema}")
         print(f"Query : '{query}'")
-        print(f"{'='*50}")
+        print(f"{'='*60}")
         
         # Eksekusi Prompt 1
-        print("⏳ Menjalankan Prompt 1 (Strict Abstract Components)...")
+        print("⏳ Menjalankan Prompt 1 (Strict Abstract Components - Masalah, Metode, Hasil)...")
         start = time.time()
         # Menggunakan is_eval=True agar memotong batas minimum skor dan mmr, murni untuk membandingkan hipotesis
-        res_prompt_1 = rag.hyde_rag(query=query, k=1, is_eval=True, prompt_type="prompt1")
+        res_prompt_1 = rag.hyde_rag(query=query, k=TOP_K, is_eval=True, prompt_type="prompt1")
         time_1 = time.time() - start
         
         # Eksekusi Prompt 2
-        print("⏳ Menjalankan Prompt 2 (Strict Constraints)...")
+        print("⏳ Menjalankan Prompt 2 (Research Intent / Zero Hallucination)...")
         start = time.time()
-        res_prompt_2 = rag.hyde_rag(query=query, k=1, is_eval=True, prompt_type="prompt2")
+        res_prompt_2 = rag.hyde_rag(query=query, k=TOP_K, is_eval=True, prompt_type="prompt2")
         time_2 = time.time() - start
-        
-        # Eksekusi Prompt 3
-        print("⏳ Menjalankan Prompt 3 (Structured Instructions)...")
-        start = time.time()
-        res_prompt_3 = rag.hyde_rag(query=query, k=1, is_eval=True, prompt_type="prompt3")
-        time_3 = time.time() - start
         
         hyp_1 = res_prompt_1.get("hypothetical_document", "")
         hyp_2 = res_prompt_2.get("hypothetical_document", "")
-        hyp_3 = res_prompt_3.get("hypothetical_document", "")
+        docs_1 = res_prompt_1.get("documents", [])
+        docs_2 = res_prompt_2.get("documents", [])
         
         print("\n🔹 Hasil Prompt 1:")
-        print(f"{hyp_1}\n(Waktu: {time_1:.2f}s)")
+        print(f"📄 Hipotesis: {hyp_1}")
+        print(f"⏱️ Waktu    : {time_1:.2f}s")
+        print(f"📚 Top-{TOP_K} Dokumen Retrieved (Prompt 1):")
+        for idx, d in enumerate(docs_1, 1):
+            meta = d.get("metadata", {})
+            print(f"   [{idx}] Skor: {meta.get('similarity_score', 0)}% | File: {meta.get('source', '')}")
+            print(f"       Judul: {meta.get('judul', 'Tanpa Judul')}")
         
         print("\n🔹 Hasil Prompt 2:")
-        print(f"{hyp_2}\n(Waktu: {time_2:.2f}s)")
-        
-        print("\n🔹 Hasil Prompt 3:")
-        print(f"{hyp_3}\n(Waktu: {time_3:.2f}s)")
+        print(f"📄 Hipotesis: {hyp_2}")
+        print(f"⏱️ Waktu    : {time_2:.2f}s")
+        print(f"📚 Top-{TOP_K} Dokumen Retrieved (Prompt 2):")
+        for idx, d in enumerate(docs_2, 1):
+            meta = d.get("metadata", {})
+            print(f"   [{idx}] Skor: {meta.get('similarity_score', 0)}% | File: {meta.get('source', '')}")
+            print(f"       Judul: {meta.get('judul', 'Tanpa Judul')}")
         
         # Simpan dalam dict
         results.append({
@@ -76,19 +80,17 @@ def main():
             "query": query,
             "prompt_1": {
                 "hypothetical_document": hyp_1,
-                "latency_sec": round(time_1, 2)
+                "latency_sec": round(time_1, 2),
+                "documents": docs_1
             },
             "prompt_2": {
                 "hypothetical_document": hyp_2,
-                "latency_sec": round(time_2, 2)
-            },
-            "prompt_3": {
-                "hypothetical_document": hyp_3,
-                "latency_sec": round(time_3, 2)
+                "latency_sec": round(time_2, 2),
+                "documents": docs_2
             }
         })
         
-    print(f"\n{'='*50}")
+    print(f"\n{'='*60}")
     print("✅ Perbandingan Selesai!")
     
     # Simpan hasil output ke dalam folder evaluation

@@ -1,0 +1,84 @@
+{
+  "categories": [
+    {
+      "name": "1. Kueri Bahasa Kasual (Vocabulary Mismatch)",
+      "description": "Kueri yang menggunakan bahasa sehari-hari atau istilah non-teknis masyarakat umum untuk mencari topik penelitian ilmiah.",
+      "queries": [
+        "aplikasi cek kualitas udara (4 kata)",
+        "pantauan suhu kandang burung (4 kata)",
+        "milih telur bagus otomatis (4 kata)",
+        "cek stres orang pake iot (5 kata)",
+        "atur air kolam lele (4 kata)",
+        "bikin aplikasi hp android (4 kata)",
+        "deteksi penyakit tanaman di hp (5 kata)",
+        "pantauan lokasi wisata terdekat (4 kata)",
+        "hitung jumlah sampah otomatis (4 kata)",
+        "lacak keberadaan hewan ternak (4 kata)"
+      ]
+    },
+    {
+      "name": "2. Kueri Konseptual / Sinonim (Semantic Gap)",
+      "description": "Kueri yang menggunakan istilah akademis, istilah teknis padanan, atau sinonim konsep tanpa menyebut kata kunci harfiahnya.",
+      "queries": [
+        "pengawasan derajat keasaman akuakultur (4 kata)",
+        "pemantauan kelembapan ruang penangkaran (4 kata)",
+        "logika samar pengendalian suhu (4 kata)",
+        "klasifikasi mutu komoditas unggas (4 kata)",
+        "penganalisisan kondisi psikologis jaringan (4 kata)",
+        "deteksi pencemaran atmosferik peternakan (4 kata)",
+        "estimasi tingkat kejenuhan emosi (4 kata)",
+        "otomasi sistem irigasi cerdas (4 kata)",
+        "pengenalan citra digital tanaman (4 kata)",
+        "pengolahan limbah berbasis cerdas (4 kata)"
+      ]
+    },
+    {
+      "name": "3. Kueri Berbasis Masalah (Implicit Intent)",
+      "description": "Kueri yang berfokus pada gejala, kendala, atau tujuan akhir suatu masalah tanpa menyebut nama metode atau algoritma secara langsung.",
+      "queries": [
+        "solusi amonia tinggi pada kandang (5 kata)",
+        "cara cegah telur busuk terdistribusi (5 kata)",
+        "kendala suhu ruang walet berubah (5 kata)",
+        "deteksi dini stres pekerja lapangan (5 kata)",
+        "mengatasi kematian bibit ikan lele (5 kata)",
+        "meminimalkan kegagalan panen tanaman padi (5 kata)",
+        "mengurangi kebingungan wisatawan lokal (4 kata)",
+        "penumpukan sampah liar di perkotaan (5 kata)",
+        "kesulitan pendataan populasi ternak (4 kata)",
+        "optimasi pemberian pakan ternak otomatis (5 kata)"
+      ]
+    },
+    {
+      "name": "4. Kueri Leksikal Spesifik (Exact Match)",
+      "description": "Kueri yang menggunakan istilah teknis, nama algoritma, sensor, atau kata kunci formal yang persis terdapat dalam ranah topik database skripsi.",
+      "queries": [
+        "Fuzzy Mamdani berbasis IoT (4 kata)",
+        "Fuzzy Tsukamoto ruang walet (4 kata)",
+        "pemilahan kualitas telur ayam (4 kata)",
+        "kesehatan mental berbasis IoT (4 kata)",
+        "Long Short Term Memory (4 kata)",
+        "kontrol pH kolam lele (4 kata)",
+        "Arduino dan Firebase Android (4 kata)",
+        "monitoring kualitas udara peternakan (4 kata)",
+        "sensor Electrodermal Activity (3 kata)",
+        "sistem otomatisasi pompa air (4 kata)"
+      ]
+    },
+    {
+      "name": "5. Kueri Tipografi (Typo)",
+      "description": "Kueri yang mengandung kesalahan penulisan atau ejaan (typo) pada kata kunci utama tetapi masih dapat dipahami secara konteks pencarian.",
+      "queries": [
+        "fuziy mamdani iot (3 kata)",
+        "sistem monitorig kualtas udara (4 kata)",
+        "kontrool ph kolam lele (4 kata)",
+        "pemilahan telor ayam ras (4 kata)",
+        "kesihatan mental iot lstm (4 kata)",
+        "androif firebase suhu walet (4 kata)",
+        "fuzzy ttsukamoto sarang walet (4 kata)",
+        "sensr electrodermal activity (3 kata)",
+        "deteksi strees real time (4 kata)",
+        "prototyee alat kontrol otomatis (4 kata)"
+      ]
+    }
+  ]
+}
