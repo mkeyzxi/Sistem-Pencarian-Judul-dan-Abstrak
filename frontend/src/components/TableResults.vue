@@ -98,7 +98,7 @@ const getContent = (doc) => {
           class="flex flex-col bg-bg-elevated border border-border-subtle rounded-xl !p-4 !sm:p-5 transition-all duration-200 hover:border-primary/50 hover:bg-bg-elevated/80 cursor-pointer group">
           <!-- Card Header: Title & Score -->
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 !mb-3">
-            <h3 class="text-sm sm:text-base font-bold text-primary leading-snug flex-1">
+            <h3 class="text-sm sm:text-base font-bold text-accent leading-snug flex-1">
               <span class="text-text-muted mr-1.5">#{{ index + 1 }}</span>
               {{ getField(doc, 'judul', getField(doc, 'title', 'Judul Tidak Tersedia')) }}
             </h3>
@@ -106,7 +106,7 @@ const getContent = (doc) => {
             <!-- Relevance Badge -->
             <div
               class="flex items-center gap-2 bg-bg-surface !px-3 !py-1.5 rounded-full border border-border-subtle shrink-0">
-              <div class="w-16 bg-[#1f1f1f] rounded-full h-1.5 overflow-hidden">
+              <div class="w-16 bg-bg-highlight rounded-full h-1.5 overflow-hidden border border-border-subtle">
                 <div class="progress-fill" :style="{ width: formatPct(getScore(doc)) + '%' }"></div>
               </div>
               <span class="text-xs font-bold text-text-base">{{ formatPct(getScore(doc)) }}%</span>

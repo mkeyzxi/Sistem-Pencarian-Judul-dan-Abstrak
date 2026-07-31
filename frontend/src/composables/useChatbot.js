@@ -16,53 +16,53 @@ export const useChatbot = () => {
       role: 'user',
       content: message,
     })
-    console.log(mode)
 
-    // 2. Bangun chat_history dari pesan-pesan sebelumnya (max 10 terakhir, tanpa pesan yang baru di-push)
+    // 2. Bangun chat_history dari pesan-pesan sebelumnya (max 8 untuk chatbot, 10 untuk search)
+    const historyLimit = mode === 'chatbot' ? 8 : 10
     const history = messages.value
       .slice(0, -1)
-      .slice(-10)
+      .slice(-historyLimit)
       .map((msg) => ({
         role: msg.role === 'user' ? 'user' : 'bot',
         content: msg.content,
       }))
 
     try {
-      const response = await fetch(baseURL + '/api/chat', {
+      // 3. Routing endpoint: chatbot → /api/chatbot, search → /api/chat
+      const isChatbot = mode === 'chatbot'
+      const endpoint = isChatbot ? '/api/chatbot' : '/api/chat'
+      const payload = isChatbot
+        ? { message: message, chat_history: history }
+        : { message: message, mode: mode, chat_history: history }
+
+      const response = await fetch(baseURL + endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          message: message,
-          mode: mode,
-          chat_history: history,
-        }),
+        body: JSON.stringify(payload),
       })
-      console.log(response.body)
+
       if (!response.ok) {
         throw new Error('Gagal mengirim pesan')
       }
 
       const data = await response.json()
-      console.log(data.documents && data.documents[0])
+
       if (data.hypothetical_document) {
         console.log('HyDE Hypothesis Document:', data.hypothetical_document)
       }
-      console.log('ini hipotesis ' + data.hypothetical_document)
-      // Tampilkan respons LLM dari backend
+
+      // 4. Tampilkan respons LLM dari backend
       const botText = data.message || 'Berikut hasil pencarian yang ditemukan:'
 
       messages.value.push({
         role: 'bot',
         content: botText,
+        // documents hanya ada pada mode pencarian (rag/hyde/hybrid), tidak pada chatbot
         documents: data.documents || [],
         hypothetical_document: data.hypothetical_document || null,
       })
-      // console.log(data)
-      console.log(messages.value)
-      // console.log(messages.value)
-      // console.log(messages.value[messages.value.length - 1].documents)
     } catch (err) {
       error.value = err
       // Push pesan error agar user tahu ada masalah

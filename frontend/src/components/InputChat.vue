@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useChatbot } from '@/composables/useChatbot'
 import { useSearchMode } from '@/composables/useSearchMode'
 const { searchMode } = useSearchMode()
@@ -7,6 +7,13 @@ const { sendMessage } = useChatbot()
 const message = ref('')
 const textareaRef = ref(null)
 const isFocused = ref(false)
+
+// Placeholder dinamis berdasarkan mode
+const placeholderText = computed(() =>
+  searchMode.value === 'chatbot'
+    ? 'Tanyakan seputar skripsi, minta rekomendasi judul, atau diskusikan ide...'
+    : 'Ketik judul, topik, atau kata kunci skripsi...'
+)
 
 const handleInput = () => {
   if (textareaRef.value) {
@@ -52,7 +59,7 @@ const handleKeydown = (event) => {
         @keydown="handleKeydown"
         @focus="isFocused = true"
         @blur="isFocused = false"
-        placeholder="Ketik judul, topik, atau kata kunci skripsi..."
+        :placeholder="placeholderText"
         rows="1"
         class="flex-1 bg-transparent border-none focus:ring-0 focus:outline-none text-sm !py-2.5 !sm:py-3 !px-3 resize-none !max-h-[120px] hide-scrollbar font-display text-text-base placeholder-text-subdued/50"
       ></textarea>

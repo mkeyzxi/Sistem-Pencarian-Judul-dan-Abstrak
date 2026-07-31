@@ -8,6 +8,9 @@ import TableResults from './TableResults.vue'
 const { messages, isLoading, error, sendMessage } = useChatbot()
 const { searchMode } = useSearchMode()
 
+// Mode check untuk rendering kondisional
+const isChatbotMode = computed(() => searchMode.value === 'chatbot')
+
 // Konfigurasi marked agar render tabel dan lain-lain
 marked.setOptions({
   breaks: true,
@@ -47,21 +50,27 @@ const submitMessage = (message) => {
       <div class="animate-fade-up" style="animation-delay: 0ms">
         <div
           class="w-20 h-20 sm:w-24 sm:h-24 !p-2 bg-bg-elevated rounded-2xl flex items-center justify-center shadow-spotify-medium border border-border-subtle">
-          <!-- <span class="material-symbols-outlined text-4xl sm:text-5xl text-primary">school</span> -->
-          <img src="/logo-pencarian.png" alt="Logo Pencarian">
+          <img v-if="!isChatbotMode" src="/logo-pencarian.png" alt="Logo Pencarian">
+          <span v-else class="material-symbols-outlined text-4xl sm:text-5xl text-primary">smart_toy</span>
         </div>
       </div>
 
-      <!-- Welcome Text -->
+      <!-- Welcome Text (Dinamis berdasarkan mode) -->
       <div class="animate-fade-up !space-y-2 !sm:space-y-3 max-w-md !mb-4" style="animation-delay: 100ms">
-        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight !mt-5">Selamat datang</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-text-base leading-tight !mt-5">
+          {{ isChatbotMode ? 'Asisten Skripsi TI' : 'Selamat datang' }}
+        </h2>
         <p class="text-text-subdued text-sm sm:text-base leading-relaxed">
-          Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah
+          {{ isChatbotMode
+            ? 'Konsultasikan ide skripsi Anda, minta rekomendasi judul baru, atau analisis research gap'
+            : 'Temukan referensi penelitian tugas akhir mahasiswa Teknik Informatika dengan mudah'
+          }}
         </p>
       </div>
 
-      <!-- Example Prompt Chips -->
-      <div class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up" style="animation-delay: 200ms">
+      <!-- Example Prompt Chips — Mode Pencarian -->
+      <div v-if="!isChatbotMode" class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
+        style="animation-delay: 200ms">
         <button @click="submitMessage('Implementasi Algoritma CNN pada deteksi penyakit daun')"
           class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
           <div class="flex items-start gap-3 !p-2">
@@ -97,11 +106,70 @@ const submitMessage = (message) => {
         </button>
       </div>
 
-      <!-- Tip -->
+      <!-- Example Prompt Chips — Mode Chatbot -->
+      <div v-else class="w-full max-w-md grid grid-cols-1 gap-2.5 sm:gap-3 animate-fade-up"
+        style="animation-delay: 200ms">
+        <button @click="submitMessage('Rekomendasikan judul skripsi tentang machine learning untuk bidang kesehatan')"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
+          <div class="flex items-start gap-3 !p-2">
+            <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
+              auto_awesome
+            </span>
+            <div class="min-w-0 text-left">
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">
+                Rekomendasi Judul
+              </p>
+              <p class="text-sm text-text-subdued leading-snug break-words">
+                "Rekomendasikan judul skripsi tentang machine learning untuk bidang kesehatan"
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button @click="submitMessage('Apa saja research gap di bidang NLP berdasarkan skripsi yang sudah ada?')"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
+          <div class="flex items-start gap-3 !p-2">
+            <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
+              psychology
+            </span>
+            <div class="min-w-0 text-left">
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">
+                Analisis Research Gap
+              </p>
+              <p class="text-sm text-text-subdued leading-snug break-words">
+                "Apa saja research gap di bidang NLP berdasarkan skripsi yang sudah ada?"
+              </p>
+            </div>
+          </div>
+        </button>
+
+        <button @click="submitMessage('Bagaimana tahapan menyusun proposal skripsi yang baik?')"
+          class="text-left p-4 sm:p-5 bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-elevated hover:border-border-default transition-all duration-300 active:scale-[0.98] shadow-spotify-medium/0 hover:shadow-spotify-medium">
+          <div class="flex items-start gap-3 !p-2">
+            <span class="material-symbols-outlined text-primary text-base flex-shrink-0 mt-0.5">
+              school
+            </span>
+            <div class="min-w-0 text-left">
+              <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">
+                Panduan Skripsi
+              </p>
+              <p class="text-sm text-text-subdued leading-snug break-words">
+                "Bagaimana tahapan menyusun proposal skripsi yang baik?"
+              </p>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Tip (Dinamis) -->
       <div class="animate-fade-up flex items-center gap-2 text-[10px] sm:text-xs text-text-muted font-medium !mt-5"
         style="animation-delay: 300ms">
         <span class="material-symbols-outlined text-sm flex-shrink-0 ">lightbulb</span>
-        <span>Ketik kata kunci atau tanyakan topik skripsi</span>
+        <span>{{ isChatbotMode
+          ? 'Tanyakan apa saja seputar skripsi — saya siap membantu!'
+          : `Ketik kata kunci atau
+          tanyakan topik skripsi`
+        }}</span>
       </div>
     </div>
 
@@ -112,7 +180,7 @@ const submitMessage = (message) => {
         <div v-if="msg.role === 'user'" class="flex justify-end animate-fade-up">
           <div
             class="max-w-[80%] sm:max-w-[70%] bg-primary text-black rounded-full rounded-br-lg px-5 py-3 sm:px-6 sm:py-3.5 break-words shadow-spotify-medium">
-            <p class="text-sm sm:text-base font-medium leading-relaxed !p-2">{{ msg.content }}</p>
+            <p class="text-sm sm:text-base font-medium leading-relaxed !p-2 !pl-8 !pr-2">{{ msg.content }}</p>
           </div>
         </div>
 
@@ -128,15 +196,17 @@ const submitMessage = (message) => {
             <!-- Bot Message Content -->
             <div
               class="bg-bg-surface text-text-base rounded-2xl rounded-tl-md !px-4 !py-4 sm:px-5 sm:py-4 shadow-spotify-medium min-w-0 overflow-hidden flex-1">
-              
+
               <!-- HyDE Hypothesis Document (jika ada) -->
               <details v-if="msg.hypothetical_document" class="hyde-hypothesis mb-3">
-                <summary class="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-primary hover:opacity-80 transition-opacity">
+                <summary
+                  class="flex items-center gap-2 cursor-pointer select-none text-xs font-semibold text-primary hover:opacity-80 transition-opacity">
                   <span class="material-symbols-outlined text-sm">auto_awesome</span>
                   <span>Hipotesis Dokumen (HyDE)</span>
                   <span class="material-symbols-outlined text-xs hyde-chevron">expand_more</span>
                 </summary>
-                <div class="mt-2 p-3 bg-bg-elevated rounded-lg border border-border-subtle text-xs sm:text-sm text-text-subdued leading-relaxed">
+                <div
+                  class="mt-2 p-3 bg-bg-elevated rounded-lg border border-border-subtle text-xs sm:text-sm text-text-subdued leading-relaxed">
                   {{ msg.hypothetical_document }}
                 </div>
               </details>
@@ -169,7 +239,7 @@ const submitMessage = (message) => {
                 <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
                 <span class="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
               </div>
-              <span class="text-xs text-text-subdued ml-1">Mencari...</span>
+              <span class="text-xs text-text-subdued ml-1">{{ isChatbotMode ? 'Memproses...' : 'Mencari...' }}</span>
             </div>
           </div>
         </div>
@@ -179,7 +249,7 @@ const submitMessage = (message) => {
 </template>
 
 <style scoped>
-/* Prose styling for rendered markdown in bot bubbles — Spotify Dark Theme */
+/* Prose styling for rendered markdown in bot bubbles — Dynamic Theme */
 .prose-chat :deep(h1),
 .prose-chat :deep(h2),
 .prose-chat :deep(h3) {
@@ -187,7 +257,7 @@ const submitMessage = (message) => {
   margin-top: 0.75rem;
   margin-bottom: 0.5rem;
   line-height: 1.3;
-  color: #ffffff;
+  color: var(--app-text-bright);
 }
 
 .prose-chat :deep(h1) {
@@ -205,6 +275,7 @@ const submitMessage = (message) => {
 .prose-chat :deep(p) {
   margin-bottom: 0.5rem;
   line-height: 1.65;
+  color: var(--app-text-base);
 }
 
 .prose-chat :deep(p:last-child) {
@@ -213,18 +284,19 @@ const submitMessage = (message) => {
 
 .prose-chat :deep(strong) {
   font-weight: 700;
-  color: #1ed760;
+  color: var(--app-text-accent);
 }
 
 .prose-chat :deep(em) {
   font-style: italic;
-  color: #b3b3b3;
+  color: var(--app-text-subdued);
 }
 
 .prose-chat :deep(ul),
 .prose-chat :deep(ol) {
   padding-left: 1.25rem;
   margin-bottom: 0.5rem;
+  color: var(--app-text-base);
 }
 
 .prose-chat :deep(li) {
@@ -233,10 +305,10 @@ const submitMessage = (message) => {
 }
 
 .prose-chat :deep(li::marker) {
-  color: #1ed760;
+  color: var(--app-text-accent);
 }
 
-/* Table styling — Spotify dark tables */
+/* Table styling — Dynamic theme tables */
 .prose-chat :deep(table) {
   width: 100%;
   border-collapse: collapse;
@@ -248,8 +320,8 @@ const submitMessage = (message) => {
 }
 
 .prose-chat :deep(thead) {
-  background: #1ed760;
-  color: #000000;
+  background: var(--app-table-header-bg);
+  color: var(--app-table-header-color);
 }
 
 .prose-chat :deep(th) {
@@ -264,39 +336,40 @@ const submitMessage = (message) => {
 
 .prose-chat :deep(td) {
   padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid #282828;
+  border-bottom: 1px solid var(--app-border-subtle);
   vertical-align: top;
-  color: #b3b3b3;
+  color: var(--app-text-base);
 }
 
 .prose-chat :deep(tbody tr:hover) {
-  background: rgba(30, 215, 96, 0.06);
+  background: var(--app-bg-highlight);
 }
 
 .prose-chat :deep(tbody tr:nth-child(even)) {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--app-bg-elevated);
 }
 
 /* Horizontal rule */
 .prose-chat :deep(hr) {
   border: none;
-  border-top: 1px solid #282828;
+  border-top: 1px solid var(--app-border-subtle);
   margin: 0.75rem 0;
 }
 
 /* Code */
 .prose-chat :deep(code) {
-  background: #1f1f1f;
-  color: #1ed760;
+  background: var(--app-bg-elevated);
+  color: var(--app-text-accent);
   padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-size: 0.85em;
   font-family: 'Fira Code', 'Consolas', monospace;
+  border: 1px solid var(--app-border-subtle);
 }
 
 /* Links */
 .prose-chat :deep(a) {
-  color: #1ed760;
+  color: var(--app-text-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -307,10 +380,10 @@ const submitMessage = (message) => {
 
 /* Blockquote */
 .prose-chat :deep(blockquote) {
-  border-left: 3px solid #1ed760;
+  border-left: 3px solid var(--app-text-accent);
   padding-left: 0.75rem;
   margin: 0.5rem 0;
-  color: #b3b3b3;
+  color: var(--app-text-subdued);
   font-style: italic;
 }
 
