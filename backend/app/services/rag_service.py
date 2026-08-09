@@ -64,22 +64,22 @@ class RAGService:
 
         # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
         self.prompt_2 = (
-            "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
-             "Bahasa Indonesia berdasarkan topik berikut.\n\n"
-            "Aturan ketat:\n"
-            "- Panjang: 2–3 kalimat saja.\n"
-            "- Hanya sebutkan metode, algoritma, atau teknologi yang TERSEBUT "
-            "SECARA EKSPLISIT atau TERSIRAT LANGSUNG dari topik. "
-            "Jangan tambahkan metode lain untuk mengurangi ambiguitas dan halusinasi.\n"
-            "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi "
-            "absensi pakai muka'), terjemahkan ke istilah akademis yang tepat "
-            "(misal: 'Penelitian ini membangun sistem absensi berbasis "
-            "pengenalan wajah...').\n"
-            "- Jika ada typo, koreksi otomatis ke istilah baku yang paling "
-            "mendekati dalam bidang Teknik Informatika.\n"
-            "- Output hanya teks abstrak. Tanpa salam, tanpa label, tanpa "
-            "tanda kutip pembuka/penutup.\n\n"
-            "Topik: {query}"
+            "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+            "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+            "Aturan ketat (ZERO HALLUCINATION):\n"
+            "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+            "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+            "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
+            "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi, penanganan, atau analisis masalah tersebut.\n"
+            "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
+            "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
+            "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu memaksakan kata 'mengembangkan' atau 'membangun'. "
+            "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+            "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
+            "- TRANSLASI KOSAKATA BAKU (WAJIB): Terjemahkan seluruh bahasa awam, kata benda kasual, atau istilah pasaran ke dalam terminologi akademis murni yang paling lazim digunakan dalam skripsi Teknik Informatika. (Contoh: 'hape' -> 'perangkat mobile/smartphone', 'tong sampah' -> 'tempat sampah', 'bikin web' -> 'sistem informasi berbasis web').\n"
+            "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+            "- Output murni teks kalimat. Tanpa kata pengantar, tanpa label, tanpa tanda kutip pembuka/penutup.\n\n"
+            "Kueri: {query}"
         )
 
         # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
