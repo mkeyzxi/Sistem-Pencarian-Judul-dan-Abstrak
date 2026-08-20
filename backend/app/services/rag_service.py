@@ -82,25 +82,6 @@ class RAGService:
             "Kueri: {query}"
         )
 
-        # Prompt 2: Strict Constraints to reduce ambiguity and hallucination (focused and deterministic context)
-        # self.prompt_2 = (
-        #     "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam "
-        #     "Bahasa Indonesia berdasarkan topik berikut.\n\n"
-        #     "Aturan ketat:\n"
-        #     "- Panjang: 2–3 kalimat saja.\n"
-        #     "- Jika topik HANYA berisi metode atau algoritma tanpa konteks masalah, "
-        #     "Anda DIIZINKAN merumuskan objek penelitian atau tujuan umum agar menjadi kalimat utuh.\n"
-        #     "- DILARANG KERAS menambahkan, mengarang, atau menyebutkan nama metode, "
-        #     "algoritma, atau teknologi spesifik lain di luar yang ada pada topik "
-        #     "(contoh: jangan menambahkan 'Fuzzy Logic' jika topik hanya 'Sistem Pendukung Keputusan').\n"
-        #     "- Jika topik menggunakan bahasa sehari-hari (misal: 'aplikasi absensi pakai muka'), "
-        #     "terjemahkan ke istilah akademis formal Teknik Informatika.\n"
-        #     "- Jika ada typo, koreksi otomatis ke istilah baku yang paling mendekati.\n"
-        #     "- Wajib HANYA menghasilkan teks abstrak. Dilarang memberikan salam, label, "
-        #     "tanda kutip, atau mengembalikan output kosong (empty string).\n\n"
-        #     "Topik: {query}"
-        # )
-
         self.prompt_3 = (
           #   "Tugas: Tulis satu paragraf abstrak skripsi Teknik Informatika dalam Bahasa Indonesia "
           #   "berdasarkan topik yang diberikan.\n\n"
@@ -293,7 +274,7 @@ class RAGService:
         k: int = None,
         min_score: float = None,
         is_eval: bool = False,
-        prompt_type: str = "prompt3",
+        prompt_type: str = "prompt2",
     ) -> dict:
         """
         HyDE (Hypothetical Document Embeddings) RAG.
