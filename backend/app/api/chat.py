@@ -65,6 +65,16 @@ async def chat(request: ChatRequest):
         else:
             result = rag.standard_rag(request.message)
         
+        # Validasi: jika kueri ditolak oleh domain filter
+        if result.get("rejected"):
+            return ChatResponse(
+                success=False,
+                message=result.get("hypothetical_document") or "Kueri ditolak: Topik tidak relevan dengan keilmuan Teknik Informatika.",
+                query=request.message,
+                mode=request.mode,
+                documents=[]
+            )
+        
         # Validasi hasil retrieval
         if result["docs_count"] == 0:
             return ChatResponse(
