@@ -137,24 +137,43 @@ class RAGService:
         #     "Kueri: {query}"
         # )
 
+        # self.prompt_2 = (
+        #     "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+        #     "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+        #     "Aturan ketat (ZERO HALLUCINATION):\n"
+        #     "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+        #     "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+        #     "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
+        #     "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi, penanganan, atau analisis masalah tersebut.\n"
+        #     "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
+        #     "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
+        #     "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu memaksakan kata 'mengembangkan' atau 'membangun'. "
+        #     "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+        #     "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
+        #     "- TRANSLASI KOSAKATA BAKU (WAJIB): Terjemahkan seluruh bahasa awam, kata benda kasual, atau istilah pasaran ke dalam terminologi akademis murni yang paling lazim digunakan dalam skripsi Teknik Informatika. (Contoh: 'hape' -> 'perangkat mobile/smartphone', 'tong sampah' -> 'tempat sampah', 'bikin web' -> 'sistem informasi berbasis web').\n"
+        #     "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+        #     "- Output murni teks kalimat. Tanpa kata pengantar, tanpa label, tanpa tanda kutip pembuka/penutup.\n\n"
+        #     "Kueri: {query}"
+        # )
+        
         self.prompt_2 = (
-            "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
-            "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
-            "Aturan ketat (ZERO HALLUCINATION):\n"
-            "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
-            "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
-            "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
-            "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi, penanganan, atau analisis masalah tersebut.\n"
-            "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
-            "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
-            "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu memaksakan kata 'mengembangkan' atau 'membangun'. "
-            "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
-            "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
-            "- TRANSLASI KOSAKATA BAKU (WAJIB): Terjemahkan seluruh bahasa awam, kata benda kasual, atau istilah pasaran ke dalam terminologi akademis murni yang paling lazim digunakan dalam skripsi Teknik Informatika. (Contoh: 'hape' -> 'perangkat mobile/smartphone', 'tong sampah' -> 'tempat sampah', 'bikin web' -> 'sistem informasi berbasis web').\n"
-            "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
-            "- Output murni teks kalimat. Tanpa kata pengantar, tanpa label, tanpa tanda kutip pembuka/penutup.\n\n"
-            "Kueri: {query}"
-        )
+                    "Tugas: Tulis pernyataan fokus penelitian (research intent) skripsi Teknik Informatika "
+                    "dalam Bahasa Indonesia berdasarkan kueri berikut.\n\n"
+                    "Aturan ketat (ZERO HALLUCINATION):\n"
+                    "- Panjang: Maksimal 1–2 kalimat deklaratif yang padat.\n"
+                    "- DILARANG KERAS menuliskan hasil pengujian, kesimpulan, atau angka persentase fiktif.\n"
+                    "- ATURAN FOKUS KONTEN (SANGAT PENTING):\n"
+                    "  1. JIKA kueri HANYA berisi masalah/objek (misal: 'hama daun tomat' atau 'sapi dicuri'), DILARANG KERAS menebak/menambahkan nama metode, algoritma, atau teknologi penyelesaian. Fokuslah murni pada eksplorasi, penanganan, atau analisis masalah tersebut.\n"
+                    "  2. JIKA kueri HANYA berisi metode/algoritma (misal: 'algoritma CNN' atau 'metode Agile'), DILARANG KERAS mengarang objek studi kasus spesifik. Fokuslah pada implementasi atau evaluasi metode tersebut secara umum.\n"
+                    "  3. JIKA kueri secara eksplisit memuat KEDUANYA (masalah dan metode), gabungkan ke dalam satu kalimat logis tanpa menambah entitas pihak ketiga.\n"
+                    "- SESUAIKAN KATA KERJA AKADEMIS: Jangan selalu memaksakan kata 'mengembangkan' atau 'membangun'. "
+                    "Gunakan kata kerja yang paling akurat sesuai niat kueri (contoh: Menganalisis, Mengevaluasi, "
+                    "Mengimplementasikan, Menerapkan, Mengklasifikasi, atau Memantau).\n"
+                    "- TRANSLASI KOSAKATA BAKU (WAJIB): Terjemahkan seluruh bahasa awam, kata benda kasual, atau istilah pasaran ke dalam terminologi akademis murni yang paling lazim digunakan dalam skripsi Teknik Informatika. (Contoh: 'hape' -> 'perangkat mobile/smartphone', 'tong sampah' -> 'tempat sampah', 'bikin web' -> 'sistem informasi berbasis web').\n"
+                    "- Jika terdapat typo, koreksi otomatis ke istilah baku Teknik Informatika.\n"
+                    "- Output murni teks kalimat. Tanpa kata pengantar, tanpa label, tanpa tanda kutip pembuka/penutup.\n\n"
+                    "Kueri: {query}"
+                )
 
         # self.prompt_3 = (
         #     "Tugas: Hasilkan representasi dokumen akademis (judul dan kata kunci) "
@@ -184,18 +203,40 @@ class RAGService:
         #     "- Output HANYA teks daftar kata kunci. Tanpa label, awalan, atau kutipan.\n\n"
         #     "Kueri: {query}"
         # )
+        # self.prompt_3 = (
+        #     "Tugas: Ekstrak dan perluas kueri berikut menjadi 7-10 kata kunci spesifik "
+        #     "untuk pencarian dokumen skripsi Teknik Informatika.\n\n"
+        #     "Aturan ketat (HARD RULES):\n"
+        #     "- HANYA hasilkan daftar kata kunci yang dipisahkan dengan koma. Tanpa awalan, kalimat, atau judul.\n"
+        #     "- PEMISAHAN BAHASA WAJIB:\n"
+        #     "  1. Objek masalah, subjek penelitian, dan tempat (misal: daun tomat, sampah laut, penyakit kulit) WAJIB menggunakan Bahasa Indonesia.\n"
+        #     "  2. Metode, algoritma, dan teknologi IT (misal: Computer Vision, Deep Learning, Random Forest) WAJIB menggunakan Bahasa Inggris.\n"
+        #     "- JIKA kueri berupa masalah awam (misal: 'petani rugi daun membusuk'), ubah menjadi kata kunci teknis campuran (misal: Penyakit Daun, Plant Disease Detection, Computer Vision).\n"
+        #     "- JANGAN gunakan kata generik seperti: 'Sistem', 'Aplikasi', 'Pengembangan', 'Analisis'.\n\n"
+        #     "Kueri: {query}"
+        # )
+        
         self.prompt_3 = (
-            "Tugas: Ekstrak dan perluas kueri berikut menjadi 7-10 kata kunci spesifik "
-            "untuk pencarian dokumen skripsi Teknik Informatika.\n\n"
-            "Aturan ketat (HARD RULES):\n"
-            "- HANYA hasilkan daftar kata kunci yang dipisahkan dengan koma. Tanpa awalan, kalimat, atau judul.\n"
-            "- PEMISAHAN BAHASA WAJIB:\n"
-            "  1. Objek masalah, subjek penelitian, dan tempat (misal: daun tomat, sampah laut, penyakit kulit) WAJIB menggunakan Bahasa Indonesia.\n"
-            "  2. Metode, algoritma, dan teknologi IT (misal: Computer Vision, Deep Learning, Random Forest) WAJIB menggunakan Bahasa Inggris.\n"
-            "- JIKA kueri berupa masalah awam (misal: 'petani rugi daun membusuk'), ubah menjadi kata kunci teknis campuran (misal: Penyakit Daun, Plant Disease Detection, Computer Vision).\n"
-            "- JANGAN gunakan kata generik seperti: 'Sistem', 'Aplikasi', 'Pengembangan', 'Analisis'.\n\n"
-            "Kueri: {query}"
-        )
+                    "Tugas: Ekstrak dan perluas kueri berikut menjadi 7-10 kata kunci spesifik "
+                    "untuk pencarian dokumen skripsi Teknik Informatika.\n\n"
+                    "Aturan ketat (HARD RULES):\n"
+                    "- ATURAN DOMAIN (MUTLAK): Analisis kueri secara menyeluruh. Jika kueri masuk dalam ranah non-Teknik Informatika, DILARANG KERAS memprosesnya.\n"
+                    "  Contoh topik yang HARUS DITOLAK:\n"
+                    "  * 'cara jadi dokter' -> DITOLAK (kedokteran)\n"
+                    "  * 'model pembelajaran matematika siswa' -> DITOLAK (pendidikan)\n"
+                    "  * 'inflasi profitabilitas bank syariah' -> DITOLAK (ekonomi)\n"
+                    "  * 'tinjauan yuridis undang-undang' -> DITOLAK (hukum)\n"
+                    "  * 'pola asuh gizi stunting' -> DITOLAK (kesehatan)\n"
+                    "  * 'dosis pupuk kandang tanaman' -> DITOLAK (pertanian)\n"
+                    "  Jika kueri seperti contoh di atas atau sejenisnya, Anda HANYA BOLEH mengeluarkan output string ini persis: 'Kueri ditolak: Topik tidak relevan dengan keilmuan Teknik Informatika.'\n"
+                    "- HANYA hasilkan daftar kata kunci yang dipisahkan dengan koma. Tanpa awalan, kalimat, atau judul.\n"
+                    "- PEMISAHAN BAHASA WAJIB:\n"
+                    "  1. Objek masalah, subjek penelitian, dan tempat (misal: daun tomat, sampah laut, penyakit kulit) WAJIB menggunakan Bahasa Indonesia.\n"
+                    "  2. Metode, algoritma, dan teknologi IT (misal: Computer Vision, Deep Learning, Random Forest) WAJIB menggunakan Bahasa Inggris.\n"
+                    "- JIKA kueri berupa masalah awam (misal: 'petani rugi daun membusuk'), ubah menjadi kata kunci teknis campuran (misal: Penyakit Daun, Plant Disease Detection, Computer Vision).\n"
+                    "- JANGAN gunakan kata generik seperti: 'Sistem', 'Aplikasi', 'Pengembangan', 'Analisis'.\n\n"
+                    "Kueri: {query}"
+                )
         # Kelebihan komentar prompt lama tidak lagi ditabur ulang:
         # Prompt lama 2 & 3 telah diganti/dihilangkan duplikasinya di atas.
 
@@ -204,6 +245,91 @@ class RAGService:
             return self.vectorstore._collection.count()
         except Exception:
             return 0
+
+    def _is_non_it_query(self, query: str) -> bool:
+        """
+        Pre-filter cerdas untuk mendeteksi kueri yang jelas-jelas di luar
+        lingkup Teknik Informatika. Return True jika kueri harus ditolak.
+
+        Logika:
+        1. Jika ada kata kunci IT (sistem, aplikasi, software, dll) → ITAMAN (return False)
+        2. Jika ada profesi non-IT (cara jadi dokter, dll) → DITOLAK (return True)
+        3. Jika ada kata kunci non-IT tanpa konteks IT → DITOLAK (return True)
+
+        Menggunakan word boundary matching agar "si" tidak cocok dengan "syariah".
+        """
+        import re
+
+        query_lower = query.lower()
+
+        # Kata kunci IT yang menandakan query masih dalam lingkup Teknik Informatika
+        it_keywords = [
+            "sistem", "aplikasi", "software", "program", "komputer", "computer",
+            "algoritma", "database", "data", "jaringan", "network", "web",
+            "mobile", "android", "ios", "machine learning", "deep learning",
+            "artificial intelligence", "ai", "cloud", "server", "client",
+            "interface", "ui", "ux", "framework", "library", "api",
+            "pemrograman", "coding", "programming", "developer",
+            "teknologi informasi", "informatika", "ilkom",
+            "sistem informasi", "sistem berkaitan", "berbasis", "berbasis web",
+            "berbasis mobile", "berbasis android", "berbasis cloud",
+        ]
+
+        # Profesi non-IT (selalu ditolak)
+        non_it_professions = [
+            "cara jadi", "cara menjadi", "menjadi dokter", "menjadi guru",
+            "menjadi pengacara", "menjadi arsitek", "menjadi perawat",
+            "menjadi polisi", "menjadi tentara", "menjadi koki",
+            "menjadi atlet", "menjadi artis", "menjadi penyanyi",
+        ]
+
+        # Kata kunci non-IT (ditolak HANYA jika tidak ada kata IT)
+        non_it_keywords = [
+            # Kesehatan / Kedokteran
+            "dokter", "kedokteran", "kesehatan", "penyakit", "obat", "rumah sakit",
+            "klinik", "pasien", "diagnosa", "terapi", "stunting", "gizi",
+            "keperawatan", "bidan", "apotek", "farmasi",
+            # Pendidikan / Tarbiyah
+            "guru", "mengajar", "pembelajaran", "tarbiyah", "pendidikan",
+            "siswa", "murid", "sekolah", "kurikulum", "mata pelajaran",
+            # Ekonomi / Bisnis
+            "inflasi", "profitabilitas", "bank syariah", "ekonomi",
+            "akuntansi", "keuangan", "investasi", "saham", "pasar",
+            # Hukum
+            "hukum", "yuridis", "undang-undang", "peraturan", "pidana",
+            "perdata", "pengadilan", "jaksa", "advokat", "notaris",
+            # Pertanian
+            "pertanian", "petani", "pupuk", "tanaman", "ternak", "perkebunan",
+            "padi", "jagung", "kopi", "sawit", "iklim", "hujan",
+            # Sosial / Psikologi
+            "psikologi", "sosiologi", "antropologi", "politik", "pemerintahan",
+            "masyarakat", "budaya", "agama", "keagamaan",
+            # Sastra / Seni / Humaniora
+            "novel", "sastra", "wacana", "puisi", "cerpen", "literatur",
+            "seni", "tari", "musik", "film", "teater", "lukisan", "fotografi",
+            "keindahan", "estetika", "filosofi", "etika", "moral",
+        ]
+
+        def contains_word(text: str, word: str) -> bool:
+            """Cek apakah kata ada sebagai whole word (bukan substring)."""
+            return bool(re.search(r'\b' + re.escape(word) + r'\b', text))
+
+        # 1. Cek profesi non-IT (selalu ditolak)
+        for profesi in non_it_professions:
+            if contains_word(query_lower, profesi):
+                return True
+
+        # 2. Cek kata kunci IT → jika ada, query valid (return False)
+        for keyword in it_keywords:
+            if contains_word(query_lower, keyword):
+                return False
+
+        # 3. Cek kata kunci non-IT → jika ada tanpa konteks IT, ditolak
+        for keyword in non_it_keywords:
+            if contains_word(query_lower, keyword):
+                return True
+
+        return False
 
     def _distance_to_score(self, distance: float) -> float:
         """
@@ -297,6 +423,17 @@ class RAGService:
         Standard RAG retrieval.
         Terintegrasi dengan saklar evaluasi (is_eval).
         """
+        # Pre-filter: tolak kueri non-Teknik Informatika
+        if self._is_non_it_query(query):
+            print(f"🚫 Query rejected by pre-filter: {query}")
+            return {
+                "mode": "rag",
+                "query": query,
+                "docs_count": 0,
+                "documents": [],
+                "rejected": True,
+            }
+
         if k is None:
             k = settings.K_RETRIEVAL
             
@@ -371,6 +508,18 @@ class RAGService:
         elif min_score is None:
             min_score = getattr(settings, "MIN_SIMILARITY_SCORE", 30.0)
 
+        # Pre-filter: tolak kueri non-Teknik Informatika sebelum memanggil LLM
+        if self._is_non_it_query(query):
+            print(f"🚫 Query rejected by pre-filter: {query}")
+            return {
+                "mode": "hyde",
+                "query": query,
+                "hypothetical_document": "Kueri ditolak: Topik tidak relevan dengan keilmuan Teknik Informatika.",
+                "docs_count": 0,
+                "documents": [],
+                "rejected": True,
+            }
+
         # Pilih template prompt berdasarkan parameter (Default utama: Prompt 3)
         if prompt_type == "prompt1":
             prompt = self.prompt_1.format(query=query.strip())
@@ -392,6 +541,18 @@ class RAGService:
         except Exception as e:
             print(f"⚠️  Error generating hypothetical doc: {e}")
             hypothetical_doc = query  
+
+        # Validasi: jika LLM menolak kueri (domain filter), return early
+        if "Kueri ditolak" in hypothetical_doc:
+            print(f"🚫 Query rejected by domain filter: {query}")
+            return {
+                "mode": "hyde",
+                "query": query,
+                "hypothetical_document": hypothetical_doc,
+                "docs_count": 0,
+                "documents": [],
+                "rejected": True,
+            }
 
         # PREFIX E5 WAJIB UNTUK HYPOTHETICAL DOC
         query_repr = f"query: {hypothetical_doc}"
@@ -431,6 +592,17 @@ class RAGService:
         Hybrid RAG retrieval dengan filter metadata tahun dan BM25 fusion.
         """
         from app.services.hybrid_utils import parse_query_metadata, SimpleBM25, hybrid_search_fusion
+
+        # Pre-filter: tolak kueri non-Teknik Informatika
+        if self._is_non_it_query(query):
+            print(f"🚫 Query rejected by pre-filter: {query}")
+            return {
+                "mode": "hybrid",
+                "query": query,
+                "docs_count": 0,
+                "documents": [],
+                "rejected": True,
+            }
         
         if k is None:
             k = settings.K_RETRIEVAL
