@@ -18,7 +18,7 @@ class Settings:
     # API Configuration
     API_TITLE = "Sistem Pencarian Judul & Abstrak Skripsi"
     API_VERSION = "1.0.0"
-    API_DESCRIPTION = "FastAPI backend untuk chatbot pencarian judul dan abstrak skripsi menggunakan RAG"
+    API_DESCRIPTION = "FastAPI backend untuk pencarian judul & abstrak skripsi menggunakan RAG"
     
     # Paths
     BASE_DIR = Path(__file__).parent.parent.parent
@@ -40,18 +40,10 @@ class Settings:
     GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
     GROQ_MODEL = "openai/gpt-oss-120b"  # Model yang digunakan
     LLM_TEMPERATURE_STANDARD = 0.0
-    LLM_TEMPERATURE_HYDE = 0.2
     LLM_TOP_P = 1.0
     LLM_MAX_TOKENS = 500
     LLM_FREQUENCY_PENALTY = 0.0
     LLM_PRESENCE_PENALTY = 0.0
-    
-    # Chatbot Mode Configuration (Mode ke-4: Asisten Interaktif dengan Gemini API)
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-latest")  # Model default dengan context window 1M tokens
-    LLM_TEMPERATURE_CHATBOT = 0.4   # Keseimbangan objektivitas & kreativitas
-    CHATBOT_MAX_TOKENS = 4096       # Ruang cukup untuk narasi research gap setelah tool calling
-    CHATBOT_HISTORY_LIMIT = 8       # Sliding window riwayat percakapan
     
     # Server Configuration
     HOST = "0.0.0.0"

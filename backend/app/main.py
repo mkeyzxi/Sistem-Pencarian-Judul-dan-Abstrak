@@ -36,9 +36,7 @@ async def root():
     return {
         "message": "Selamat datang di Chatbot Pencarian Skripsi",
         "docs": "/docs",
-        "redoc": "/redoc",
-        "health": "/api/health",
-        "info": "/api/info"
+        "redoc": "/redoc"
     }
 
 
