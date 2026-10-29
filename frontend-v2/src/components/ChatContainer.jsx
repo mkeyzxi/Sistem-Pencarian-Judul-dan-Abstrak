@@ -28,7 +28,7 @@ export default function ChatContainer() {
       const res = await fetch('http://127.0.0.1:8000/api/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({message: text, mode: 'rag', chat_history: []}),
+        body: JSON.stringify({message: text, mode: 'rag', chat_history: [], include_narrative: true}),
       })
 
       if (!res.ok) {
@@ -39,7 +39,11 @@ export default function ChatContainer() {
 
       const assistantMsg = {
         role: 'assistant',
-        content: data.message || 'Pencarian selesai.',
+        content: data.narrative || data.message || 'Pencarian selesai.',
+        narrative: data.narrative || null,
+        narrativeFromCache: data.narrative_from_cache || false,
+        latencyMs: data.latency_ms || null,
+        fromCache: data.from_cache || false,
         sources: (data.documents || []).map((doc) => ({
           title: doc.metadata?.title || doc.metadata?.judul || 'Dokumen Tidak Berjudul',
           score: doc.similarity || doc.score || doc.metadata?.similarity_score || 0,
@@ -109,6 +113,9 @@ export default function ChatContainer() {
                     style={{animationDelay: '300ms'}}
                   ></div>
                 </div>
+                <span className="ml-2 text-sm text-[var(--color-text-muted)]">
+                  Menganalisis skripsi…
+                </span>
               </div>
             </div>
           )}

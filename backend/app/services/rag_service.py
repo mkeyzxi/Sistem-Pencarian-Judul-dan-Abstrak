@@ -1,23 +1,91 @@
 """
 RAG Service — Fokus RAG (Standard)
-Fungsi: Standard RAG retrieval untuk frontend-v2.
-E5 Prefix absolut untuk query pencarian.
+Dengan caching hasil retrieval, thread-safe, dan optimasi performa
+untuk melayani banyak user bersamaan.
+
+Fungsi:
+- Standard RAG retrieval
+- In-memory LRU cache untuk query identik (menghindari komputasi ulang)
+- Thread-safe via double-checked locking
+- E5 Prefix absolut untuk query pencarian
 """
 
 import re
+import time
 import threading
+import hashlib
+from collections import OrderedDict
 from langchain_community.vectorstores import Chroma
 from langchain_groq import ChatGroq
 from app.core.config import settings
 from app.services.embedding_service import embedding_service
 
 
-class RAGService:
-    """Service untuk Standard RAG retrieval."""
+# ─── Query Cache (LRU, thread-safe) ───────────────────────────────────────────
+
+class QueryCache:
+    """
+    LRU Cache untuk hasil RAG retrieval.
+    - Kunci: hash query + k (agar hasil tetap relevan per jumlah dokumen)
+    - TTL: 120 detik (menghindari cache stale)
+    - Ukuran: maksimal 200 entri
+    - Thread-safe dengan RLock
+    """
+
+    MAX_SIZE = 200
+    TTL_SECONDS = 120
 
     def __init__(self):
+        self._store: OrderedDict[str, tuple[float, dict]] = OrderedDict()
+        self._lock = threading.RLock()
+
+    @staticmethod
+    def _make_key(query: str, k: int) -> str:
+        """Buat kunci cache dari query dan parameter k."""
+        normalized = re.sub(r'\s+', ' ', query.strip().lower())
+        raw = f"{normalized}|k={k}"
+        return hashlib.sha256(raw.encode()).hexdigest()
+
+    def get(self, query: str, k: int) -> dict | None:
+        """Ambil dari cache jika ada dan belum expired."""
+        key = self._make_key(query, k)
+        with self._lock:
+            entry = self._store.get(key)
+            if entry is None:
+                return None
+            ts, value = entry
+            if time.time() - ts > self.TTL_SECONDS:
+                # Expired — hapus
+                del self._store[key]
+                return None
+            # Move to end (MRU)
+            self._store.move_to_end(key)
+            return value
+
+    def set(self, query: str, k: int, value: dict) -> None:
+        """Simpan hasil ke cache."""
+        key = self._make_key(query, k)
+        with self._lock:
+            if key in self._store:
+                self._store.move_to_end(key)
+            self._store[key] = (time.time(), value)
+            # Evict oldest jika melebihi batas
+            while len(self._store) > self.MAX_SIZE:
+                self._store.popitem(last=False)
+
+    def stats(self) -> dict:
+        with self._lock:
+            return {"entries": len(self._store), "max_size": self.MAX_SIZE}
+
+
+class RAGService:
+    """Service untuk Standard RAG retrieval dengan caching."""
+
+    def __init__(self):
+        # ── Inisialisasi Embedding ──
         self.embedding = embedding_service.get_embedding_function()
 
+        # ── Inisialisasi ChromaDB ──
         print("-> Initializing ChromaDB vectorstore...")
         self.vectorstore = Chroma(
             embedding_function=self.embedding,
@@ -26,7 +94,7 @@ class RAGService:
         )
         print("[OK] ChromaDB loaded")
 
-        # Deteksi distance metric collection
+        # ── Deteksi distance metric ──
         try:
             meta = self.vectorstore._collection.metadata or {}
             self._distance_metric = meta.get("hnsw:space", "cosine")
@@ -34,14 +102,54 @@ class RAGService:
             self._distance_metric = "cosine"
         print(f"Distance metric: {self._distance_metric}")
 
-        # LLM untuk RAG
-        print("🔄 Initializing Groq LLM...")
-        self.llm = ChatGroq(
-            model=settings.GROQ_MODEL,
-            temperature=settings.LLM_TEMPERATURE_STANDARD,
-            max_tokens=settings.LLM_MAX_TOKENS,
-            groq_api_key=settings.GROQ_API_KEY,
-        )
+        # ── Cache untuk hasil RAG ──
+        self.cache = QueryCache()
+
+        # ── Pre-filter: keyword list ──
+        # Dipakai _is_non_it_query (dipanggil di thread berbeda secara bersamaan)
+        # Keyword di-memo agar tidak re-parse regex setiap kali
+        self._it_keywords: set[str] = set()
+        self._non_it_keywords: set[str] = set()
+        self._non_it_professions: set[str] = set()
+        self._init_keywords()
+
+    def _init_keywords(self) -> None:
+        """Inisialisasi set keyword untuk pre-filter (sangat cepat lookup)."""
+        self._it_keywords = {
+            "sistem", "aplikasi", "software", "program", "komputer", "computer",
+            "algoritma", "database", "data", "jaringan", "network", "web",
+            "mobile", "android", "ios", "machine learning", "deep learning",
+            "artificial intelligence", "ai", "cloud", "server", "client",
+            "interface", "ui", "ux", "framework", "library", "api",
+            "pemrograman", "coding", "programming", "developer",
+            "teknologi informasi", "informatika", "ilkom",
+            "sistem informasi", "berbasis", "berbasis web",
+            "berbasis mobile", "berbasis android", "berbasis cloud",
+        }
+        self._non_it_keywords = {
+            "dokter", "kedokteran", "kesehatan", "penyakit", "obat",
+            "rumah sakit", "klinik", "pasien", "diagnosa", "terapi",
+            "stunting", "gizi", "keperawatan", "bidan", "apotek", "farmasi",
+            "guru", "mengajar", "pembelajaran", "tarbiyah", "pendidikan",
+            "siswa", "murid", "sekolah", "kurikulum", "mata pelajaran",
+            "inflasi", "profitabilitas", "bank syariah", "ekonomi",
+            "akuntansi", "keuangan", "investasi", "saham", "pasar",
+            "hukum", "yuridis", "undang-undang", "peraturan", "pidana",
+            "perdata", "pengadilan", "jaksa", "advokat", "notaris",
+            "pertanian", "petani", "pupuk", "tanaman", "ternak",
+            "padi", "jagung", "kopi", "sawit", "iklim", "hujan",
+            "psikologi", "sosiologi", "antropologi", "politik",
+            "masyarakat", "budaya", "agama", "keagamaan",
+            "novel", "sastra", "puisi", "cerpen", "literatur",
+            "seni", "tari", "musik", "film", "teater", "fotografi",
+            "filosofi", "etika", "moral",
+        }
+        self._non_it_professions = {
+            "cara jadi", "cara menjadi", "menjadi dokter", "menjadi guru",
+            "menjadi pengacara", "menjadi arsitek", "menjadi perawat",
+            "menjadi polisi", "menjadi tentara", "menjadi koki",
+            "menjadi atlet", "menjadi artis", "menjadi penyanyi",
+        }
 
     def get_vector_count(self) -> int:
         try:
@@ -51,65 +159,24 @@ class RAGService:
 
     def _is_non_it_query(self, query: str) -> bool:
         """
-        Pre-filter cerdas untuk mendeteksi kueri yang jelas-jelas di luar
-        lingkup Teknik Informatika. Return True jika kueri harus ditolak.
+        Pre-filter cepat: apakah kueri di luar lingkup TI?
+        Menggunakan set lookup (O(1)) + word boundary check (cepat).
         """
         query_lower = query.lower()
 
-        it_keywords = [
-            "sistem", "aplikasi", "software", "program", "komputer", "computer",
-            "algoritma", "database", "data", "jaringan", "network", "web",
-            "mobile", "android", "ios", "machine learning", "deep learning",
-            "artificial intelligence", "ai", "cloud", "server", "client",
-            "interface", "ui", "ux", "framework", "library", "api",
-            "pemrograman", "coding", "programming", "developer",
-            "teknologi informasi", "informatika", "ilkom",
-            "sistem informasi", "sistem berkaitan", "berbasis", "berbasis web",
-            "berbasis mobile", "berbasis android", "berbasis cloud",
-        ]
-
-        non_it_professions = [
-            "cara jadi", "cara menjadi", "menjadi dokter", "menjadi guru",
-            "menjadi pengacara", "menjadi arsitek", "menjadi perawat",
-            "menjadi polisi", "menjadi tentara", "menjadi koki",
-            "menjadi atlet", "menjadi artis", "menjadi penyanyi",
-        ]
-
-        non_it_keywords = [
-            "dokter", "kedokteran", "kesehatan", "penyakit", "obat", "rumah sakit",
-            "klinik", "pasien", "diagnosa", "terapi", "stunting", "gizi",
-            "keperawatan", "bidan", "apotek", "farmasi",
-            "guru", "mengajar", "pembelajaran", "tarbiyah", "pendidikan",
-            "siswa", "murid", "sekolah", "kurikulum", "mata pelajaran",
-            "inflasi", "profitabilitas", "bank syariah", "ekonomi",
-            "akuntansi", "keuangan", "investasi", "saham", "pasar",
-            "hukum", "yuridis", "undang-undang", "peraturan", "pidana",
-            "perdata", "pengadilan", "jaksa", "advokat", "notaris",
-            "pertanian", "petani", "pupuk", "tanaman", "ternak",
-            "padi", "jagung", "kopi", "sawit", "iklim", "hujan",
-            "psikologi", "sosiologi", "antropologi", "politik", "pemerintahan",
-            "masyarakat", "budaya", "agama", "keagamaan",
-            "novel", "sastra", "wacana", "puisi", "cerpen", "literatur",
-            "seni", "tari", "musik", "film", "teater", "lukisan", "fotografi",
-            "keindahan", "estetika", "filosofi", "etika", "moral",
-        ]
-
-        def contains_word(text: str, word: str) -> bool:
-            return bool(re.search(r'\b' + re.escape(word) + r'\b', text))
-
-        # 1. Cek profesi non-IT (selalu ditolak)
-        for profesi in non_it_professions:
-            if contains_word(query_lower, profesi):
+        # 1. Profesi non-IT → ditolak langsung
+        for profesi in self._non_it_professions:
+            if re.search(r'\b' + re.escape(profesi) + r'\b', query_lower):
                 return True
 
-        # 2. Cek kata kunci IT → jika ada, query valid (return False)
-        for keyword in it_keywords:
-            if contains_word(query_lower, keyword):
+        # 2. Ada keyword IT → valid
+        for kw in self._it_keywords:
+            if re.search(r'\b' + re.escape(kw) + r'\b', query_lower):
                 return False
 
-        # 3. Cek kata kunci non-IT → jika ada tanpa konteks IT, ditolak
-        for keyword in non_it_keywords:
-            if contains_word(query_lower, keyword):
+        # 3. Ada keyword non-IT → ditolak
+        for kw in self._non_it_keywords:
+            if re.search(r'\b' + re.escape(kw) + r'\b', query_lower):
                 return True
 
         return False
@@ -123,7 +190,7 @@ class RAGService:
                 score = (1.0 - d / 2.0) * 100.0
             elif metric == "l2":
                 score = (1.0 / (1.0 + d)) * 100.0
-            else:  # "ip" atau inner product
+            else:
                 score = (1.0 - d) * 100.0
             return round(max(0.0, min(100.0, score)), 2)
         except (TypeError, ValueError):
@@ -148,7 +215,6 @@ class RAGService:
     def _deduplicate(self, docs_with_scores: list) -> list:
         """Hilangkan duplikat chunk dari skripsi yang sama."""
         seen: dict[str, tuple] = {}
-
         for doc, distance in docs_with_scores:
             nim = doc.metadata.get("nim", "").strip()
             judul = doc.metadata.get("judul", "").strip()
@@ -166,11 +232,7 @@ class RAGService:
 
         return list(seen.values())
 
-    def _apply_threshold(
-        self,
-        docs_with_scores: list,
-        min_score: float,
-    ) -> list:
+    def _apply_threshold(self, docs_with_scores: list, min_score: float) -> list:
         """Filter dokumen dengan similarity_score < min_score."""
         filtered = []
         for doc, distance in docs_with_scores:
@@ -187,9 +249,19 @@ class RAGService:
         use_mmr: bool = False,
     ) -> dict:
         """
-        Standard RAG retrieval.
+        Standard RAG retrieval dengan in-memory caching.
+        Query yang sama (k yang sama) → langsung ambil dari cache (latency ~0ms).
         """
-        # Pre-filter: tolak kueri non-Teknik Informatika
+        # ── Cek cache dulu (paling cepat, tanpa akses ChromaDB) ──
+        cache_hit = self.cache.get(query, k or settings.K_RETRIEVAL)
+        if cache_hit is not None:
+            print(f"⚡ CACHE HIT: {query[:60]}...")
+            cache_hit = cache_hit.copy()
+            cache_hit["from_cache"] = True
+            cache_hit["latency_ms"] = 0
+            return cache_hit
+
+        # ── Pre-filter: tolak kueri non-Teknik Informatika (tanpa cache) ──
         if self._is_non_it_query(query):
             print(f"🚫 Query rejected by pre-filter: {query}")
             return {
@@ -198,7 +270,11 @@ class RAGService:
                 "docs_count": 0,
                 "documents": [],
                 "rejected": True,
+                "from_cache": False,
             }
+
+        # ── Retrieval dari ChromaDB ──
+        t0 = time.perf_counter()
 
         if k is None:
             k = settings.K_RETRIEVAL
@@ -233,7 +309,6 @@ class RAGService:
         # Filter & Dedup
         docs_with_scores = self._apply_threshold(docs_with_scores, min_score)
         docs_with_scores = self._deduplicate(docs_with_scores)
-
         docs_with_scores = sorted(docs_with_scores, key=lambda x: x[1])[:k]
 
         documents = [
@@ -241,13 +316,21 @@ class RAGService:
             for doc, dist in docs_with_scores
         ]
 
-        return {
+        result = {
             "mode": "rag",
             "query": query,
             "used_mmr": use_mmr,
             "docs_count": len(documents),
             "documents": documents,
+            "from_cache": False,
         }
+        result["latency_ms"] = round((time.perf_counter() - t0) * 1000, 2)
+
+        # ── Simpan ke cache (hanya jika ada hasil, hindari cache kosong) ──
+        if documents:
+            self.cache.set(query, k, result)
+
+        return result
 
 
 # ─── Thread-safe singleton ───────────────────────────────────────────────────
@@ -256,7 +339,7 @@ _rag_service_lock = threading.Lock()
 
 
 def get_rag_service() -> RAGService:
-    """Get atau create RAGService instance (thread-safe)."""
+    """Get atau create RAGService instance (thread-safe, double-checked locking)."""
     global _rag_service
     if _rag_service is None:
         with _rag_service_lock:

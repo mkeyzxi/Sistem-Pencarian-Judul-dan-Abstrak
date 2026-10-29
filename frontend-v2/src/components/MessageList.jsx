@@ -90,51 +90,62 @@ function SourceCard({source, index}) {
   )
 }
 
-function AssistantMessage({content, sources}) {
+function AssistantMessage({content, sources, narrative, latencyMs, narrativeFromCache, fromCache}) {
   return (
     <div className="message assistant mb-8">
       <div className="ai-avatar shrink-0 mt-1 overflow-hidden">
-        {/* <img
-          src="/81827305_1278039172384147_8186309804793266176_n (1).jpg"
-          alt="AI"
-          className="w-full h-full object-cover"
-        /> */}
         <BotMessageSquare />
       </div>
       <div className="message-body">
-        <div className="prose mb-6">
-          <ReactMarkdown
-            components={{
-              code({inline, className, children, ...props}) {
-                const match = /language-(\w+)/.exec(className || '')
-                return !inline && match ? (
-                  <div className="code-block">
-                    <div className="code-block-header">
-                      <span>{match[1]}</span>
-                      <button className="text-[var(--color-text-muted)] hover:text-white transition-colors">
-                        Copy
-                      </button>
-                    </div>
-                    <pre className={className} {...props}>
-                      <code>{children}</code>
-                    </pre>
-                  </div>
-                ) : (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                )
-              },
-            }}
-          >
-            {content}
-          </ReactMarkdown>
-        </div>
+        {/* ── Narasi LLM (Full RAG: Retrieval + Generation) ── */}
+        {narrative && (
+          <div className="mb-6 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-soft)]">
+            <div className="flex items-center gap-2 mb-3 text-[var(--color-text-muted)]">
+              {/* <span className="text-[10px] font-mono tracking-widest uppercase">Sintesis AI</span> */}
+              <div className="flex-1 h-px bg-[var(--color-border)]" />
+              {narrativeFromCache && (
+                <span className="text-[10px] font-mono text-[var(--color-text-muted)] opacity-60">cache</span>
+              )}
+              {latencyMs != null && (
+                <span className="text-[10px] font-mono text-[var(--color-text-muted)] opacity-60">{latencyMs}ms</span>
+              )}
+            </div>
+            <div className="prose">
+              <ReactMarkdown
+                components={{
+                  code({inline, className, children, ...props}) {
+                    const match = /language-(\w+)/.exec(className || '')
+                    return !inline && match ? (
+                      <div className="code-block">
+                        <div className="code-block-header">
+                          <span>{match[1]}</span>
+                          <button className="text-[var(--color-text-muted)] hover:text-white transition-colors">
+                            Copy
+                          </button>
+                        </div>
+                        <pre className={className} {...props}>
+                          <code>{children}</code>
+                        </pre>
+                      </div>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    )
+                  },
+                }}
+              >
+                {narrative}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
 
+        {/* ── Sumber Skripsi ── */}
         {sources && sources.length > 0 && (
           <div className="mt-6 border-t border-[var(--color-border)] pt-4">
             <h4 className="text-[var(--color-text-secondary)] text-sm font-semibold mb-3">
-              Sources
+              Sumber Skripsi
             </h4>
             <div className="flex flex-col gap-1">
               {sources.map((source, idx) => (
@@ -178,7 +189,15 @@ export default function MessageList({messages}) {
         msg.role === 'user' ? (
           <UserMessage key={index} content={msg.content} />
         ) : (
-          <AssistantMessage key={index} content={msg.content} sources={msg.sources} />
+          <AssistantMessage
+            key={index}
+            content={msg.content}
+            sources={msg.sources}
+            narrative={msg.narrative}
+            latencyMs={msg.latencyMs}
+            narrativeFromCache={msg.narrativeFromCache}
+            fromCache={msg.fromCache}
+          />
         ),
       )}
     </div>

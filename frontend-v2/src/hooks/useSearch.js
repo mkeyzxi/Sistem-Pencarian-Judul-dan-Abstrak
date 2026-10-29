@@ -30,14 +30,11 @@ export const useSearch = () => {
 
     try {
       const startTime = performance.now();
-      
-      // Mengirimkan 'HyDE' (dengan huruf besar) agar mengembalikan fallback backend lama
-      const payloadMode = mode === 'hyde' ? 'HyDE' : 'rag';
 
       const res = await fetch(baseURL + '/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: query, mode: payloadMode, chat_history: [] }),
+        body: JSON.stringify({ message: query, mode: 'rag', chat_history: [], include_narrative: true }),
       });
 
       if (!res.ok) {

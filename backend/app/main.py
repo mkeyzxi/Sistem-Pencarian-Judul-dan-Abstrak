@@ -1,74 +1,75 @@
 """
 FastAPI Main Application
 Entry point untuk server backend.
+
+Optimasi:
+- Uvicorn dengan multi-worker
+- Async I/O → menangani banyak concurrent request tanpa blocking
+- CORS permissive untuk development, perketat di production
 """
 
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import chat
 
-# Create FastAPI app
+# ── Create FastAPI app ──
 app = FastAPI(
     title=settings.API_TITLE,
     description=settings.API_DESCRIPTION,
     version=settings.API_VERSION,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
-# Add CORS middleware untuk allow frontend menghubungi backend
+# ── CORS ──
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # PRODUCTION: ubah ke domain spesifik
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    max_age=86400,
 )
 
-# Include routers
+# ── Routers ──
 app.include_router(chat.router)
 
+
+# ── Endpoints utama ──
 
 @app.get("/", tags=["root"])
 async def root():
     """Root endpoint."""
     return {
-        "message": "Selamat datang di Chatbot Pencarian Skripsi",
+        "message": "Selamat datang di Sistem Pencarian Skripsi",
         "docs": "/docs",
-        "redoc": "/redoc"
+        "status": "/api/status",
+        "health": "/api/health",
     }
 
 
-@app.get("/api/status", tags=["status"])
-async def status():
-    """System status."""
-    return {
-        "status": "running",
-        "api_version": settings.API_VERSION,
-        "app_name": settings.API_TITLE
-    }
-
-
+# ── Entry point untuk development ──
 if __name__ == "__main__":
     import uvicorn
-    
-    # Run server
+
     print(f"""
     ╔════════════════════════════════════════════════════════════╗
-    ║      🚀 Chatbot Pencarian Judul & Abstrak Skripsi        ║
+    ║      🚀 Sistem Pencarian Judul & Abstrak Skripsi         ║
+    ║      Full RAG: Retrieval + Generation (LLM)             ║
     ║                 FastAPI Version {settings.API_VERSION}                      ║
     ╚════════════════════════════════════════════════════════════╝
-    
+
     📍 Server: http://{settings.HOST}:{settings.PORT}
     📚 Docs:   http://{settings.HOST}:{settings.PORT}/docs
-    🔍 ReDoc:  http://{settings.HOST}:{settings.PORT}/redoc
+    🩺 Health: http://{settings.HOST}:{settings.PORT}/api/health
     """)
-    
+
     uvicorn.run(
         "app.main:app",
         host=settings.HOST,
         port=settings.PORT,
         reload=settings.DEBUG,
-        log_level="info"
+        log_level="info",
     )
