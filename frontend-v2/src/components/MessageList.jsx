@@ -90,7 +90,10 @@ function SourceCard({source, index}) {
   )
 }
 
-function AssistantMessage({sources, narrative, latencyMs, narrativeFromCache}) {
+function AssistantMessage({sources, narrative, content, isError, latencyMs, narrativeFromCache}) {
+  // Pesan error dibuat generik di ChatContainer (tanpa detail teknis:
+  // rate limit / api key / model dsb.). Detail aslinya hanya ke console.
+  const text = narrative || content || ''
   return (
     <div className="message assistant mb-8">
       <div className="ai-avatar shrink-0 mt-1 overflow-hidden">
@@ -98,8 +101,8 @@ function AssistantMessage({sources, narrative, latencyMs, narrativeFromCache}) {
       </div>
       <div className="message-body">
         {/* ── Narasi LLM (Full RAG: Retrieval + Generation) ── */}
-        {narrative && (
-          <div className="mb-6 p-4 rounded-xl border border-(--color-border) bg-(--color-surface-soft)">
+        {text && (
+          <div className={`mb-6 p-4 rounded-xl border bg-(--color-surface-soft) ${isError ? 'border-(--color-danger)' : 'border-(--color-border)'}`}>
            
             <div className="prose">
               <ReactMarkdown
@@ -126,7 +129,7 @@ function AssistantMessage({sources, narrative, latencyMs, narrativeFromCache}) {
                   },
                 }}
               >
-                {narrative}
+                {text}
               </ReactMarkdown>
             </div>
           </div>
@@ -184,6 +187,8 @@ export default function MessageList({messages}) {
             key={index}
             sources={msg.sources}
             narrative={msg.narrative}
+            content={msg.content}
+            isError={msg.isError}
             latencyMs={msg.latencyMs}
             narrativeFromCache={msg.narrativeFromCache}
           />

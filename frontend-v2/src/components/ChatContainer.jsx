@@ -70,7 +70,9 @@ export default function ChatContainer() {
         ...newMessages,
         {
           role: 'assistant',
-          content: 'Maaf, terjadi kesalahan saat menghubungi server: ' + error.message,
+          // Pesan generik saja; detail (network/rate limit/server) hanya ke console
+          content: 'Maaf, terjadi kesalahan pada sistem. Silakan coba lagi beberapa saat.',
+          isError: true,
           sources: [],
         },
       ])
