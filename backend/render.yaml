@@ -1,0 +1,48 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Render Blueprint — Sistem Pencarian Judul & Abstrak Skripsi (Backend)
+#
+# NOTE: File ini OPSIONAL. Service yang sudah dibuat lewat dashboard Render
+# (kanal "Configure and deploy") TIDAK otomatis membaca file ini. File ini
+# berguna jika kelak memakai menu "Blueprint" dengan sync dari repo.
+#
+# Konfigurasi di sini sudah disesuaikan untuk produksi:
+# - Tanpa --reload
+# - Bind 0.0.0.0 + $PORT
+# - torch versi CPU (hemat ukuran build besar)
+# - healthCheckPath = /healthz (endpoint super ringan)
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: sistem-pencarian-judul-dan-abstrak
+    runtime: python
+    branch: master
+    rootDir: backend
+    plan: free
+
+    # Pre-install torch CPU agar pip tidak mengunduh wheel CUDA (~2GB).
+    # requirements.txt kemudian tidak perlu mendownload torch lagi.
+    buildCommand: |
+      pip install torch --index-url https://download.pytorch.org/whl/cpu
+      pip install -r requirements.txt
+
+    # JANGAN pakai --reload di produksi.
+    # WORKERS=1 untuk plan Free 512MB (model embedding ~500MB per proses).
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers $WORKERS
+
+    # Harus sama dengan endpoint yang sudah ada di app/main.py
+    healthCheckPath: /healthz
+
+    autoDeploy: true
+
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false          # isi manual via dashboard (jangan commit ke repo!)
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: "8000"
+      - key: DEBUG
+        value: "false"       # false = warmup model aktif, reload tidak dipakai
+      - key: WORKERS
+        value: "1"           # Naikkan hanya jika memori mencukupi
