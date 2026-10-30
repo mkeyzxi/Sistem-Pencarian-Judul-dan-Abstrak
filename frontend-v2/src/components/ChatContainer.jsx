@@ -28,7 +28,7 @@ export default function ChatContainer() {
       const res = await fetch('http://127.0.0.1:8000/api/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({message: text, mode: 'rag', chat_history: []}),
+        body: JSON.stringify({message: text, mode: 'rag', chat_history: [], include_narrative: true}),
       })
 
       if (!res.ok) {
@@ -39,7 +39,11 @@ export default function ChatContainer() {
 
       const assistantMsg = {
         role: 'assistant',
-        content: data.message || 'Pencarian selesai.',
+        content: data.narrative || data.message || 'Pencarian selesai.',
+        narrative: data.narrative || null,
+        narrativeFromCache: data.narrative_from_cache || false,
+        latencyMs: data.latency_ms || null,
+        fromCache: data.from_cache || false,
         sources: (data.documents || []).map((doc) => ({
           title: doc.metadata?.title || doc.metadata?.judul || 'Dokumen Tidak Berjudul',
           score: doc.similarity || doc.score || doc.metadata?.similarity_score || 0,
@@ -66,7 +70,9 @@ export default function ChatContainer() {
         ...newMessages,
         {
           role: 'assistant',
-          content: 'Maaf, terjadi kesalahan saat menghubungi server: ' + error.message,
+          // Pesan generik saja; detail (network/rate limit/server) hanya ke console
+          content: 'Maaf, terjadi kesalahan pada sistem. Silakan coba lagi beberapa saat.',
+          isError: true,
           sources: [],
         },
       ])
@@ -97,18 +103,21 @@ export default function ChatContainer() {
               <div className="message-body flex items-center h-9">
                 <div className="flex gap-1.5">
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '0ms'}}
                   ></div>
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '150ms'}}
                   ></div>
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '300ms'}}
                   ></div>
                 </div>
+                <span className="ml-2 text-sm text-(--color-text-muted)">
+                  Menganalisis skripsi…
+                </span>
               </div>
             </div>
           )}

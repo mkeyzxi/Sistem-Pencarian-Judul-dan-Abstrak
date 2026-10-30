@@ -11,10 +11,10 @@ export default function Layout({children}) {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-[var(--color-navy)] leading-tight">
+            <span className="font-semibold text-(--color-navy) leading-tight">
               Sistem Pencarian Skripsi
             </span>
-            <span className="text-xs text-[var(--color-text-secondary)]">Teknik Informatika</span>
+            <span className="text-xs text-(--color-text-secondary)">Teknik Informatika</span>
           </div>
         </div>
         <span className="hidden sm:inline">UIN Alauddin Makassar</span>
