@@ -33,18 +33,18 @@ function SourceCard({source, index}) {
         onClick={() => setIsExpanded(!isExpanded)}
       >
         <div className="flex items-center gap-3">
-          <div className="text-[var(--color-text-muted)] font-mono text-sm shrink-0">
+          <div className="text-(--color-text-muted) font-mono text-sm shrink-0">
             {String(index + 1).padStart(2, '0')}
           </div>
-          <FileText className="w-5 h-5 text-[var(--color-primary)] shrink-0" />
-          <div className="font-semibold text-[var(--color-navy)] text-sm">{source.title}</div>
+          <FileText className="w-5 h-5 text-(--color-primary) shrink-0" />
+          <div className="font-semibold text-(--color-navy) text-sm">{source.title}</div>
         </div>
         <div className="flex items-center gap-2">
           {/* Relevansi dipindah ke dalam detail */}
           {isExpanded ? (
-            <ChevronDown className="w-4 h-4 text-[var(--color-text-muted)]" />
+            <ChevronDown className="w-4 h-4 text-(--color-text-muted)" />
           ) : (
-            <ChevronRight className="w-4 h-4 text-[var(--color-text-muted)]" />
+            <ChevronRight className="w-4 h-4 text-(--color-text-muted)" />
           )}
         </div>
       </div>
@@ -52,35 +52,35 @@ function SourceCard({source, index}) {
       {!isExpanded && <div className="source-excerpt">"{getAbstractContent(source.fullContent).substring(0, 180)}..."</div>}
 
       <div className={`source-details ${isExpanded ? 'open' : ''}`}>
-        <div className="pt-4 mt-4 border-t border-[var(--color-border)] min-h-0">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm bg-[var(--color-surface-soft)] p-3 rounded-lg border border-[var(--color-border)]">
+        <div className="pt-4 mt-4 border-t border-(--color-border) min-h-0">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm bg-(--color-surface-soft) p-3 rounded-lg border border-(--color-border)">
             <div>
-              <div className="text-[var(--color-text-muted)] text-xs mb-1">Penulis</div>
-              <div className="text-[var(--color-text-primary)] font-semibold">
+              <div className="text-(--color-text-muted) text-xs mb-1">Penulis</div>
+              <div className="text-(--color-text-primary) font-semibold">
                 {source.metadata?.author || '-'}
               </div>
             </div>
             <div>
-              <div className="text-[var(--color-text-muted)] text-xs mb-1">NIM</div>
-              <div className="text-[var(--color-text-primary)] font-semibold">
+              <div className="text-(--color-text-muted) text-xs mb-1">NIM</div>
+              <div className="text-(--color-text-primary) font-semibold">
                 {source.metadata?.nim || '-'}
               </div>
             </div>
             <div>
-              <div className="text-[var(--color-text-muted)] text-xs mb-1">Tahun</div>
-              <div className="text-[var(--color-text-primary)] font-semibold">
+              <div className="text-(--color-text-muted) text-xs mb-1">Tahun</div>
+              <div className="text-(--color-text-primary) font-semibold">
                 {source.metadata?.year || '-'}
               </div>
             </div>
             <div>
-              <div className="text-[var(--color-text-muted)] text-xs mb-1">Relevansi</div>
-              <div className="text-[var(--color-primary)] font-semibold">
+              <div className="text-(--color-text-muted) text-xs mb-1">Relevansi</div>
+              <div className="text-(--color-primary) font-semibold">
                 {source.score ? source.score.toFixed(0) : 0}%
               </div>
             </div>
           </div>
           <div>
-            <div className="text-[var(--color-text-primary)] text-sm leading-relaxed whitespace-pre-wrap pb-2">
+            <div className="text-(--color-text-primary) text-sm leading-relaxed whitespace-pre-wrap pb-2">
               {getAbstractContent(source.fullContent)}
             </div>
           </div>
@@ -90,7 +90,7 @@ function SourceCard({source, index}) {
   )
 }
 
-function AssistantMessage({content, sources, narrative, latencyMs, narrativeFromCache, fromCache}) {
+function AssistantMessage({sources, narrative, latencyMs, narrativeFromCache}) {
   return (
     <div className="message assistant mb-8">
       <div className="ai-avatar shrink-0 mt-1 overflow-hidden">
@@ -99,17 +99,8 @@ function AssistantMessage({content, sources, narrative, latencyMs, narrativeFrom
       <div className="message-body">
         {/* ── Narasi LLM (Full RAG: Retrieval + Generation) ── */}
         {narrative && (
-          <div className="mb-6 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-soft)]">
-            <div className="flex items-center gap-2 mb-3 text-[var(--color-text-muted)]">
-              {/* <span className="text-[10px] font-mono tracking-widest uppercase">Sintesis AI</span> */}
-              <div className="flex-1 h-px bg-[var(--color-border)]" />
-              {narrativeFromCache && (
-                <span className="text-[10px] font-mono text-[var(--color-text-muted)] opacity-60">cache</span>
-              )}
-              {latencyMs != null && (
-                <span className="text-[10px] font-mono text-[var(--color-text-muted)] opacity-60">{latencyMs}ms</span>
-              )}
-            </div>
+          <div className="mb-6 p-4 rounded-xl border border-(--color-border) bg-(--color-surface-soft)">
+           
             <div className="prose">
               <ReactMarkdown
                 components={{
@@ -119,7 +110,7 @@ function AssistantMessage({content, sources, narrative, latencyMs, narrativeFrom
                       <div className="code-block">
                         <div className="code-block-header">
                           <span>{match[1]}</span>
-                          <button className="text-[var(--color-text-muted)] hover:text-white transition-colors">
+                          <button className="text-(--color-text-muted) hover:text-white transition-colors">
                             Copy
                           </button>
                         </div>
@@ -143,8 +134,8 @@ function AssistantMessage({content, sources, narrative, latencyMs, narrativeFrom
 
         {/* ── Sumber Skripsi ── */}
         {sources && sources.length > 0 && (
-          <div className="mt-6 border-t border-[var(--color-border)] pt-4">
-            <h4 className="text-[var(--color-text-secondary)] text-sm font-semibold mb-3">
+          <div className="mt-6 border-t border-(--color-border) pt-4">
+            <h4 className="text-(--color-text-secondary) text-sm font-semibold mb-3">
               Sumber Skripsi
             </h4>
             <div className="flex flex-col gap-1">
@@ -191,12 +182,10 @@ export default function MessageList({messages}) {
         ) : (
           <AssistantMessage
             key={index}
-            content={msg.content}
             sources={msg.sources}
             narrative={msg.narrative}
             latencyMs={msg.latencyMs}
             narrativeFromCache={msg.narrativeFromCache}
-            fromCache={msg.fromCache}
           />
         ),
       )}

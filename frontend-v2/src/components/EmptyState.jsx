@@ -7,7 +7,7 @@ export default function EmptyState({onSuggestionClick}) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full text-center px-4 pt-12 pb-8">
-      <div className="w-24 h-24 bg-[var(--color-primary)] rounded-2xl flex items-center justify-center mb-6 shadow-md overflow-hidden">
+      <div className="w-24 h-24 bg-(--color-primary) rounded-2xl flex items-center justify-center mb-6 shadow-md overflow-hidden">
         <img
           src="/81827305_1278039172384147_8186309804793266176_n (1).jpg"
           alt="Logo"

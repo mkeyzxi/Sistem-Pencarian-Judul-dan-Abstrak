@@ -101,19 +101,19 @@ export default function ChatContainer() {
               <div className="message-body flex items-center h-9">
                 <div className="flex gap-1.5">
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '0ms'}}
                   ></div>
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '150ms'}}
                   ></div>
                   <div
-                    className="w-2 h-2 rounded-full bg-[var(--color-text-muted)] animate-bounce"
+                    className="w-2 h-2 rounded-full bg-(--color-text-muted) animate-bounce"
                     style={{animationDelay: '300ms'}}
                   ></div>
                 </div>
-                <span className="ml-2 text-sm text-[var(--color-text-muted)]">
+                <span className="ml-2 text-sm text-(--color-text-muted)">
                   Menganalisis skripsi…
                 </span>
               </div>
