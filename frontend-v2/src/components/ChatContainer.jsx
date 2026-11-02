@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react'
 import EmptyState from './EmptyState'
 import MessageList from './MessageList'
 import MessageComposer from './MessageComposer'
+import {API_BASE_URL} from '../config/api'
 
 export default function ChatContainer() {
   const [messages, setMessages] = useState([])
@@ -25,7 +26,7 @@ export default function ChatContainer() {
     setIsGenerating(true)
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/chat', {
+      const res = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({message: text, mode: 'rag', chat_history: [], include_narrative: true}),
