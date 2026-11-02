@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment (nilai per mesin; contoh ada di .env.example)
+.env
+.env.*
+!.env.example

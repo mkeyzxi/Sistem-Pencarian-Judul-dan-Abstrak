@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
-
-const baseURL = "http://127.0.0.1:8000";
+import { API_BASE_URL } from '../config/api';
 
 export const useSearch = () => {
   const [state, setState] = useState({
@@ -31,7 +30,7 @@ export const useSearch = () => {
     try {
       const startTime = performance.now();
 
-      const res = await fetch(baseURL + '/api/chat', {
+      const res = await fetch(API_BASE_URL + '/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: query, mode: 'rag', chat_history: [], include_narrative: true }),
