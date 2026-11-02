@@ -1,16 +1,25 @@
-fastapi
-uvicorn[standard]
-python-dotenv
+# ─── Sistem Pencarian Judul & Abstrak Skripsi — Backend ───
+# Versi DI-PIN sesuai venv lokal yang sudah teruji tampil bersama
+# (menghindari build break akibat perubahan versi bagian atas / upstream).
+#
+# CATATAN DEPLOY (Render/VPS):
+# Pre-install torch CPU dulu agar baris torch tidak mengunduh wheel CUDA (~2GB):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
 
-langchain
-langchain-community
-langchain-core
-langchain-groq
-langchain-huggingface
+fastapi==0.135.1
+uvicorn==0.41.0
+python-dotenv==1.2.2
 
-chromadb
-sentence-transformers>=2.6.0
+langchain==1.2.10
+langchain-community==0.4.1
+langchain-core==1.4.8
+langchain-groq==1.1.2
+langchain-huggingface==1.2.1
 
-pymupdf
-torch
-wordninja
+chromadb==1.5.2
+sentence-transformers==5.2.3
+torch==2.10.0
+
+pymupdf==1.28.0
+wordninja==2.0.0

@@ -94,6 +94,13 @@ class RAGService:
         )
         print("[OK] ChromaDB loaded")
 
+        # ── Sanity check: DB kosong = index tidak ter-deploy / rusak ──
+        # Tanpa ini, Chroma diam-diam membuat DB baru yang kosong dan
+        # pencarian selalu gagal tanpa sinyal apa pun. Dengan raise di sini,
+        # get_rag_service() beralih ke mode degraded (pesan ramah ke pengguna).
+        if self.vectorstore._collection.count() == 0:
+            raise RuntimeError("ChromaDB kosong (0 vektor) — index tidak ter-deploy atau rusak.")
+
         # ── Deteksi distance metric ──
         try:
             meta = self.vectorstore._collection.metadata or {}
@@ -333,16 +340,71 @@ class RAGService:
         return result
 
 
+# ─── Fallback Service (Error Recovery untuk VPS) ──────────────────────────────
+
+class RAGFallbackService:
+    """
+    Service dummy saat ChromaDB tidak dapat dibuka (corrupt/hilang) di VPS.
+
+    Tujuan:
+    - Endpoint /api/chat tetap hidup dan menjawab pesan generik yang ramah,
+      bukan crash 500 yang memunculkan error teknis ke pengguna.
+    - Detail teknis (stack trace) hanya muncul di log server.
+    - Untuk pulih: perbaiki folder chroma_db lalu restart service.
+    """
+
+    def __init__(self):
+        self.cache = QueryCache()
+        self.degraded = True
+
+    def get_vector_count(self) -> int:
+        return 0
+
+    def standard_rag(
+        self,
+        query: str,
+        k: int = None,
+        min_score: float = None,
+        use_mmr: bool = False,
+    ) -> dict:
+        print(f"⚠️ RAG DEGRADED: retrieval dilewati (ChromaDB tidak tersedia): {query[:60]}...")
+        return {
+            "mode": "rag",
+            "query": query,
+            "docs_count": 0,
+            "documents": [],
+            "rejected": False,
+            "degraded": True,
+            "latency_ms": 0,
+            "from_cache": False,
+        }
+
+
 # ─── Thread-safe singleton ───────────────────────────────────────────────────
 _rag_service: RAGService | None = None
 _rag_service_lock = threading.Lock()
 
 
-def get_rag_service() -> RAGService:
-    """Get atau create RAGService instance (thread-safe, double-checked locking)."""
+def get_rag_service() -> "RAGService | RAGFallbackService":
+    """
+    Get atau create RAGService instance (thread-safe, double-checked locking).
+
+    Error recovery (deployment safety):
+    Jika inisialisasi gagal — ChromaDB corrupt/hilang, atau download model
+    embedding gagal — service TIDAK crash. Fungsi mengembalikan
+    RAGFallbackService (mode degraded) sehingga endpoint tetap merespons
+    dengan pesan ramah. Detail error hanya ke log server.
+    """
     global _rag_service
     if _rag_service is None:
         with _rag_service_lock:
             if _rag_service is None:
-                _rag_service = RAGService()
+                try:
+                    _rag_service = RAGService()
+                except Exception as exc:
+                    # Detail teknis hanya ke log server, tidak pernah ke pengguna
+                    print(f"❌ FATAL: Gagal inisialisasi RAGService: {exc}")
+                    print("⚠️ Service berjalan dalam mode DEGRADED (retrieval tidak tersedia).")
+                    print("⚠️ Perbaiki chroma_db / koneksi lalu restart service untuk pulih.")
+                    _rag_service = RAGFallbackService()
     return _rag_service

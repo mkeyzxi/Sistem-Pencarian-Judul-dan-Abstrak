@@ -104,6 +104,20 @@ async def chat(request: ChatRequest, req: Request):
     try:
         rag = get_rag_service()
 
+        # ── Degraded mode (VPS: ChromaDB corrupt/hilang) ──
+        # Pesan generik untuk pengguna; detail teknis hanya di log server.
+        if getattr(rag, "degraded", False):
+            print("⚠️ Chat request: RAG dalam mode degraded, merespons dengan pesan ramah.")
+            return ChatResponse(
+                success=False,
+                message="❌ Layanan pencarian sedang tidak tersedia. Silakan coba lagi beberapa saat.",
+                query=request.message,
+                mode="rag",
+                documents=[],
+                latency_ms=0,
+                from_cache=False,
+            )
+
         # ── Retrieval (blocking → jalankan di thread pool) ──
         result = await asyncio.get_event_loop().run_in_executor(
             None,
