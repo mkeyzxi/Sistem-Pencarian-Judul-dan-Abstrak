@@ -27,7 +27,7 @@ __pycache__/
 *.pyo
 
 # Local databases / runtime data
-backend/chroma_db/
+# backend/chroma_db/ DIKECUALIKAN dari ignore karena dibutuhkan saat runtime di Render
 backend/data/
 
 # Error & temp

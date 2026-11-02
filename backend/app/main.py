@@ -9,10 +9,37 @@ Optimasi:
 """
 
 import os
+import threading
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.api import chat
+from app.services.rag_service import get_rag_service
+from app.services.generation_service import get_generation_service
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup/shutdown hook.
+
+    Production (DEBUG=false): pre-warm model RAG + LLM di background thread
+    agar /healthz tetap instan — Render menganggap deploy sukses meski model
+    masih loading. Development: lazy-load seperti biasa.
+    """
+    if not settings.DEBUG:
+        def _warmup():
+            try:
+                get_rag_service()
+                get_generation_service()
+                print("🔥 Warmup selesai: model RAG & LLM siap")
+            except Exception as exc:
+                print(f"⚠️ Warmup gagal (service tetap hidup): {exc}")
+
+        threading.Thread(target=_warmup, daemon=True).start()
+    yield
+
 
 # ── Create FastAPI app ──
 app = FastAPI(
@@ -21,6 +48,7 @@ app = FastAPI(
     version=settings.API_VERSION,
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # ── CORS ──
@@ -48,6 +76,13 @@ async def root():
         "status": "/api/status",
         "health": "/api/health",
     }
+
+
+@app.get("/healthz", tags=["root"])
+async def healthz():
+    """Health check super ringan untuk Render (Health Check Path).
+    Tidak memicu inisialisasi ChromaDB / model embedding / LLM."""
+    return {"status": "ok"}
 
 
 # ── Entry point untuk development ──
