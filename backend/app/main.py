@@ -9,8 +9,19 @@ Optimasi:
 """
 
 import os
+import sys
 import threading
 from contextlib import asynccontextmanager
+
+# ── Encoding safety (Windows: output di-pipe/redirect pakai cp1252) ──
+# Tanpa ini, print emoji (⚡/✅/❌) bisa memicu UnicodeEncodeError dan
+# merusak request saat log diarahkan ke file/cron. errors="replace" aman.
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware

@@ -26,7 +26,9 @@ class Settings:
     CHROMA_DB_DIR = BASE_DIR / "chroma_db"
 
     # ── ChromaDB Configuration ──
-    CHROMA_PERSIST_DIR = str(CHROMA_DB_DIR)
+    # Bisa dioverride lewat env di VPS (mis. arahkan ke disk data terpisah):
+    #   CHROMA_PERSIST_DIR=/var/data/skripsi/chroma_db
+    CHROMA_PERSIST_DIR = os.getenv("CHROMA_PERSIST_DIR", str(CHROMA_DB_DIR))
 
     # ── Embedding Model ──
     EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
