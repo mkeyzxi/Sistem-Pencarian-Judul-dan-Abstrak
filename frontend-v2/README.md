@@ -148,19 +148,43 @@ POST http://127.0.0.1:8000/api/chat
 
 ### Mengubah Backend URL
 
-Jika backend berjalan di URL berbeda, ubah konfigurasi di:
+Alamat backend dibaca dari env `VITE_API_URL` (lihat `.env.example`) dan dipakai di seluruh aplikasi lewat `src/config/api.js`.
 
-1. **`src/hooks/useSearch.js`**:
-```javascript
-const baseURL = 'http://127.0.0.1:8000'; // Ubah sesuai URL backend Anda
+| Situasi | Nilai yang dipakai |
+|---|---|
+| `pnpm dev` tanpa `VITE_API_URL` | `http://127.0.0.1:8000` (backend lokal) |
+| `pnpm build` | Wajib dari `.env.production`; build **gagal** kalau kosong |
+
+Vite menanam nilai ini ke file JS saat build. Mengganti URL backend berarti **build ulang**, bukan mengedit file di server.
+
+```bash
+cp .env.example .env.production
+# isi: VITE_API_URL=https://be-spja.wawan.dev   (tanpa "/" di akhir)
+pnpm build
 ```
 
-2. **`src/components/ChatContainer.jsx`**:
-```javascript
-const response = await fetch('http://127.0.0.1:8000/api/chat', {
-  // ...
-});
-```
+`.env.production` tidak di-commit (sudah di `.gitignore`).
+
+## 🌐 Deploy ke aaPanel (Static Site)
+
+Hasil `pnpm build` adalah file statis di `dist/`. Server tidak perlu Node.js; cukup Nginx dari aaPanel.
+
+1. **Build di komputer lokal** sesuai langkah di atas, lalu pastikan URL backend sudah masuk ke bundle:
+   ```bash
+   grep -o "https://be-spja.wawan.dev" dist/assets/*.js | head -1
+   ```
+2. **Buat site di aaPanel**: Website → Add site → isi domain frontend, PHP version **Static**, document root misalnya `/www/wwwroot/fe-spja`.
+3. **Unggah isi `dist/`** (isinya, bukan foldernya) ke document root, lewat Files aaPanel (upload zip lalu extract) atau `scp`/`rsync`:
+   ```bash
+   rsync -av --delete dist/ user@server:/tmp/fe-spja/
+   # di server:
+   sudo rsync -a --delete /tmp/fe-spja/ /www/wwwroot/fe-spja/ && sudo chown -R www:www /www/wwwroot/fe-spja
+   ```
+   Pastikan `index.html` berada langsung di document root.
+4. **SSL**: menu SSL site → Let's Encrypt → aktifkan Force HTTPS. Frontend HTTPS wajib, karena backend juga HTTPS dan browser memblokir campuran.
+5. **Uji**: buka domain frontend, lakukan pencarian, dan pastikan di DevTools → Network permintaan menuju `https://be-spja.wawan.dev/api/chat` berstatus 200.
+
+Untuk update: build ulang di lokal, lalu ulangi langkah 3.
 
 ## 🎨 Komponen Utama
 
