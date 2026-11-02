@@ -1,7 +1,7 @@
 export default function EmptyState({onSuggestionClick}) {
   const suggestions = [
     'Cari skripsi tentang implementasi algoritma Machine Learning',
-    'Apa penelitian terbaru terkait pengembangan aplikasi mobile?',
+    'Apa skripsi mengenai pengembangan ChatBot?',
     'Skripsi yang membahas tentang sistem keamanan jaringan',
   ]
 
